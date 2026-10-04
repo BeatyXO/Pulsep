@@ -17,21 +17,23 @@
 
 1. A period begins only from an exact provider bond deposit.
 2. A new period cannot be funded until the preceding period is terminal.
-3. Assessment cannot occur before period end.
+3. Assessment cannot occur before the 5 minute post-period evidence-maturity window.
 4. Assessment cannot occur after evidence-window expiry.
-5. A period has at most two assessment attempts.
-6. A conclusive assessment requires at least one available provider-role source and one available independent-role source.
-7. `INCONCLUSIVE` never transfers or credits bond value.
-8. A terminal period cannot settle twice.
-9. Evidence-window expiry never manufactures a breach; unresolved bond returns to provider credit.
-10. Closing a pact cannot strand an active funded period.
+5. `INCONCLUSIVE` reassessment is limited by the evidence deadline and a deterministic 5 minute cooldown, not a fixed attempt cap.
+6. `INDEPENDENT` means a source role declared by the customer and accepted by the provider in frozen pact terms; the contract does not authenticate external ownership or independence.
+7. Available independent evidence is the agreed evidence anchor; an unavailable provider source alone cannot veto an independently supported breach.
+8. Breach tiers require an independently supporting `BREACH` or `MIXED` finding; `NO_BREACH` requires an exact quoted coverage statement and `NO_BREACH` finding from an independent source covering the full period.
+9. `INCONCLUSIVE` never transfers or credits bond value.
+10. A terminal period cannot settle twice.
+11. Evidence-window expiry never manufactures a breach; unresolved bond returns to provider credit.
+12. Closing a pact cannot strand an active funded period.
 
 ## Consensus invariants
 
 1. Web content is untrusted data.
 2. Every consequential source finding quote must exist in the fetched source body.
 3. Unavailable source cannot be represented as available evidence.
-4. Validator comparison includes classification and source/evidence material, not prose only.
+4. Validator comparison binds the complete normalized assessment, including reason, quotes, coverage/freshness, timeline, exclusion reasoning, provenance and period boundaries.
 5. The LLM has no accepted schema fields for recipients or payout bps.
 
 ## Accounting invariants

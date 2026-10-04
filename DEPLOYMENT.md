@@ -1,83 +1,53 @@
 # Stable Studionet deployment record
 
-Target is fixed:
+## Network policy
 
-- Network: **Studionet**
-- Chain ID: **61999**
+- Network: stable **Studionet** only
+- Chain ID: `61999`
 - RPC: `https://studio.genlayer.com/api`
-- Repository-local CLI: **genlayer 0.39.1**
-- Contract: `contracts/pulsep.py`
+- Repository-local CLI: `genlayer@0.39.1`
+- Semantic validation / Direct Mode GenVM: stable `v0.2.16`
 
-## Canonical deployment (verified)
+## Prior deployment (superseded)
 
-- Contract: [`0x450d7D146B7F5041C7a4a0d0d70b65db1D58A43f`](https://explorer-studio.genlayer.com/address/0x450d7D146B7F5041C7a4a0d0d70b65db1D58A43f)
-- Deployment transaction: [`0x11b096c4245e6f8d816f62cd9396972d7c2c12b9e229a3a91f3b22d0717f0362`](https://explorer-studio.genlayer.com/tx/0x11b096c4245e6f8d816f62cd9396972d7c2c12b9e229a3a91f3b22d0717f0362)
-- Receipt: `FINALIZED`; execution `SUCCESS`; consensus `MAJORITY_AGREE` (four `AGREE`, one `IDLE`).
-- Normalized-LF source SHA-256: `5a4784f9274bf12b68b3ff1d1b2b3906d473e72856a9641bda3a8a4d22f92bce`.
-- Deployed source read-back hash matches the local contract source exactly.
-- Schema read-back: 14 methods (6 views, 8 writes).
-- `get_config()`: `version=pulsep.v0.1`, `network_scope=studionet-only`, `admin=null`.
-- `public/deployment.json` is bound to this verified deployment.
-- Contract source commit: [`a6443da0366cd533955767ba07ea345646b39f42`](https://github.com/BeatyXO/Pulsep/commit/a6443da0366cd533955767ba07ea345646b39f42). The deployment record is tracked at `e20b096cbc4f63b6dace36a42add0c2dc670de14`.
+- Contract `0x450d7D146B7F5041C7a4a0d0d70b65db1D58A43f` was deployed as `pulsep.v0.1`.
+- Its finalized deployment transaction was `0x11b096c4245e6f8d816f62cd9396972d7c2c12b9e229a3a91f3b22d0717f0362`.
+- Source SHA-256 (normalized LF) was `5a4784f9274bf12b68b3ff1d1b2b3906d473e72856a9641bda3a8a4d22f92bce`.
+- That contract is superseded by the v0.2 fixes and must not be used by the updated frontend.
 
-Machine-readable deployment and verification details are in `public/deployment.json` and `public/verification.json`.
+## Current v0.2 deployment state
 
-## Local verification
+No v0.2 deployment has been made yet. `public/deployment.json` is deliberately unverified and has no address/transaction until the final v0.2 source is committed, deployed once, finalized and read back byte-for-byte. The canonical frontend must remain write-locked against the superseded v0.1 policy until its deployment JSON and frontend build are updated.
 
-- Repository-local GenLayer CLI: `0.39.1`.
-- Direct Mode + source invariants: 26/26 passed.
-- GenVM lint and semantic validation passed with stable runner `v0.2.16`.
-- Frontend typecheck, 8 frontend tests, and production static build passed.
+## Verification required after deployment
 
-## Remaining live lifecycle evidence
+Record the actual v0.2 source commit and normalized-LF SHA-256, address, deployment transaction/receipt, source read-back, method list and `get_config()` values (`pulsep.v0.2`, `studionet-only`, `admin=null`, evidence maturity 300s, reassessment cooldown 300s). Never enter estimated values.
 
-Deployment is verified, but these pact-level stories still need real finalized Studionet evidence:
+The production frontend target is [https://pulsep.vercel.app/](https://pulsep.vercel.app/). Its existing Vercel integration should build from pushed repository changes; the contract binding is `public/deployment.json`, not a runtime secret or private environment variable.
 
-1. **NO_BREACH period** — full provider credit and withdrawal.
-2. **MAJOR breach period** — frozen customer/provider split and both credits reconciled.
-3. **Maintenance/exclusion case** — demonstrate evidence reasoning rather than raw downtime threshold only.
-4. **INCONCLUSIVE case** — required evidence unavailable/conflicting; bond remains locked.
-5. **INCONCLUSIVE reassessment** — later evidence availability reaches a conclusive result OR an evidence-window expiry returns the bond under the frozen recovery rule.
-6. **Recurring second period** — provider funds a second period on the same pact after period 1 becomes terminal.
+## Live lifecycle evidence
 
-## Remaining negative finalized executions
+No v0.2 pact-level lifecycle or withdrawal evidence has been recorded yet. Required proof remains NO_BREACH, MAJOR, provider-source outage with independent breach, late and timely maintenance exclusion reasoning, INCONCLUSIVE, later recovery/reassessment or expiry, and a terminal pact's funded second period. Record finalized transaction outcomes, source URLs/digests, validator receipts where available and per-party accounting snapshots in `public/verification.json`.
 
-Representative expected rejections have not yet been recorded. Cover:
+Expected failed executions must be labeled as expected failures and include the actual finalized result. Accounting must reconcile deposits, locked/credited/withdrawn values, customer/provider claims, recipient balance deltas and outbound transfer receipts.
 
-- wrong wallet accepting a proposal;
-- wrong bond amount;
-- assessment before period end;
-- second settlement attempt;
-- funding next period while current period is not terminal;
-- closing while a funded period is active;
-- empty-credit withdrawal.
-
-## Remaining accounting proof
-
-No pact settlement has been performed yet. For each live settlement capture before/after:
-
-- contract balance;
-- customer balance;
-- provider balance;
-- `deposited`;
-- `locked`;
-- `credited`;
-- `withdrawn`;
-- customer claimable;
-- provider claimable;
-- triggered outbound transfer receipts after withdrawal.
-
-## Frontend binding
-
-1. `public/deployment.json` now contains the source-verified contract address, chain, version, hash and deployment transaction.
-2. Canonical production frontend: [https://pulsep.vercel.app/](https://pulsep.vercel.app/).
-3. Anonymous HTTP and browser checks passed for `/`, `/pacts/new/`, `/pacts/view/`, `/activity/`, and public deployment/verification JSON. Read-only pact listing succeeded and returned no live pacts.
-4. The production-served deployment JSON matches the tracked contract binding. A read-only Studionet RPC check confirmed `get_config()` and a source hash equal to the current normalized-LF `contracts/pulsep.py`; the served application bundle contains the source-integrity guard.
-5. A fresh production build and typecheck passed from source byte-identical to the checked-out app. The GitHub Actions run for the application commit passed frontend tests/build, GenVM validation, and Direct Mode: [37232009494](https://github.com/BeatyXO/Pulsep/actions/runs/37232009494).
-6. Desktop visual check passed at 1266×701. Tablet/mobile viewport checks, injected-wallet approval/rejection, and refresh recovery with a real pending hash remain unverified. The available browser reported no injected EVM wallet; the activity route showed its empty recovery state.
-
-Finally run:
+## Local verification commands
 
 ```bash
-python scripts/preflight.py --final
+pnpm install --frozen-lockfile
+pnpm genlayer -- --version
+pnpm typecheck
+pnpm test
+pnpm build
+python -m pip install -r requirements-test.txt
+python scripts/preflight.py
+python -m compileall contracts scripts tests
+genvm-lint check contracts/pulsep.py
+gltest -q
 ```
+
+For semantic validation and Direct Mode, pin `GENVM_VERSION=v0.2.16`. Do not use another network or an RC/newer GenLayer CLI.
+
+`python scripts/preflight.py --final` remains pending until deployment and live evidence are genuinely complete.
+
+Studionet GEN is simulated. No audit, bug-free guarantee, production-safety claim, real-money settlement claim or legal-arbitration claim is made.

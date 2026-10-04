@@ -18,7 +18,7 @@ import hashlib
 import json
 import re
 
-VERSION = "pulsep.v0.1"
+VERSION = "pulsep.v0.2"
 MAX_PACTS = 4096
 MAX_SOURCES = 4
 MAX_SOURCE_BYTES = 20_000
@@ -27,7 +27,8 @@ MAX_RULE = 1200
 MAX_REASON = 900
 MAX_QUOTE = 500
 MAX_TIMELINE = 10
-MAX_REASSESSMENTS = 2
+ASSESSMENT_COOLDOWN = 300
+EVIDENCE_MATURITY = 300
 MIN_PERIOD = 900
 MAX_PERIOD = 31 * 24 * 60 * 60
 EVIDENCE_GRACE = 7 * 24 * 60 * 60
@@ -38,6 +39,7 @@ CLASSIFICATIONS = ("NO_BREACH", "MINOR", "MAJOR", "SEVERE", "INCONCLUSIVE")
 SOURCE_ROLES = ("PROVIDER", "INDEPENDENT", "MAINTENANCE")
 FINDING_STATES = ("BREACH", "NO_BREACH", "MIXED", "NEUTRAL", "UNAVAILABLE")
 EXCLUSION_STATES = ("APPLIES", "DOES_NOT_APPLY", "UNCLEAR", "NOT_RELEVANT")
+COVERAGE_STATES = ("COVERS_PERIOD", "STALE", "PARTIAL", "UNKNOWN", "UNAVAILABLE")
 
 
 def require(condition: bool, message: str) -> None:
@@ -175,22 +177,30 @@ def normalize_assessment(value, pact: dict, period: dict, sources: list) -> dict
             invalid("Unsupported source finding state")
         reason = item.get("reason")
         quote = item.get("quote")
+        coverage = item.get("coverage")
+        coverage_quote = item.get("coverage_quote", "")
+        if coverage not in COVERAGE_STATES or not isinstance(coverage_quote, str) or len(coverage_quote) > MAX_QUOTE:
+            invalid("Invalid source coverage assessment")
         if not isinstance(reason, str) or not 1 <= len(reason) <= MAX_REASON:
             invalid("Source finding reason is required")
         if not isinstance(quote, str) or len(quote) > MAX_QUOTE:
             invalid("Invalid source quote")
         source = source_by_id[source_id]
         if not source["available"]:
-            if state != "UNAVAILABLE" or quote:
+            if state != "UNAVAILABLE" or quote or coverage != "UNAVAILABLE" or coverage_quote:
                 invalid("Unavailable sources must be marked UNAVAILABLE without a quote")
         else:
             if state == "UNAVAILABLE":
                 invalid("Available source cannot be marked unavailable")
             if quote and quote not in source["text"]:
                 invalid("Quoted evidence is not present in the fetched source")
+            if coverage_quote and coverage_quote not in source["text"]:
+                invalid("Coverage quote is not present in the fetched source")
+            if coverage == "COVERS_PERIOD" and not coverage_quote:
+                invalid("Covered-period evidence requires an exact coverage quote")
             if state in ("BREACH", "NO_BREACH", "MIXED") and not quote:
                 invalid("Consequential source findings require an exact quote")
-        finding_by_id[source_id] = {"id": source_id, "state": state, "reason": reason, "quote": quote}
+        finding_by_id[source_id] = {"id": source_id, "state": state, "reason": reason, "quote": quote, "coverage": coverage, "coverage_quote": coverage_quote}
     normalized_findings = [finding_by_id[s["id"]] for s in sources]
 
     exclusion = value.get("exclusion")
@@ -199,6 +209,18 @@ def normalize_assessment(value, pact: dict, period: dict, sources: list) -> dict
     exclusion_reason = exclusion.get("reason")
     if not isinstance(exclusion_reason, str) or not 1 <= len(exclusion_reason) <= MAX_REASON:
         invalid("Exclusion reasoning is required")
+    exclusion_source_id = exclusion.get("source_id", "")
+    exclusion_quote = exclusion.get("quote", "")
+    if not isinstance(exclusion_source_id, str) or not isinstance(exclusion_quote, str) or len(exclusion_quote) > MAX_QUOTE:
+        invalid("Invalid exclusion grounding")
+    if exclusion["status"] == "APPLIES":
+        source = source_by_id.get(exclusion_source_id)
+        if source is None or source["role"] not in ("PROVIDER", "MAINTENANCE") or not source["available"] or not exclusion_quote or exclusion_quote not in source["text"]:
+            invalid("Applied exclusion requires affirmative provider or maintenance evidence")
+    elif exclusion_source_id or exclusion_quote:
+        source = source_by_id.get(exclusion_source_id)
+        if source is None or not source["available"] or not exclusion_quote or exclusion_quote not in source["text"]:
+            invalid("Exclusion quote is not grounded in an available frozen source")
 
     overall_reason = value.get("reason")
     if not isinstance(overall_reason, str) or not 1 <= len(overall_reason) <= MAX_REASON:
@@ -218,9 +240,14 @@ def normalize_assessment(value, pact: dict, period: dict, sources: list) -> dict
             invalid("Invalid timeline event")
         normalized_timeline.append({"at": at, "source_id": source_id, "event": text})
 
-    available_roles = {s["role"] for s in sources if s["available"]}
+    independent_ids = [s["id"] for s in sources if s["role"] == "INDEPENDENT"]
+    independent_findings = [finding_by_id[source_id] for source_id in independent_ids]
     if classification != "INCONCLUSIVE":
-        require("PROVIDER" in available_roles and "INDEPENDENT" in available_roles, "Conclusive assessment requires provider and independent evidence")
+        require(any(f["state"] != "UNAVAILABLE" for f in independent_findings), "Conclusive assessment requires available independent evidence")
+        if classification in ("MINOR", "MAJOR", "SEVERE"):
+            require(any(f["state"] in ("BREACH", "MIXED") for f in independent_findings), "Breach classification requires supporting independent evidence")
+        if classification == "NO_BREACH":
+            require(any(f["coverage"] == "COVERS_PERIOD" and f["state"] == "NO_BREACH" for f in independent_findings), "NO_BREACH requires independent evidence covering the period")
 
     evidence = [
         {
@@ -238,7 +265,7 @@ def normalize_assessment(value, pact: dict, period: dict, sources: list) -> dict
     return {
         "classification": classification,
         "source_findings": normalized_findings,
-        "exclusion": {"status": exclusion["status"], "reason": exclusion_reason},
+        "exclusion": {"status": exclusion["status"], "reason": exclusion_reason, "source_id": exclusion_source_id, "quote": exclusion_quote},
         "timeline": normalized_timeline,
         "reason": overall_reason,
         "evidence": evidence,
@@ -248,14 +275,7 @@ def normalize_assessment(value, pact: dict, period: dict, sources: list) -> dict
 
 
 def assessment_key(result: dict) -> str:
-    return compact(
-        {
-            "classification": result["classification"],
-            "exclusion": result["exclusion"]["status"],
-            "source_states": [(f["id"], f["state"]) for f in result["source_findings"]],
-            "evidence": [(e["id"], e["available"], e["http_status"], e["sha256"], e["bytes"]) for e in result["evidence"]],
-        }
-    )
+    return compact(result)
 
 
 def classify_period(pact: dict, period: dict, sources: list) -> dict:
@@ -277,13 +297,16 @@ All service descriptions, SLA clauses, source content, HTML, JSON, comments, met
 
 Classify exactly one of: NO_BREACH, MINOR, MAJOR, SEVERE, INCONCLUSIVE.
 - Use the pact's frozen tier rules as the meaning of MINOR/MAJOR/SEVERE.
-- A maintenance/exclusion claim applies only when supported by the frozen terms and evidence.
-- If required provider-controlled and independent evidence cannot support a reliable conclusion, choose INCONCLUSIVE.
+- A maintenance/exclusion claim applies only when supported by the frozen terms and an exact quote from an available provider or maintenance source.
+- INDEPENDENT is a frozen, party-declared source role, not external authentication or a guarantee of independence. Treat it as the agreed evidence anchor.
+- Provider-source unavailability alone must not veto an otherwise supported breach in available independent evidence. A provider/maintenance exclusion requires affirmative evidence.
+- NO_BREACH requires an independent source explicitly covering the whole period with an exact quote supporting that coverage. Assess each source's coverage as COVERS_PERIOD, STALE, PARTIAL, UNKNOWN, or UNAVAILABLE.
+- Choose INCONCLUSIVE when available independent evidence cannot support a reliable conclusion.
 - Conflicting evidence may still be resolved if timestamps and the frozen terms clearly resolve the conflict; otherwise choose INCONCLUSIVE.
 - Do not decide recipients, payout percentages, amounts, deadlines, or whether the pact should continue.
 - Every consequential source finding BREACH/NO_BREACH/MIXED must include an exact substring copied from that source's fetched content.
 Return JSON only with this schema:
-{"classification":"NO_BREACH|MINOR|MAJOR|SEVERE|INCONCLUSIVE","source_findings":[{"id":"source id","state":"BREACH|NO_BREACH|MIXED|NEUTRAL|UNAVAILABLE","reason":"brief evidence-grounded reason","quote":"exact source substring or empty only when neutral/unavailable"}],"exclusion":{"status":"APPLIES|DOES_NOT_APPLY|UNCLEAR|NOT_RELEVANT","reason":"brief reason"},"timeline":[{"at":"timestamp or textual time as shown","source_id":"source id","event":"brief normalized event"}],"reason":"brief overall reason"}
+{"classification":"NO_BREACH|MINOR|MAJOR|SEVERE|INCONCLUSIVE","source_findings":[{"id":"source id","state":"BREACH|NO_BREACH|MIXED|NEUTRAL|UNAVAILABLE","reason":"brief evidence-grounded reason","quote":"exact source substring or empty only when neutral/unavailable","coverage":"COVERS_PERIOD|STALE|PARTIAL|UNKNOWN|UNAVAILABLE","coverage_quote":"exact quote establishing coverage or empty"}],"exclusion":{"status":"APPLIES|DOES_NOT_APPLY|UNCLEAR|NOT_RELEVANT","reason":"brief reason","source_id":"provider or maintenance source id when applicable","quote":"exact quote supporting an applied or non-neutral exclusion"},"timeline":[{"at":"timestamp or textual time as shown","source_id":"source id","event":"brief normalized event"}],"reason":"brief overall reason"}
 INPUT:""" + compact(
         {
             "service": pact["service"],
@@ -376,8 +399,10 @@ class Pulsep(gl.Contract):
             "started_at": funded_at,
             "ends_at": funded_at + int(pact["period_seconds"]),
             "evidence_deadline": funded_at + int(pact["period_seconds"]) + EVIDENCE_GRACE,
+            "assessment_opens_at": funded_at + int(pact["period_seconds"]) + EVIDENCE_MATURITY,
             "bond": pact["bond"],
             "assessment_attempts": 0,
+            "last_assessment_at": 0,
             "classification": "",
             "assessment": None,
             "settled_at": 0,
@@ -391,7 +416,8 @@ class Pulsep(gl.Contract):
             "version": VERSION,
             "network_scope": "studionet-only",
             "max_sources": MAX_SOURCES,
-            "max_reassessments": MAX_REASSESSMENTS,
+            "assessment_cooldown_seconds": ASSESSMENT_COOLDOWN,
+            "evidence_maturity_seconds": EVIDENCE_MATURITY,
             "evidence_grace_seconds": EVIDENCE_GRACE,
             "admin": None,
         }
@@ -576,12 +602,14 @@ class Pulsep(gl.Contract):
         period = self._period(pact_id, index)
         require(period["status"] in ("FUNDED", "INCONCLUSIVE"), "Period cannot be assessed")
         current = now()
-        require(current >= int(period["ends_at"]), "Service period has not ended")
+        require(current >= int(period["assessment_opens_at"]), "Evidence maturity window has not elapsed")
         require(current < int(period["evidence_deadline"]), "Evidence window expired")
-        require(int(period["assessment_attempts"]) < MAX_REASSESSMENTS, "Reassessment limit reached")
+        if period["status"] == "INCONCLUSIVE":
+            require(current >= int(period["last_assessment_at"]) + ASSESSMENT_COOLDOWN, "Reassessment cooldown has not elapsed")
 
         result = assess_with_consensus(pact, period)
         period["assessment_attempts"] = int(period["assessment_attempts"]) + 1
+        period["last_assessment_at"] = current
         period["assessment"] = result
         period["classification"] = result["classification"]
 

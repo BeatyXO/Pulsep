@@ -36,7 +36,8 @@ Every funded period has independent:
 
 - index;
 - funding/start/end timestamps;
-- evidence deadline;
+- assessment-open time after a 5 minute evidence-maturity window;
+- evidence deadline and last assessment time for a 5 minute retry cooldown;
 - bond amount;
 - assessment-attempt count;
 - classification;
@@ -61,9 +62,7 @@ The leader cannot simply declare a breach. Validators:
 1. re-fetch all frozen sources;
 2. independently run the period classifier;
 3. validate the leader result against their fetched source bodies;
-4. compare consequential classification, exclusion state, source finding states and source provenance hashes/statuses.
-
-Reason wording is not an equivalence key.
+4. compare the full normalized assessment, including classification, reason text, exact finding/coverage quotes, finding states, freshness/coverage, exclusion reasoning, timeline, source provenance and period boundaries. Every displayed assessment field is therefore bound to validator comparison.
 
 ## Deterministic boundary
 

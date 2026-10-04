@@ -1,0 +1,9 @@
+{
+  "notice": "SYNTHETIC DEMONSTRATION FIXTURE — not a real production incident or provider record.",
+  "service": "Pulsep synthetic production API",
+  "coverage_start": "2026-10-01T00:00:00Z",
+  "coverage_end": "2026-10-10T00:00:00Z",
+  "incident_start": "2026-10-04T23:45:00Z",
+  "incident_end": "2026-10-05T00:17:00Z",
+  "impact": "Production API unavailable for 32 minutes."
+}

@@ -35,12 +35,14 @@ export type SourceFinding = {
   state: 'BREACH' | 'NO_BREACH' | 'MIXED' | 'NEUTRAL' | 'UNAVAILABLE';
   reason: string;
   quote: string;
+  coverage: 'COVERS_PERIOD' | 'STALE' | 'PARTIAL' | 'UNKNOWN' | 'UNAVAILABLE';
+  coverage_quote: string;
 };
 
 export type Assessment = {
   classification: Classification;
   source_findings: SourceFinding[];
-  exclusion: { status: 'APPLIES' | 'DOES_NOT_APPLY' | 'UNCLEAR' | 'NOT_RELEVANT'; reason: string };
+  exclusion: { status: 'APPLIES' | 'DOES_NOT_APPLY' | 'UNCLEAR' | 'NOT_RELEVANT'; reason: string; source_id: string; quote: string };
   timeline: { at: string; source_id: string; event: string }[];
   reason: string;
   evidence: { id: string; role: string; url: string; available: boolean; http_status: number; sha256: string; bytes: number }[];
@@ -55,7 +57,9 @@ export type Period = {
   funded_at: number;
   started_at: number;
   ends_at: number;
+  assessment_opens_at: number;
   evidence_deadline: number;
+  last_assessment_at: number;
   bond: string;
   assessment_attempts: number;
   classification: Classification | '';

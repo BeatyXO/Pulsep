@@ -1,9 +1,10 @@
 {
-  "verified": true,
-  "address": "0x450d7D146B7F5041C7a4a0d0d70b65db1D58A43f",
+  "verified": false,
+  "address": null,
   "chainId": 61999,
   "network": "studionet",
-  "version": "pulsep.v0.1",
-  "sourceSha256": "5a4784f9274bf12b68b3ff1d1b2b3906d473e72856a9641bda3a8a4d22f92bce",
-  "deploymentTransaction": "0x11b096c4245e6f8d816f62cd9396972d7c2c12b9e229a3a91f3b22d0717f0362"
+  "version": "pulsep.v0.2",
+  "sourceSha256": "",
+  "deploymentTransaction": "",
+  "note": "Signing is disabled until the fixed v0.2 contract is deployed and read-back source-verified on stable Studionet."
 }

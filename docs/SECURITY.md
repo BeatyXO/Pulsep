@@ -6,7 +6,7 @@ Pulsep is a Studionet prototype, not a security-audited or real-money production
 
 ### Public source truth
 
-Validator consensus cannot turn a dishonest webpage into ground truth. V1 mitigates this by requiring both provider-controlled and independent sources, freezing them before the period, and permitting `INCONCLUSIVE` rather than forcing a result.
+Validator consensus cannot turn a dishonest webpage into ground truth. V1 mitigates this by freezing provider and user-declared `INDEPENDENT` source roles before the period, requiring independent covered-period evidence for `NO_BREACH`, and permitting `INCONCLUSIVE` rather than forcing a result. The role name is agreed pact metadata; Pulsep does not authenticate external ownership or objectively certify independence. Provider-source unavailability alone cannot veto independently supported breach evidence.
 
 ### Source mutability
 

@@ -8,8 +8,8 @@ CONTRACT = "contracts/pulsep.py"
 PACT = "PULSE-TEST-001"
 PROVIDER_URL = "https://status.example.com/incidents"
 INDEPENDENT_URL = "https://monitor.example.com/history"
-PROVIDER_PAGE = "Incident opened 2033-05-18T03:35:00Z. Production API unavailable. Service restored 2033-05-18T04:22:00Z."
-INDEPENDENT_PAGE = "Monitor detected Production API unavailable from 2033-05-18T03:33:00Z until 2033-05-18T04:23:00Z."
+PROVIDER_PAGE = "Coverage 2033-05-18T03:00:00Z to 2033-05-18T05:00:00Z. Incident opened 2033-05-18T03:35:00Z. Production API unavailable. Service restored 2033-05-18T04:22:00Z."
+INDEPENDENT_PAGE = "Coverage 2033-05-18T03:00:00Z to 2033-05-18T05:00:00Z. Monitor detected Production API unavailable from 2033-05-18T03:33:00Z until 2033-05-18T04:23:00Z."
 
 
 def terms(provider):
@@ -42,8 +42,8 @@ def result(classification="MAJOR"):
     return {
         "classification": classification,
         "source_findings": [
-            {"id": "provider_status", "state": "BREACH" if classification != "NO_BREACH" else "NO_BREACH", "reason": "Provider record covers the incident.", "quote": "Production API unavailable"},
-            {"id": "independent_monitor", "state": "BREACH" if classification != "NO_BREACH" else "NO_BREACH", "reason": "Independent monitor confirms the same service impact.", "quote": "Production API unavailable"}
+            {"id": "provider_status", "state": "BREACH" if classification != "NO_BREACH" else "NO_BREACH", "reason": "Provider record covers the incident.", "quote": "Production API unavailable", "coverage":"COVERS_PERIOD", "coverage_quote":"Coverage 2033-05-18T03:00:00Z to 2033-05-18T05:00:00Z"},
+            {"id": "independent_monitor", "state": "BREACH" if classification != "NO_BREACH" else "NO_BREACH", "reason": "Independent monitor confirms the same service impact.", "quote": "Production API unavailable", "coverage":"COVERS_PERIOD", "coverage_quote":"Coverage 2033-05-18T03:00:00Z to 2033-05-18T05:00:00Z"}
         ],
         "exclusion": {"status": "NOT_RELEVANT", "reason": "No qualifying maintenance exclusion is evidenced."},
         "timeline": [
@@ -58,8 +58,8 @@ def inconclusive_result():
     return {
         "classification": "INCONCLUSIVE",
         "source_findings": [
-            {"id": "provider_status", "state": "UNAVAILABLE", "reason": "Provider source could not be retrieved.", "quote": ""},
-            {"id": "independent_monitor", "state": "BREACH", "reason": "Independent monitor shows an outage but role coverage is incomplete.", "quote": "Production API unavailable"}
+            {"id": "provider_status", "state": "UNAVAILABLE", "reason": "Provider source could not be retrieved.", "quote": "", "coverage":"UNAVAILABLE", "coverage_quote":""},
+            {"id": "independent_monitor", "state": "BREACH", "reason": "Independent monitor shows an outage but role coverage is incomplete.", "quote": "Production API unavailable", "coverage":"COVERS_PERIOD", "coverage_quote":"Coverage 2033-05-18T03:00:00Z to 2033-05-18T05:00:00Z"}
         ],
         "exclusion": {"status": "UNCLEAR", "reason": "Provider evidence is unavailable."},
         "timeline": [{"at": "2033-05-18T03:33:00Z", "source_id": "independent_monitor", "event": "Independent monitor detects outage."}],
@@ -140,14 +140,15 @@ def test_only_provider_can_accept_and_exact_bond_is_required(direct_vm, direct_d
 
 def test_assessment_cannot_happen_before_period_end(direct_vm, direct_deploy, direct_alice, direct_bob):
     c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
+    direct_vm.warp(iso(NOW + 901))
     mock_evidence(direct_vm)
-    with direct_vm.expect_revert("has not ended"):
+    with direct_vm.expect_revert("maturity window"):
         c.assess_period(PACT, 1)
 
 
 def test_major_breach_deterministically_splits_bond(direct_vm, direct_deploy, direct_alice, direct_bob):
     c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
-    direct_vm.warp(iso(NOW + 901)); mock_evidence(direct_vm, llm=result("MAJOR"))
+    direct_vm.warp(iso(NOW + 1201)); mock_evidence(direct_vm, llm=result("MAJOR"))
     c.assess_period(PACT, 1)
     assert direct_vm.run_validator() is True
     period = c.get_period(PACT, 1)
@@ -166,7 +167,7 @@ def test_remaining_conclusive_tiers_use_frozen_split_and_conserve_bond(
     direct_vm, direct_deploy, direct_alice, direct_bob, classification, customer_amount
 ):
     c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
-    direct_vm.warp(iso(NOW + 901)); mock_evidence(direct_vm, llm=result(classification))
+    direct_vm.warp(iso(NOW + 1201)); mock_evidence(direct_vm, llm=result(classification))
     c.assess_period(PACT, 1)
     period = c.get_period(PACT, 1)
     customer_credit = int(period["customer_credit"])
@@ -174,6 +175,16 @@ def test_remaining_conclusive_tiers_use_frozen_split_and_conserve_bond(
     assert customer_credit == customer_amount
     assert customer_credit + provider_credit == 10**16
     assert period["classification"] == classification
+
+
+def test_no_breach_requires_independent_covered_period_evidence(direct_vm, direct_deploy, direct_alice, direct_bob):
+    c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
+    direct_vm.warp(iso(NOW + 1201))
+    raw = result("NO_BREACH")
+    raw["source_findings"][1]["coverage"] = "STALE"
+    mock_evidence(direct_vm, llm=raw)
+    with direct_vm.expect_revert("NO_BREACH requires"):
+        c.assess_period(PACT, 1)
 
 
 @pytest.mark.parametrize(
@@ -188,7 +199,7 @@ def test_remaining_conclusive_tiers_use_frozen_split_and_conserve_bond(
 )
 def test_malformed_assessment_fails_closed(direct_vm, direct_deploy, direct_alice, direct_bob, mutation, error):
     c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
-    direct_vm.warp(iso(NOW + 901))
+    direct_vm.warp(iso(NOW + 1201))
     raw = result("MAJOR")
     if mutation == "fake_quote":
         raw["source_findings"][0]["quote"] = "invented outage quote"
@@ -208,7 +219,7 @@ def test_malformed_assessment_fails_closed(direct_vm, direct_deploy, direct_alic
 
 def test_validator_re_evaluation_rejects_a_different_classification(direct_vm, direct_deploy, direct_alice, direct_bob):
     c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
-    direct_vm.warp(iso(NOW + 901)); mock_evidence(direct_vm, llm=result("MAJOR"))
+    direct_vm.warp(iso(NOW + 1201)); mock_evidence(direct_vm, llm=result("MAJOR"))
     c.assess_period(PACT, 1)
     # The captured validator reruns the full source evaluation. A different
     # substantive classification must fail its consequence-key comparison.
@@ -216,9 +227,18 @@ def test_validator_re_evaluation_rejects_a_different_classification(direct_vm, d
     assert direct_vm.run_validator() is False
 
 
+def test_validator_comparison_binds_displayed_reason(direct_vm, direct_deploy, direct_alice, direct_bob):
+    c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
+    direct_vm.warp(iso(NOW + 1201)); mock_evidence(direct_vm, llm=result("MAJOR"))
+    c.assess_period(PACT, 1)
+    changed = result("MAJOR"); changed["reason"] = "Different displayed explanation"
+    mock_evidence(direct_vm, llm=changed)
+    assert direct_vm.run_validator() is False
+
+
 def test_model_cannot_choose_amount_or_recipient(direct_vm, direct_deploy, direct_alice, direct_bob):
     c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
-    direct_vm.warp(iso(NOW + 901))
+    direct_vm.warp(iso(NOW + 1201))
     raw = result("MINOR"); raw["customer_bps"] = 9999; raw["recipient"] = addr(direct_bob)
     mock_evidence(direct_vm, llm=raw)
     c.assess_period(PACT, 1)
@@ -227,25 +247,31 @@ def test_model_cannot_choose_amount_or_recipient(direct_vm, direct_deploy, direc
     assert period["provider_credit"] == str(8 * 10**15)
 
 
-def test_missing_role_evidence_cannot_support_conclusive_result(direct_vm, direct_deploy, direct_alice, direct_bob):
+def test_provider_source_failure_cannot_veto_independent_major_evidence(direct_vm, direct_deploy, direct_alice, direct_bob):
     c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
-    direct_vm.warp(iso(NOW + 901))
+    direct_vm.warp(iso(NOW + 1201))
     raw = result("MAJOR")
-    raw["source_findings"][0] = {"id":"provider_status","state":"UNAVAILABLE","reason":"source unavailable","quote":""}
+    raw["source_findings"][0] = {"id":"provider_status","state":"UNAVAILABLE","reason":"source unavailable","quote":"", "coverage":"UNAVAILABLE", "coverage_quote":""}
     mock_evidence(direct_vm, provider_status=503, provider_body="", llm=raw)
-    with direct_vm.expect_revert("Conclusive assessment requires"):
-        c.assess_period(PACT, 1)
+    c.assess_period(PACT, 1)
+    assert c.get_period(PACT, 1)["classification"] == "MAJOR"
 
 
-def test_inconclusive_keeps_bond_locked_and_allows_one_reassessment(direct_vm, direct_deploy, direct_alice, direct_bob):
+def test_inconclusive_keeps_bond_locked_and_cooldown_allows_later_resolution(direct_vm, direct_deploy, direct_alice, direct_bob):
     c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
-    direct_vm.warp(iso(NOW + 901)); mock_evidence(direct_vm, provider_status=503, provider_body="", llm=inconclusive_result())
+    direct_vm.warp(iso(NOW + 1201)); mock_evidence(direct_vm, provider_status=503, provider_body="", llm=inconclusive_result())
     c.assess_period(PACT, 1)
     p = c.get_period(PACT, 1)
     assert p["status"] == "INCONCLUSIVE" and p["assessment_attempts"] == 1
     assert c.get_accounting(addr(direct_bob))["locked"] == str(10**16)
-    mock_evidence(direct_vm, llm=result("MAJOR")); c.assess_period(PACT, 1)
+    mock_evidence(direct_vm, llm=inconclusive_result())
+    with direct_vm.expect_revert("cooldown"):
+        c.assess_period(PACT, 1)
+    direct_vm.warp(iso(NOW + 1502)); mock_evidence(direct_vm, provider_status=503, provider_body="", llm=inconclusive_result()); c.assess_period(PACT, 1)
+    assert c.get_period(PACT, 1)["assessment_attempts"] == 2
+    direct_vm.warp(iso(NOW + 1803)); mock_evidence(direct_vm, llm=result("MAJOR")); c.assess_period(PACT, 1)
     assert c.get_period(PACT, 1)["status"] == "SETTLED"
+    assert c.get_period(PACT, 1)["assessment_attempts"] == 3
     with direct_vm.expect_revert("cannot be assessed"):
         c.assess_period(PACT, 1)
 
@@ -265,7 +291,7 @@ def test_recurring_period_requires_previous_terminal_state(direct_vm, direct_dep
     with direct_vm.expect_revert("terminal state"):
         c.fund_next_period(PACT)
     direct_vm.value = 0
-    direct_vm.warp(iso(NOW + 901)); mock_evidence(direct_vm); c.assess_period(PACT,1)
+    direct_vm.warp(iso(NOW + 1201)); mock_evidence(direct_vm); c.assess_period(PACT,1)
     direct_vm.sender = direct_bob; direct_vm.value = 10**16; c.fund_next_period(PACT); direct_vm.value = 0
     assert c.get_pact(PACT)["period_count"] == 2
     assert c.get_period(PACT,2)["status"] == "FUNDED"
@@ -276,13 +302,13 @@ def test_pact_cannot_close_with_active_funded_period(direct_vm, direct_deploy, d
     direct_vm.sender = direct_alice
     with direct_vm.expect_revert("must finish"):
         c.close_pact(PACT)
-    direct_vm.warp(iso(NOW + 901)); mock_evidence(direct_vm); c.assess_period(PACT,1); c.close_pact(PACT)
+    direct_vm.warp(iso(NOW + 1201)); mock_evidence(direct_vm); c.assess_period(PACT,1); c.close_pact(PACT)
     assert c.get_pact(PACT)["status"] == "CLOSED"
 
 
 def test_withdraw_consumes_credit_once(direct_vm, direct_deploy, direct_alice, direct_bob):
     c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
-    direct_vm.warp(iso(NOW + 901)); mock_evidence(direct_vm); c.assess_period(PACT,1)
+    direct_vm.warp(iso(NOW + 1201)); mock_evidence(direct_vm); c.assess_period(PACT,1)
     direct_vm.sender = direct_alice
     # The current Direct Mode API does not expose captured messages; assert
     # the observable credit consumption and transfer accounting instead.

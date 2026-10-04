@@ -1,0 +1,7 @@
+{
+  "notice": "SYNTHETIC DEMONSTRATION FIXTURE — not a real production incident or provider record.",
+  "service": "Pulsep synthetic production API",
+  "coverage_start": "2026-10-01T00:00:00Z",
+  "coverage_end": "2026-10-10T00:00:00Z",
+  "maintenance_notice": "Maintenance notice published 2026-10-04T23:50:00Z, after incident start 2026-10-04T23:45:00Z."
+}

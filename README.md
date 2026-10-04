@@ -32,10 +32,10 @@ The core path is:
 3. At least one source must be provider-controlled and at least one independent.
 4. The provider accepts by funding exactly the frozen period bond in simulated Studionet GEN.
 5. The service period runs.
-6. After the period ends, any caller may request assessment.
+6. Assessment opens five minutes after period end so evidence can mature.
 7. Validators independently retrieve the same frozen sources and independently classify the period.
 8. Conclusive results settle the bond immediately in deterministic ledger credits.
-9. `INCONCLUSIVE` keeps the bond locked and allows a bounded reassessment.
+9. `INCONCLUSIVE` keeps the bond locked and permits permissionless reassessment after a five-minute cooldown until the evidence deadline; there is no fixed retry cap.
 10. If the evidence window expires unresolved, the bond returns to provider credit.
 11. Once a period is terminal, the provider may fund the next period or either party may close future renewal.
 12. Credits are withdrawn pull-style by the credited wallet.
@@ -63,19 +63,11 @@ Each evidence source has a frozen:
 
 During assessment the contract fetches each source through GenLayer web access. The page body is treated as untrusted data. Every consequential finding must include an exact substring from the fetched source. The stored assessment preserves bounded source provenance including availability, HTTP status, body SHA-256 and byte length.
 
-A conclusive result requires at least one available provider-controlled source and one available independent source. Missing or irreconcilable evidence can produce `INCONCLUSIVE`; Pulsep does not convert uncertainty into a forced breach/no-breach answer.
+`INDEPENDENT` is a role declared by the customer and accepted by the provider in frozen terms; Pulsep does not authenticate source ownership or certify objective independence. Available independent evidence is the agreed evidence anchor: provider-source unavailability alone cannot veto an independently supported breach. `NO_BREACH` requires an exact quoted coverage statement from independent evidence that covers the full period. Coverage is classified as `COVERS_PERIOD`, `STALE`, `PARTIAL`, `UNKNOWN`, or `UNAVAILABLE` and is consensus-bound. Missing or irreconcilable evidence can produce `INCONCLUSIVE`; uncertainty is never forced into a breach/no-breach answer.
 
 ## Consensus design
 
-The leader fetches sources, runs the structured assessment and validates quotes/schema. Validators independently fetch the same source policy, rerun the assessment, validate the leader output against independently fetched source bodies, and compare only consequential material:
-
-- classification;
-- exclusion status;
-- per-source finding state;
-- source availability/status/hash/length.
-
-Free-form wording is not a settlement key.
-
+The leader fetches sources, runs the structured assessment and validates quotes/schema. Validators independently re-fetch all frozen sources and re-run the substantive classification. They compare the complete normalized assessment, including classification, reasons, exact quotes, coverage, exclusion reasoning, timeline, source provenance and period boundaries. Displayed assessment content is consensus-bound. Settlement remains deterministic contract code.
 ## Frontend safety
 
 The frontend:
@@ -131,4 +123,4 @@ gltest -q
 
 ## Current status
 
-Production frontend: [https://pulsep.vercel.app/](https://pulsep.vercel.app/). The root, pact creation, pact view, and activity routes are publicly reachable; anonymous reads load finalized contract state. The hosted deployment JSON and live Studionet source/config match the verified contract at `0x450d7D146B7F5041C7a4a0d0d70b65db1D58A43f`. The frontend build and typecheck pass; GitHub Actions passed the 8 frontend tests on the current application commit. Pact-level settlement/withdrawal evidence remains outstanding. This browser had no injected wallet, and tablet/mobile viewport E2E has not been verified. Studionet GEN is simulated. See `BUILD_STATUS.md` and `DEPLOYMENT.md` for the remaining evidence.
+Production frontend: [https://pulsep.vercel.app/](https://pulsep.vercel.app/). The root, pact creation, pact view, and activity routes are publicly reachable; anonymous reads load finalized contract state. The currently hosted deployment JSON points to the prior `pulsep.v0.1` contract and must not be used for signing after the `pulsep.v0.2` contract update. The frontend build and typecheck pass; The latest pre-fix GitHub Actions run passed, and this working tree passes updated local checks; the new commit run is pending. Pact-level settlement/withdrawal evidence remains outstanding. This browser had no injected wallet, and tablet/mobile viewport E2E has not been verified. Studionet GEN is simulated. See `BUILD_STATUS.md` and `DEPLOYMENT.md` for the remaining evidence.

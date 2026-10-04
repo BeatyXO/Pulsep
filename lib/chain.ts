@@ -82,11 +82,11 @@ export async function readContract<T>(deployment: Deployment, functionName: stri
 }
 
 export async function verifyDeployment(deployment: Deployment) {
-  if (!deployment.verified || !deployment.address || deployment.chainId !== CHAIN_ID || deployment.network !== 'studionet' || deployment.version !== 'pulsep.v0.1') {
+  if (!deployment.verified || !deployment.address || deployment.chainId !== CHAIN_ID || deployment.network !== 'studionet' || deployment.version !== 'pulsep.v0.2') {
     throw new Error('Live signing is locked until the stable Studionet deployment is verified.');
   }
-  const config = await readContract<{ version: string; network_scope: string; admin: null }>(deployment, 'get_config');
-  if (config.version !== deployment.version || config.network_scope !== 'studionet-only' || config.admin !== null) {
+  const config = await readContract<{ version: string; network_scope: string; admin: null; assessment_cooldown_seconds: number; evidence_maturity_seconds: number }>(deployment, 'get_config');
+  if (config.version !== deployment.version || config.network_scope !== 'studionet-only' || config.admin !== null || config.assessment_cooldown_seconds !== 300 || config.evidence_maturity_seconds !== 300) {
     throw new Error('Deployed Pulsep policy does not match this frontend release.');
   }
   if (deployment.sourceSha256) {

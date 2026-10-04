@@ -67,7 +67,7 @@ export default function HomeClient() {
 
     <section className="section"><div className="grid">
       <HoverCard><DatabaseZap size={19}/><h3 style={{marginTop:24}}>No application backend</h3><p>Canonical product state lives in the Intelligent Contract. Public evidence is retrieved by validators, not by a private decision server.</p></HoverCard>
-      <HoverCard><Clock3 size={19}/><h3 style={{marginTop:24}}>Uncertainty is real state</h3><p>Unavailable or irreconcilable evidence becomes INCONCLUSIVE. The bond remains locked for bounded reassessment instead of forcing a verdict.</p></HoverCard>
+      <HoverCard><Clock3 size={19}/><h3 style={{marginTop:24}}>Uncertainty is real state</h3><p>Unavailable or irreconcilable evidence becomes INCONCLUSIVE. The bond remains locked for reassessment after cooldown until the evidence deadline rather than forcing a verdict.</p></HoverCard>
       <HoverCard><ArrowUpRight size={19}/><h3 style={{marginTop:24}}>Built for verification</h3><p>Every consequential action is intended to finish with a finalized transaction, execution result, explorer link and reproducible evidence record.</p></HoverCard>
     </div></section>
   </Shell>;

@@ -47,7 +47,7 @@ export default function NewPactClient(){
       {sources.length<4&&<button className="ghost" onClick={()=>setSources(all=>[...all,emptySource(all.length)])}><Plus size={14}/>Add source</button>}
       <div className="actions"><button className="primary" disabled={!canSubmit} onClick={()=>void submit()}>{busy?'Preparing wallet…':'Propose pact'}</button></div>
     </div></div>
-    <aside className="stack"><div className="panel"><h2>Trust boundary</h2><p>The frontend does not fetch evidence or compute a breach. It only prepares contract writes and renders finalized contract state.</p></div><div className="panel"><h2>Settlement boundary</h2><p>Validators classify the period. They never choose recipients or amounts. Your frozen basis points are applied deterministically.</p></div><div className="panel"><h2>Uncertainty</h2><p>If provider and independent evidence cannot support a reliable conclusion, Pulsep records INCONCLUSIVE and keeps the bond locked for bounded reassessment.</p></div></aside>
+    <aside className="stack"><div className="panel"><h2>Trust boundary</h2><p>The frontend does not fetch evidence or compute a breach. It only prepares contract writes and renders finalized contract state.</p></div><div className="panel"><h2>Settlement boundary</h2><p>Validators classify the period. They never choose recipients or amounts. Your frozen basis points are applied deterministically.</p></div><div className="panel"><h2>Uncertainty</h2><p>If provider and independent evidence cannot support a reliable conclusion, Pulsep records INCONCLUSIVE and keeps the bond locked for reassessment after a five-minute cooldown until the evidence deadline.</p></div></aside>
     </div>
   </main></Shell>;
 }

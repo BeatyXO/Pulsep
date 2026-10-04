@@ -1,67 +1,39 @@
 # Pulsep build status
 
-## Implemented in this handoff
+## Current handoff update
 
-- clean-room Pulsep product architecture;
-- one recurring SLA Intelligent Contract;
-- customer proposal / provider acceptance authorization;
-- exact funded period bond;
-- immutable service scope, SLA clauses, tier rules, payout basis points and source policy;
-- required provider + independent evidence roles;
-- bounded HTTPS evidence retrieval;
-- hostile-source prompt boundary;
-- exact-source quote validation;
-- independent validator re-fetch and re-evaluation;
-- consequence-key comparison rather than prose equality;
-- deterministic settlement math;
-- `INCONCLUSIVE` retained as nonterminal uncertainty;
-- bounded reassessment;
-- unresolved evidence expiry;
-- recurring next-period funding;
-- close-future-renewal path;
-- pull-credit withdrawal accounting;
-- Next.js App Router frontend;
-- injected wallet connection and 61999 switching;
-- verified-deployment gate;
-- finalized execution-result interpretation;
-- pending hash persistence and duplicate-send guard;
-- grey observatory visual system, Sora typography, background motion and hover glow;
-- contract/front-end CI structure;
-- Direct Mode behavior suite and static invariant tests;
-- preflight checks;
-- architecture, security and verification documentation.
+The v0.2 hardening is in progress on top of `main`:
 
-## Local verification completed in the current workspace
+- Independent evidence is the agreed evidence anchor. Provider-source unavailability alone does not veto an independently supported breach.
+- `NO_BREACH` requires an independently supporting NO_BREACH finding plus exact quoted full-period coverage.
+- Evidence coverage/freshness (`COVERS_PERIOD`, `STALE`, `PARTIAL`, `UNKNOWN`, `UNAVAILABLE`) is normalized and validator-bound.
+- Provider/maintenance exclusions marked as applying require an exact quote from an available provider or maintenance source.
+- Evidence maturity opens assessment 300 seconds after service-period end.
+- `INCONCLUSIVE` retries are permitted until the fixed evidence deadline with a deterministic 300-second cooldown, not a fixed attempt limit.
+- Validator comparison binds the full normalized assessment, including reasons, quotes, coverage, exclusions, timeline, provenance and period boundaries.
+- `INDEPENDENT` means a source role declared in customer-proposed terms and accepted by the provider; ownership/independence is not externally authenticated.
+- Contract/frontend guard version is `pulsep.v0.2`; the prior v0.1 production binding is disabled pending deployment and verification of the fixed source.
+- CI pins both CLI package version (`genlayer@0.39.1`) and GenVM runner (`v0.2.16`) and uses frozen pnpm installation.
 
-- `pnpm install` completed from the repository package configuration; the local CLI reports `genlayer 0.39.1`.
-- `python scripts/preflight.py` and Python compile passed before generated build/test outputs were created.
-- `gltest -q` passed **26 tests**: 21 Direct Mode cases and 5 source-invariant cases.
-- Direct Mode now exercises all four conclusive classifications and bond conservation, malformed/fake/duplicate/omitted assessment findings, validator re-evaluation disagreement, model payout-field injection, inconclusive reassessment/expiry, recurring funding and withdrawal accounting.
-- `genvm-lint check contracts/pulsep.py` passed static lint and SDK validation with `GENVM_VERSION=v0.2.16`, matching the stable runner used by Direct Mode. It extracted 14 methods (6 view, 8 write).
-- Frontend typecheck passed; Vitest passed **8 tests**; the Next.js production build compiled and prerendered `/`, `/activity`, `/pacts/new` and `/pacts/view`.
-- Stable Studionet deployment finalized successfully at `0x450d7D146B7F5041C7a4a0d0d70b65db1D58A43f`; deployment tx `0x11b096c4245e6f8d816f62cd9396972d7c2c12b9e229a3a91f3b22d0717f0362` reported successful execution and majority agreement.
-- Deployed source read-back exactly matches the normalized-LF local contract hash `5a4784f9274bf12b68b3ff1d1b2b3906d473e72856a9641bda3a8a4d22f92bce`; schema has 14 methods; `get_config()` reports the required version, scope and null admin.
-- `public/deployment.json` and `public/verification.json` now contain observed deployment evidence. The verification pack remains explicitly partial because pact lifecycles have not yet been run.
+## Verification observed for current changes
 
-The preflight and source-invariant walkers now skip generated dependency/build/cache trees while scanning source. Preflight separately reports those generated directories so they can be removed before a clean handoff.
+- `pnpm install --frozen-lockfile`: PASS; lockfile current, repository-local CLI 0.39.1.
+- `pnpm typecheck`: PASS.
+- `pnpm test`: PASS, 8 tests.
+- `pnpm build`: PASS; static routes generated.
+- `python -m pip install -r requirements-test.txt`: PASS (requirements already installed).
+- Direct Mode: PASS, 28 tests after the v0.2 behavior changes.
+- `genvm-lint check contracts/pulsep.py` with `GENVM_VERSION=v0.2.16`: PASS, static checks and SDK semantic validation; 14 methods (6 views, 8 writes).
+- GitHub Actions on the pre-fix `main` commit `e3d0f19dedeee5e842fe22c116631525c78a3933`: PASS. Updated commit Actions run is pending.
+- Stable Studionet CLI network configuration and unlocked signer are available; the signer address matches the previously verified v0.1 deployment sender. No v0.2 deployment has been performed yet.
 
-## Still not verified
+## Still required
 
-- real public evidence lifecycle;
-- settlement and outbound withdrawal transfer proof;
-- browser wallet approval/rejection and known-hash refresh recovery;
-- tablet/mobile viewport verification (the current browser test was desktop only);
-- GenLayer Portal submission.
+- Commit and push these source changes; wait for green Actions.
+- Deploy the exact final v0.2 source once to stable Studionet 61999 and verify finalized receipt, source read-back, schema and `get_config()`.
+- Bind frontend `public/deployment.json` only after that verification. Vercel's prior site at `https://pulsep.vercel.app/` still serves the older v0.1 release until the updated source/config is deployed.
+- Run the real Studionet pacts, assessments, reassessment/recovery, withdrawals, recurring period and expected-failure transactions; record observed evidence only.
+- Verify responsive routes and wallet transaction recovery where browser-wallet access is available.
+- Update the evidence pack and run final preflight only after all required evidence exists.
 
-## Public frontend verification
-
-- Canonical production URL: [https://pulsep.vercel.app/](https://pulsep.vercel.app/).
-- Anonymous HTTP checks returned 200 for `/`, `/pacts/new/`, `/pacts/view/`, `/activity/`, `/deployment.json` and `/verification.json`.
-- Browser checks rendered the home, pact creation, pact view and activity/recovery screens. Read-only pact listing completed without a wallet and returned an empty finalized list; no demo pact was presented as live state.
-- The production `deployment.json` matches the tracked Studionet address, chain, version, source hash and deployment transaction. A direct read-only Studionet RPC check returned the expected `get_config()` policy and a deployed-source SHA-256 matching `contracts/pulsep.py`.
-- A fresh production build and typecheck passed from source byte-identical to the checked-out `main` app. The served JS includes the source-hash guard, Studionet policy guard and duplicate-send protection.
-- Desktop visual check passed at 1266×701. The source defines tablet/mobile reflow breakpoints at 980px and 680px, but those viewport sizes were not exercised in this browser session.
-- Connect-wallet was attempted in the available browser; it reported no injected EVM wallet. Wallet approval/rejection and real transaction-hash refresh recovery remain unverified. The activity page rendered its empty recovery state.
-- Canonical repository `main` verification baseline: `e20b096cbc4f63b6dace36a42add0c2dc670de14`; GitHub Actions run [37232009494](https://github.com/BeatyXO/Pulsep/actions/runs/37232009494) passed before these documentation updates.
-
-Do not mark the remaining lifecycle and wallet items complete without actual evidence. Studionet GEN is simulated.
+Studionet GEN is simulated. This project has not been independently audited and is not a real-money or legally binding arbitration service.
