@@ -6,48 +6,39 @@
 - Chain ID: `61999`
 - RPC: `https://studio.genlayer.com/api`
 - Repository-local CLI: `genlayer@0.39.1`
-- Semantic validation / Direct Mode GenVM: stable `v0.2.16`
+- Contract: `contracts/pulsep.py`
 
-## Prior deployment (superseded)
+## Canonical v0.2 deployment (verified)
 
-- Contract `0x450d7D146B7F5041C7a4a0d0d70b65db1D58A43f` was deployed as `pulsep.v0.1`.
-- Its finalized deployment transaction was `0x11b096c4245e6f8d816f62cd9396972d7c2c12b9e229a3a91f3b22d0717f0362`.
-- Source SHA-256 (normalized LF) was `5a4784f9274bf12b68b3ff1d1b2b3906d473e72856a9641bda3a8a4d22f92bce`.
-- That contract is superseded by the v0.2 fixes and must not be used by the updated frontend.
+- Contract: [`0x99b88F9724182Fa6e4C5A7a8e936AcAeA5872A82`](https://explorer-studio.genlayer.com/address/0x99b88F9724182Fa6e4C5A7a8e936AcAeA5872A82)
+- Deployment transaction: [`0x43eb394bbbdd5842450e73e85d5cb10dc4d056ce004a8c3905ed4739a0c3fe35`](https://explorer-studio.genlayer.com/tx/0x43eb394bbbdd5842450e73e85d5cb10dc4d056ce004a8c3905ed4739a0c3fe35)
+- Receipt: `FINALIZED`; execution `SUCCESS`; consensus `MAJORITY_AGREE` (three `AGREE`, two `IDLE`).
+- Normalized-LF source SHA-256: `0a3c89de6f92ddb34832aaee53119a75d8293d98a04a3d006b4203a6e89902b1`.
+- Deployed source read-back hash matches local tracked source exactly.
+- Schema: 14 methods (6 views, 8 writes).
+- `get_config()`: `version=pulsep.v0.2`, `network_scope=studionet-only`, `admin=null`, `assessment_cooldown_seconds=300`, `evidence_maturity_seconds=300`, `evidence_grace_seconds=604800`.
+- Contract source commit: [`ebcec3542349af107c2d8b821750369413d6c520`](https://github.com/BeatyXO/Pulsep/commit/ebcec3542349af107c2d8b821750369413d6c520).
 
-## Current v0.2 deployment state
+Machine-readable values and remaining lifecycle proof are in `public/deployment.json` and `public/verification.json`.
 
-No v0.2 deployment has been made yet. `public/deployment.json` is deliberately unverified and has no address/transaction until the final v0.2 source is committed, deployed once, finalized and read back byte-for-byte. The canonical frontend must remain write-locked against the superseded v0.1 policy until its deployment JSON and frontend build are updated.
+## Local and GitHub verification
 
-## Verification required after deployment
+- Repository-local GenLayer CLI: `0.39.1`.
+- Stable GenVM semantic lint and Direct Mode runner: `v0.2.16`.
+- Direct Mode: 28 tests passed.
+- Frontend: typecheck passed, 8 tests passed, production build passed.
+- GitHub Actions run: [37243624520](https://github.com/BeatyXO/Pulsep/actions/runs/37243624520), green for commit `ebcec3542349af107c2d8b821750369413d6c520`.
 
-Record the actual v0.2 source commit and normalized-LF SHA-256, address, deployment transaction/receipt, source read-back, method list and `get_config()` values (`pulsep.v0.2`, `studionet-only`, `admin=null`, evidence maturity 300s, reassessment cooldown 300s). Never enter estimated values.
+## Synthetic public evidence fixtures
 
-The production frontend target is [https://pulsep.vercel.app/](https://pulsep.vercel.app/). Its existing Vercel integration should build from pushed repository changes; the contract binding is `public/deployment.json`, not a runtime secret or private environment variable.
+Labeled demonstration fixtures are in `public/evidence/`. Stable fixtures use commit-pinned raw URLs. The recovery case reserves one mutable `main` raw URL so the initially unavailable page can become available before reassessment; the fixture must be added only after the first INCONCLUSIVE transaction, preserving actual 404-then-recovery behavior.
 
-## Live lifecycle evidence
+## Live lifecycle evidence still required
 
-No v0.2 pact-level lifecycle or withdrawal evidence has been recorded yet. Required proof remains NO_BREACH, MAJOR, provider-source outage with independent breach, late and timely maintenance exclusion reasoning, INCONCLUSIVE, later recovery/reassessment or expiry, and a terminal pact's funded second period. Record finalized transaction outcomes, source URLs/digests, validator receipts where available and per-party accounting snapshots in `public/verification.json`.
+The contract has not yet settled live pact periods. Record finalized Studionet transactions for NO_BREACH, MAJOR, provider-source failure with independent breach evidence, late and timely maintenance reasoning, INCONCLUSIVE with locked funds, later reassessment or expiry recovery, and recurring period 2. Also record expected failed executions, exact source digests, consensus details, accounting snapshots, recipient balance deltas and finalized outbound withdrawal evidence. Do not infer or fabricate these results.
 
-Expected failed executions must be labeled as expected failures and include the actual finalized result. Accounting must reconcile deposits, locked/credited/withdrawn values, customer/provider claims, recipient balance deltas and outbound transfer receipts.
+## Frontend binding
 
-## Local verification commands
+The canonical frontend is [https://pulsep.vercel.app/](https://pulsep.vercel.app/). Its contract binding lives in `public/deployment.json`; no Vercel contract-address environment variable is read by the app. Pushing the verified JSON to the connected Vercel project should trigger a deploy. Verify production serves this exact v0.2 binding before treating frontend deployment as complete.
 
-```bash
-pnpm install --frozen-lockfile
-pnpm genlayer -- --version
-pnpm typecheck
-pnpm test
-pnpm build
-python -m pip install -r requirements-test.txt
-python scripts/preflight.py
-python -m compileall contracts scripts tests
-genvm-lint check contracts/pulsep.py
-gltest -q
-```
-
-For semantic validation and Direct Mode, pin `GENVM_VERSION=v0.2.16`. Do not use another network or an RC/newer GenLayer CLI.
-
-`python scripts/preflight.py --final` remains pending until deployment and live evidence are genuinely complete.
-
-Studionet GEN is simulated. No audit, bug-free guarantee, production-safety claim, real-money settlement claim or legal-arbitration claim is made.
+Studionet GEN is simulated. No independent audit, real-money settlement or legal-arbitration claim is made.

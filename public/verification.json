@@ -1,16 +1,39 @@
 {
   "schemaVersion": "pulsep.verification.v1",
-  "status": "v0.2-source-verification-pending",
+  "status": "deployed-source-verified-live-lifecycles-pending",
   "network": "studionet",
   "chainId": 61999,
-  "canonicalCommit": null,
+  "canonicalCommit": "ebcec3542349af107c2d8b821750369413d6c520",
   "contract": {
-    "address": null,
+    "address": "0x99b88F9724182Fa6e4C5A7a8e936AcAeA5872A82",
     "version": "pulsep.v0.2",
-    "sourceSha256NormalizedLf": null,
-    "sourceReadbackMatches": null,
-    "methods": null,
-    "config": null
+    "sourceSha256NormalizedLf": "0a3c89de6f92ddb34832aaee53119a75d8293d98a04a3d006b4203a6e89902b1",
+    "sourceReadbackMatches": true,
+    "methods": [
+      "accept_and_fund",
+      "assess_period",
+      "cancel_proposal",
+      "close_pact",
+      "expire_unresolved",
+      "fund_next_period",
+      "get_accounting",
+      "get_config",
+      "get_current_period",
+      "get_pact",
+      "get_period",
+      "list_pacts",
+      "propose_pact",
+      "withdraw"
+    ],
+    "config": {
+      "version": "pulsep.v0.2",
+      "network_scope": "studionet-only",
+      "admin": null,
+      "max_sources": 4,
+      "assessment_cooldown_seconds": 300,
+      "evidence_maturity_seconds": 300,
+      "evidence_grace_seconds": 604800
+    }
   },
   "supersededDeployment": {
     "address": "0x450d7D146B7F5041C7a4a0d0d70b65db1D58A43f",
@@ -26,18 +49,72 @@
     "genvmRunner": "v0.2.16",
     "genvmStaticLint": "PASS",
     "genvmSemanticValidation": "PASS",
-    "directMode": {"status":"PASS","tests":28},
+    "directMode": {
+      "status": "PASS",
+      "tests": 28
+    },
     "frontendTypecheck": "PASS",
-    "frontendTests": {"status":"PASS","tests":8},
+    "frontendTests": {
+      "status": "PASS",
+      "tests": 8
+    },
     "frontendBuild": "PASS",
-    "githubActions": {"lastMainRun":"https://github.com/BeatyXO/Pulsep/actions/runs/37240307084","status":"PASS","head":"e3d0f19dedeee5e842fe22c116631525c78a3933","updatedChangesRun":"PENDING"}
+    "githubActions": {
+      "lastMainRun": "https://github.com/BeatyXO/Pulsep/actions/runs/37240307084",
+      "status": "PASS",
+      "head": "e3d0f19dedeee5e842fe22c116631525c78a3933",
+      "updatedChangesRun": "https://github.com/BeatyXO/Pulsep/actions/runs/37243624520"
+    },
+    "pythonCompile": "PASS"
   },
   "fixtures": [
-    {"scenario":"NO_BREACH","url":null,"status":"IN_WORKING_TREE_NOT_YET_COMMITTED"},
-    {"scenario":"MAJOR_BREACH","url":null,"status":"IN_WORKING_TREE_NOT_YET_COMMITTED"},
-    {"scenario":"LATE_MAINTENANCE_NOTICE","url":null,"status":"IN_WORKING_TREE_NOT_YET_COMMITTED"},
-    {"scenario":"VALID_MAINTENANCE_NOTICE","url":null,"status":"IN_WORKING_TREE_NOT_YET_COMMITTED"},
-    {"scenario":"INCONCLUSIVE_THEN_RECOVER","url":null,"status":"RECOVERY_FIXTURE_NOT_PUBLISHED"}
+    {
+      "scenario": "NO_BREACH_PROVIDER",
+      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/ebcec3542349af107c2d8b821750369413d6c520/public/evidence/no-breach-provider.json",
+      "sha256": "071d147a7e92001d461f977aefe7fed312aa6d567416fc60e22f1a7dfb46549d",
+      "status": "PUBLIC_COMMIT_PINNED_FIXTURE_NOT_YET_FETCHED_BY_VALIDATORS"
+    },
+    {
+      "scenario": "NO_BREACH_INDEPENDENT",
+      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/ebcec3542349af107c2d8b821750369413d6c520/public/evidence/no-breach-independent.json",
+      "sha256": "4a1879eb9ea939f3058de2126329015e4cec8413ab49e55386707ee0d3022fce",
+      "status": "PUBLIC_COMMIT_PINNED_FIXTURE_NOT_YET_FETCHED_BY_VALIDATORS"
+    },
+    {
+      "scenario": "MAJOR_AND_MAINTENANCE_INDEPENDENT",
+      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/ebcec3542349af107c2d8b821750369413d6c520/public/evidence/major-independent.json",
+      "sha256": "181e237fa8a0b0d04212d8067b8101936fbfafdb486d73caa4914bbb8f24a109",
+      "status": "PUBLIC_COMMIT_PINNED_FIXTURE_NOT_YET_FETCHED_BY_VALIDATORS"
+    },
+    {
+      "scenario": "MAJOR_AND_MAINTENANCE_PROVIDER",
+      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/ebcec3542349af107c2d8b821750369413d6c520/public/evidence/late-maintenance-provider.json",
+      "sha256": "a5908278986f678e138e88bbac000d1991cf1a1975d971006ea13d9f7f547f0b",
+      "status": "PUBLIC_COMMIT_PINNED_FIXTURE_NOT_YET_FETCHED_BY_VALIDATORS"
+    },
+    {
+      "scenario": "LATE_MAINTENANCE_NOTICE",
+      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/ebcec3542349af107c2d8b821750369413d6c520/public/evidence/late-maintenance-notice.json",
+      "sha256": "75439d4800b65dd9cdb8e950af8c36445d422ff1769d9bfba4fd2744e5096261",
+      "status": "PUBLIC_COMMIT_PINNED_FIXTURE_NOT_YET_FETCHED_BY_VALIDATORS"
+    },
+    {
+      "scenario": "VALID_MAINTENANCE_NOTICE",
+      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/ebcec3542349af107c2d8b821750369413d6c520/public/evidence/valid-maintenance-notice.json",
+      "sha256": "075a92cd8ef4f65c8a38e500b904451801ef3d446644dd211b3289b31981ffc3",
+      "status": "PUBLIC_COMMIT_PINNED_FIXTURE_NOT_YET_FETCHED_BY_VALIDATORS"
+    },
+    {
+      "scenario": "RECOVERY_PROVIDER",
+      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/ebcec3542349af107c2d8b821750369413d6c520/public/evidence/recovery-provider.json",
+      "sha256": "5077f9da533332640560a3d892e21fbd2c7002470206a2dd33dc3f96aaad9469",
+      "status": "PUBLIC_COMMIT_PINNED_FIXTURE_NOT_YET_FETCHED_BY_VALIDATORS"
+    },
+    {
+      "scenario": "INDEPENDENT_EVIDENCE_UNAVAILABLE_THEN_RECOVER",
+      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/main/public/evidence/recoverable-independent.json",
+      "status": "URL_RESERVED_FILE_NOT_PUBLISHED; FIRST_ASSESSMENT_NOT_YET_RUN"
+    }
   ],
   "lifecycleEvidence": [],
   "negativeTransactionEvidence": [],
@@ -45,9 +122,41 @@
   "walletBrowserVerification": null,
   "publicFrontendUrl": "https://pulsep.vercel.app/",
   "limitations": [
-    "The v0.2 source is not yet committed/deployed; public/deployment.json remains write-locked.",
-    "No v0.2 live pact lifecycle, settlement, withdrawal or outbound transfer proof exists.",
-    "No injected-wallet browser verification exists; this environment has not yet exercised a wallet flow.",
+    "No v0.2 pact lifecycle, settlement, withdrawal or outbound transfer proof has yet been recorded.",
+    "Recovery fixture path is intentionally unpublished until after an inconclusive assessment; it will use a mutable main URL so it can later become available.",
+    "No injected-wallet browser verification has been performed.",
+    "Production frontend redeploy with the v0.2 binding is pending verification.",
     "Tablet/mobile viewport and real pending-hash refresh recovery remain unverified."
-  ]
+  ],
+  "deployment": {
+    "transactionHash": "0x43eb394bbbdd5842450e73e85d5cb10dc4d056ce004a8c3905ed4739a0c3fe35",
+    "status": "FINALIZED",
+    "executionResult": "SUCCESS",
+    "consensusResult": "MAJORITY_AGREE",
+    "validatorVotes": [
+      "IDLE",
+      "AGREE",
+      "AGREE",
+      "IDLE",
+      "AGREE"
+    ]
+  },
+  "frontendVerification": {
+    "status": "PENDING_PRODUCTION_REDEPLOY_CHECK",
+    "routes": {
+      "/": "PENDING",
+      "/pacts/new/": "PENDING",
+      "/pacts/view/": "PENDING",
+      "/activity/": "PENDING"
+    },
+    "anonymousReadOnly": "PENDING",
+    "deploymentSourceGuard": "PENDING",
+    "responsive": {
+      "desktop": "PENDING",
+      "tablet": "PENDING",
+      "mobile": "PENDING"
+    },
+    "transactionRecovery": "PENDING",
+    "walletBrowser": "NOT_VERIFIED"
+  }
 }
