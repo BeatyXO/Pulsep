@@ -18,7 +18,7 @@ Target is fixed:
 - Schema read-back: 14 methods (6 views, 8 writes).
 - `get_config()`: `version=pulsep.v0.1`, `network_scope=studionet-only`, `admin=null`.
 - `public/deployment.json` is bound to this verified deployment.
-- The workspace has no Git metadata; a canonical commit SHA is not available here.
+- Contract source commit: [`a6443da0366cd533955767ba07ea345646b39f42`](https://github.com/BeatyXO/Pulsep/commit/a6443da0366cd533955767ba07ea345646b39f42). The deployment record is tracked at `e20b096cbc4f63b6dace36a42add0c2dc670de14`.
 
 Machine-readable deployment and verification details are in `public/deployment.json` and `public/verification.json`.
 
@@ -70,8 +70,11 @@ No pact settlement has been performed yet. For each live settlement capture befo
 ## Frontend binding
 
 1. `public/deployment.json` now contains the source-verified contract address, chain, version, hash and deployment transaction.
-2. Typecheck, frontend tests and static production build passed.
-3. Live contract configuration/source verification is recorded above; the browser wallet flow and anonymous hosted-site checks remain to be performed after Vercel deployment.
+2. Canonical production frontend: [https://pulsep.vercel.app/](https://pulsep.vercel.app/).
+3. Anonymous HTTP and browser checks passed for `/`, `/pacts/new/`, `/pacts/view/`, `/activity/`, and public deployment/verification JSON. Read-only pact listing succeeded and returned no live pacts.
+4. The production-served deployment JSON matches the tracked contract binding. A read-only Studionet RPC check confirmed `get_config()` and a source hash equal to the current normalized-LF `contracts/pulsep.py`; the served application bundle contains the source-integrity guard.
+5. A fresh production build and typecheck passed from source byte-identical to the checked-out app. The GitHub Actions run for the application commit passed frontend tests/build, GenVM validation, and Direct Mode: [37232009494](https://github.com/BeatyXO/Pulsep/actions/runs/37232009494).
+6. Desktop visual check passed at 1266×701. Tablet/mobile viewport checks, injected-wallet approval/rejection, and refresh recovery with a real pending hash remain unverified. The available browser reported no injected EVM wallet; the activity route showed its empty recovery state.
 
 Finally run:
 

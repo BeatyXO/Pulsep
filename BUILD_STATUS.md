@@ -49,8 +49,19 @@ The preflight and source-invariant walkers now skip generated dependency/build/c
 
 - real public evidence lifecycle;
 - settlement and outbound withdrawal transfer proof;
-- browser wallet approval/rejection and responsive hosted-site checks;
-- public production website URL;
+- browser wallet approval/rejection and known-hash refresh recovery;
+- tablet/mobile viewport verification (the current browser test was desktop only);
 - GenLayer Portal submission.
 
-Do not mark those items complete without actual evidence. This workspace has no Git metadata, so the canonical commit and remote Actions result cannot be established here.
+## Public frontend verification
+
+- Canonical production URL: [https://pulsep.vercel.app/](https://pulsep.vercel.app/).
+- Anonymous HTTP checks returned 200 for `/`, `/pacts/new/`, `/pacts/view/`, `/activity/`, `/deployment.json` and `/verification.json`.
+- Browser checks rendered the home, pact creation, pact view and activity/recovery screens. Read-only pact listing completed without a wallet and returned an empty finalized list; no demo pact was presented as live state.
+- The production `deployment.json` matches the tracked Studionet address, chain, version, source hash and deployment transaction. A direct read-only Studionet RPC check returned the expected `get_config()` policy and a deployed-source SHA-256 matching `contracts/pulsep.py`.
+- A fresh production build and typecheck passed from source byte-identical to the checked-out `main` app. The served JS includes the source-hash guard, Studionet policy guard and duplicate-send protection.
+- Desktop visual check passed at 1266×701. The source defines tablet/mobile reflow breakpoints at 980px and 680px, but those viewport sizes were not exercised in this browser session.
+- Connect-wallet was attempted in the available browser; it reported no injected EVM wallet. Wallet approval/rejection and real transaction-hash refresh recovery remain unverified. The activity page rendered its empty recovery state.
+- Canonical repository `main` verification baseline: `e20b096cbc4f63b6dace36a42add0c2dc670de14`; GitHub Actions run [37232009494](https://github.com/BeatyXO/Pulsep/actions/runs/37232009494) passed before these documentation updates.
+
+Do not mark the remaining lifecycle and wallet items complete without actual evidence. Studionet GEN is simulated.

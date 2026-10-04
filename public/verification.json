@@ -3,7 +3,7 @@
   "status": "partial",
   "network": "studionet",
   "chainId": 61999,
-  "canonicalCommit": null,
+  "canonicalCommit": "e20b096cbc4f63b6dace36a42add0c2dc670de14",
   "contract": {
     "address": "0x450d7D146B7F5041C7a4a0d0d70b65db1D58A43f",
     "version": "pulsep.v0.1",
@@ -39,28 +39,101 @@
     "status": "FINALIZED",
     "executionResult": "SUCCESS",
     "consensusResult": "MAJORITY_AGREE",
-    "validatorVotes": ["IDLE", "AGREE", "AGREE", "AGREE", "AGREE"]
+    "validatorVotes": [
+      "IDLE",
+      "AGREE",
+      "AGREE",
+      "AGREE",
+      "AGREE"
+    ]
   },
   "localVerification": {
     "genlayerCli": "0.39.1",
     "genvmRunner": "v0.2.16",
     "genvmStaticLint": "PASS",
     "genvmSemanticValidation": "PASS",
-    "directMode": {"status": "PASS", "tests": 21},
-    "sourceInvariants": {"status": "PASS", "tests": 5},
+    "directMode": {
+      "status": "PASS",
+      "tests": 21
+    },
+    "sourceInvariants": {
+      "status": "PASS",
+      "tests": 5
+    },
     "frontendTypecheck": "PASS",
-    "frontendTests": {"status": "PASS", "tests": 8},
+    "frontendTests": {
+      "status": "PASS",
+      "tests": 8
+    },
     "frontendBuild": "PASS"
   },
   "lifecycleEvidence": [],
   "negativeTransactionEvidence": [],
   "accountingEvidence": [],
   "walletBrowserVerification": null,
-  "publicFrontendUrl": null,
+  "publicFrontendUrl": "https://pulsep.vercel.app/",
   "limitations": [
     "No pact lifecycle transactions or synthetic public evidence fixtures have been recorded.",
     "No settlement withdrawal or outbound transfer evidence has been recorded.",
-    "No injected-wallet browser verification or public frontend deployment has been recorded.",
-    "No canonical Git commit was available in the workspace because it has no Git metadata."
-  ]
+    "No injected-wallet browser verification has been recorded; the available browser detected no injected EVM wallet.",
+    "Tablet/mobile viewport checks and refresh recovery with a real pending transaction hash have not been performed."
+  ],
+  "frontendVerification": {
+    "status": "PASS_WITH_LIMITATIONS",
+    "applicationCommitBuilt": "e20b096cbc4f63b6dace36a42add0c2dc670de14",
+    "sourceTreeMatchesBuildInput": true,
+    "servedDeploymentMatchesCanonical": true,
+    "servedBundleGuardMarkers": "PASS",
+    "routes": {
+      "/": {
+        "httpStatus": 200,
+        "browser": "PASS"
+      },
+      "/pacts/new/": {
+        "httpStatus": 200,
+        "browser": "PASS"
+      },
+      "/pacts/view/": {
+        "httpStatus": 200,
+        "browser": "PASS",
+        "note": "No pact ID supplied; no live pacts currently exist."
+      },
+      "/activity/": {
+        "httpStatus": 200,
+        "browser": "PASS"
+      }
+    },
+    "anonymousReadOnly": {
+      "status": "PASS",
+      "result": "Finalized pact listing returned no live pacts."
+    },
+    "deploymentSourceGuard": {
+      "status": "PASS",
+      "chainId": 61999,
+      "configVersion": "pulsep.v0.1",
+      "networkScope": "studionet-only",
+      "admin": null,
+      "liveSourceSha256MatchesTracked": true
+    },
+    "responsive": {
+      "desktop": {
+        "status": "PASS",
+        "viewport": {
+          "width": 1266,
+          "height": 701
+        }
+      },
+      "tablet": "NOT_VERIFIED",
+      "mobile": "NOT_VERIFIED"
+    },
+    "transactionRecovery": {
+      "activityRoute": "PASS",
+      "browserState": "No locally remembered pending or resolved transaction.",
+      "knownPendingHashRefresh": "NOT_VERIFIED"
+    },
+    "walletBrowser": {
+      "status": "NOT_AVAILABLE",
+      "injectedProviderDetected": false
+    }
+  }
 }
