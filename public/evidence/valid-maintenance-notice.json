@@ -1,9 +1,9 @@
 {
-  "notice": "SYNTHETIC DEMONSTRATION FIXTURE — not a real production incident or provider record.",
+  "notice": "SYNTHETIC DEMONSTRATION FIXTURE \u2014 not a real production incident or provider record.",
   "service": "Pulsep synthetic production API",
-  "coverage_start": "2026-10-01T00:00:00Z",
-  "coverage_end": "2026-10-10T00:00:00Z",
-  "maintenance_notice": "Maintenance notice published 2026-10-04T23:40:00Z before the synthetic maintenance window starts 2026-10-04T23:45:00Z.",
-  "window_start": "2026-10-04T23:45:00Z",
-  "window_end": "2026-10-05T00:17:00Z"
+  "coverage_start": "2026-10-04T00:00:00Z",
+  "coverage_end": "2026-10-06T00:00:00Z",
+  "maintenance_notice": "Maintenance notice published 2026-10-05T00:05:00Z before the synthetic maintenance window starts 2026-10-05T00:10:00Z.",
+  "window_start": "2026-10-05T00:10:00Z",
+  "window_end": "2026-10-05T00:42:00Z"
 }
