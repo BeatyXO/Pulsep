@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import ast
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -9,6 +10,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 FINAL = "--final" in sys.argv
 errors: list[str] = []
+GENERATED_DIRS = {"node_modules", ".pnpm-store", ".next", "out", ".venv", "__pycache__", ".pytest_cache", ".local", "artifacts"}
+
+
+def source_files():
+    """Yield tracked-source candidates without descending into generated trees."""
+    for current, dirs, files in os.walk(ROOT):
+        dirs[:] = [name for name in dirs if name not in GENERATED_DIRS]
+        for name in files:
+            yield Path(current) / name
 
 required = [
     "contracts/pulsep.py",
@@ -56,18 +66,22 @@ if package.exists():
     if data.get("devDependencies", {}).get("genlayer") != "0.39.1": errors.append("repository-local GenLayer CLI must be pinned to 0.39.1")
     if data.get("dependencies", {}).get("genlayer-js") != "1.1.8": errors.append("genlayer-js stable dependency must be pinned to 1.1.8")
 
-text = "\n".join(p.read_text(encoding="utf-8", errors="ignore") for p in ROOT.rglob("*") if p.is_file() and p.suffix.lower() in {".md",".py",".ts",".tsx",".json",".yml",".yaml"} and p.resolve() not in {(ROOT / "scripts/preflight.py").resolve(), (ROOT / "tests/test_source_invariants.py").resolve()})
+text = "\n".join(p.read_text(encoding="utf-8", errors="ignore") for p in source_files() if p.suffix.lower() in {".md",".py",".ts",".tsx",".json",".yml",".yaml"} and p.resolve() not in {(ROOT / "scripts/preflight.py").resolve(), (ROOT / "tests/test_source_invariants.py").resolve()})
 if "https://studio.genlayer.com/api" not in text: errors.append("stable Studionet RPC reference missing")
 if "61999" not in text: errors.append("stable Studionet chain ID reference missing")
 if "studio-dev.genlayer.com/api" in text or re.search(r"\b61997\b", text): errors.append("preview-network reference found")
 for banned in ["supabase", "firebase", "cloudflare worker", "express server", "railway.app"]:
     if banned in text.lower() and "do not" not in text.lower(): errors.append(f"possible application backend dependency found: {banned}")
 
-for p in ROOT.rglob("*"):
-    if not p.is_file(): continue
-    rel = p.relative_to(ROOT)
-    if any(part in {"node_modules", ".next", "out", ".venv", "__pycache__", ".pytest_cache", ".local"} for part in rel.parts): errors.append(f"generated/private artifact present: {rel}")
-    if p.name in {".env", "id_rsa", "id_ed25519"}: errors.append(f"sensitive file present: {rel}")
+for current, dirs, files in os.walk(ROOT):
+    current_path = Path(current)
+    for name in tuple(dirs):
+        if name in GENERATED_DIRS:
+            errors.append(f"generated/private artifact present: {(current_path / name).relative_to(ROOT)}")
+            dirs.remove(name)
+    for name in files:
+        if name in {".env", "id_rsa", "id_ed25519"}:
+            errors.append(f"sensitive file present: {(current_path / name).relative_to(ROOT)}")
 
 if FINAL:
     dep = json.loads((ROOT / "public/deployment.json").read_text(encoding="utf-8"))

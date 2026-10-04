@@ -1,0 +1,9 @@
+ignoredBuiltDependencies:
+  - cpu-features
+  - esbuild
+  - protobufjs
+  - ssh2
+
+onlyBuiltDependencies:
+  - genlayer
+  - keytar

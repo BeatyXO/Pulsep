@@ -1,8 +1,17 @@
 from pathlib import Path
 import ast
+import os
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = ROOT / "contracts/pulsep.py"
+GENERATED_DIRS = {"node_modules", ".pnpm-store", ".next", "out", ".venv", "__pycache__", ".pytest_cache", ".local", "artifacts"}
+
+
+def source_files():
+    for current, dirs, files in os.walk(ROOT):
+        dirs[:] = [name for name in dirs if name not in GENERATED_DIRS]
+        for name in files:
+            yield Path(current) / name
 
 
 def source(): return CONTRACT.read_text(encoding="utf-8")
@@ -23,6 +32,6 @@ def test_model_does_not_receive_settlement_authority():
     assert "customer_bps" not in prompt
 
 def test_network_is_not_preview_network():
-    text = "\n".join(p.read_text(encoding="utf-8", errors="ignore") for p in ROOT.rglob("*") if p.is_file() and p.suffix in {".py",".md",".ts",".tsx",".json",".yaml",".yml"} and p.resolve() != Path(__file__).resolve() and p.resolve() != (ROOT / "scripts/preflight.py").resolve())
+    text = "\n".join(p.read_text(encoding="utf-8", errors="ignore") for p in source_files() if p.suffix in {".py",".md",".ts",".tsx",".json",".yaml",".yml"} and p.resolve() != Path(__file__).resolve() and p.resolve() != (ROOT / "scripts/preflight.py").resolve())
     assert "studio-dev.genlayer.com/api" not in text
     assert "61997" not in text

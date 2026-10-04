@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "pulsep.verification.v1",
+  "status": "partial",
+  "network": "studionet",
+  "chainId": 61999,
+  "canonicalCommit": null,
+  "contract": {
+    "address": "0x450d7D146B7F5041C7a4a0d0d70b65db1D58A43f",
+    "version": "pulsep.v0.1",
+    "sourceSha256NormalizedLf": "5a4784f9274bf12b68b3ff1d1b2b3906d473e72856a9641bda3a8a4d22f92bce",
+    "sourceReadbackMatches": true,
+    "methods": [
+      "accept_and_fund",
+      "assess_period",
+      "cancel_proposal",
+      "close_pact",
+      "expire_unresolved",
+      "fund_next_period",
+      "get_accounting",
+      "get_config",
+      "get_current_period",
+      "get_pact",
+      "get_period",
+      "list_pacts",
+      "propose_pact",
+      "withdraw"
+    ],
+    "config": {
+      "version": "pulsep.v0.1",
+      "network_scope": "studionet-only",
+      "admin": null,
+      "max_sources": 4,
+      "max_reassessments": 2,
+      "evidence_grace_seconds": 604800
+    }
+  },
+  "deployment": {
+    "transactionHash": "0x11b096c4245e6f8d816f62cd9396972d7c2c12b9e229a3a91f3b22d0717f0362",
+    "status": "FINALIZED",
+    "executionResult": "SUCCESS",
+    "consensusResult": "MAJORITY_AGREE",
+    "validatorVotes": ["IDLE", "AGREE", "AGREE", "AGREE", "AGREE"]
+  },
+  "localVerification": {
+    "genlayerCli": "0.39.1",
+    "genvmRunner": "v0.2.16",
+    "genvmStaticLint": "PASS",
+    "genvmSemanticValidation": "PASS",
+    "directMode": {"status": "PASS", "tests": 21},
+    "sourceInvariants": {"status": "PASS", "tests": 5},
+    "frontendTypecheck": "PASS",
+    "frontendTests": {"status": "PASS", "tests": 8},
+    "frontendBuild": "PASS"
+  },
+  "lifecycleEvidence": [],
+  "negativeTransactionEvidence": [],
+  "accountingEvidence": [],
+  "walletBrowserVerification": null,
+  "publicFrontendUrl": null,
+  "limitations": [
+    "No pact lifecycle transactions or synthetic public evidence fixtures have been recorded.",
+    "No settlement withdrawal or outbound transfer evidence has been recorded.",
+    "No injected-wallet browser verification or public frontend deployment has been recorded.",
+    "No canonical Git commit was available in the workspace because it has no Git metadata."
+  ]
+}

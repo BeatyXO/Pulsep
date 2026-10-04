@@ -8,28 +8,30 @@ Target is fixed:
 - Repository-local CLI: **genlayer 0.39.1**
 - Contract: `contracts/pulsep.py`
 
-## Current handoff state
+## Canonical deployment (verified)
 
-Pulsep is **not yet deployed in this handoff**. `public/deployment.json` intentionally has `verified: false`. Do not replace that flag until all identity checks below have actual values.
+- Contract: [`0x450d7D146B7F5041C7a4a0d0d70b65db1D58A43f`](https://explorer-studio.genlayer.com/address/0x450d7D146B7F5041C7a4a0d0d70b65db1D58A43f)
+- Deployment transaction: [`0x11b096c4245e6f8d816f62cd9396972d7c2c12b9e229a3a91f3b22d0717f0362`](https://explorer-studio.genlayer.com/tx/0x11b096c4245e6f8d816f62cd9396972d7c2c12b9e229a3a91f3b22d0717f0362)
+- Receipt: `FINALIZED`; execution `SUCCESS`; consensus `MAJORITY_AGREE` (four `AGREE`, one `IDLE`).
+- Normalized-LF source SHA-256: `5a4784f9274bf12b68b3ff1d1b2b3906d473e72856a9641bda3a8a4d22f92bce`.
+- Deployed source read-back hash matches the local contract source exactly.
+- Schema read-back: 14 methods (6 views, 8 writes).
+- `get_config()`: `version=pulsep.v0.1`, `network_scope=studionet-only`, `admin=null`.
+- `public/deployment.json` is bound to this verified deployment.
+- The workspace has no Git metadata; a canonical commit SHA is not available here.
 
-## Required final evidence
+Machine-readable deployment and verification details are in `public/deployment.json` and `public/verification.json`.
 
-Codex must replace this section with concrete proof:
+## Local verification
 
-- canonical Git commit: TODO
-- contract source SHA-256 (LF): TODO
-- Pulsep contract address: TODO
-- deployment transaction: TODO
-- deployment receipt status: TODO
-- deployed source read-back matches tracked source: TODO
-- deployed ABI/schema contains every expected method: TODO
-- `get_config().version == pulsep.v0.1`: TODO
-- `get_config().network_scope == studionet-only`: TODO
-- `get_config().admin == null`: TODO
+- Repository-local GenLayer CLI: `0.39.1`.
+- Direct Mode + source invariants: 26/26 passed.
+- GenVM lint and semantic validation passed with stable runner `v0.2.16`.
+- Frontend typecheck, 8 frontend tests, and production static build passed.
 
-## Required live lifecycles
+## Remaining live lifecycle evidence
 
-At minimum record real finalized transactions for:
+Deployment is verified, but these pact-level stories still need real finalized Studionet evidence:
 
 1. **NO_BREACH period** — full provider credit and withdrawal.
 2. **MAJOR breach period** — frozen customer/provider split and both credits reconciled.
@@ -38,9 +40,9 @@ At minimum record real finalized transactions for:
 5. **INCONCLUSIVE reassessment** — later evidence availability reaches a conclusive result OR an evidence-window expiry returns the bond under the frozen recovery rule.
 6. **Recurring second period** — provider funds a second period on the same pact after period 1 becomes terminal.
 
-## Required negative finalized executions
+## Remaining negative finalized executions
 
-Record representative expected rejections such as:
+Representative expected rejections have not yet been recorded. Cover:
 
 - wrong wallet accepting a proposal;
 - wrong bond amount;
@@ -50,9 +52,9 @@ Record representative expected rejections such as:
 - closing while a funded period is active;
 - empty-credit withdrawal.
 
-## Accounting proof
+## Remaining accounting proof
 
-For each live settlement capture before/after:
+No pact settlement has been performed yet. For each live settlement capture before/after:
 
 - contract balance;
 - customer balance;
@@ -67,15 +69,9 @@ For each live settlement capture before/after:
 
 ## Frontend binding
 
-Only after deployment/source verification:
-
-1. fill `public/deployment.json` with address, chain 61999, version, source SHA-256 and deployment tx;
-2. set `verified: true`;
-3. run frontend typecheck/tests/build;
-4. prove the frontend blocks a mismatched source/policy deployment;
-5. deploy the static frontend;
-6. test read-only pact state anonymously;
-7. test injected-wallet approval and rejection with the owner handling private wallet prompts.
+1. `public/deployment.json` now contains the source-verified contract address, chain, version, hash and deployment transaction.
+2. Typecheck, frontend tests and static production build passed.
+3. Live contract configuration/source verification is recorded above; the browser wallet flow and anonymous hosted-site checks remain to be performed after Vercel deployment.
 
 Finally run:
 

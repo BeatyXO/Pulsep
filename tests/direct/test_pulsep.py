@@ -158,6 +158,64 @@ def test_major_breach_deterministically_splits_bond(direct_vm, direct_deploy, di
     assert c.get_accounting(addr(direct_bob))["claimable"] == str(4 * 10**15)
 
 
+@pytest.mark.parametrize(
+    ("classification", "customer_amount"),
+    [("NO_BREACH", 0), ("MINOR", 2 * 10**15), ("SEVERE", 10**16)],
+)
+def test_remaining_conclusive_tiers_use_frozen_split_and_conserve_bond(
+    direct_vm, direct_deploy, direct_alice, direct_bob, classification, customer_amount
+):
+    c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
+    direct_vm.warp(iso(NOW + 901)); mock_evidence(direct_vm, llm=result(classification))
+    c.assess_period(PACT, 1)
+    period = c.get_period(PACT, 1)
+    customer_credit = int(period["customer_credit"])
+    provider_credit = int(period["provider_credit"])
+    assert customer_credit == customer_amount
+    assert customer_credit + provider_credit == 10**16
+    assert period["classification"] == classification
+
+
+@pytest.mark.parametrize(
+    ("mutation", "error"),
+    [
+        ("fake_quote", "not present"),
+        ("omit_finding", "One source finding"),
+        ("duplicate_finding", "IDs must match"),
+        ("unknown_classification", "Unsupported classification"),
+        ("unknown_state", "Unsupported source finding state"),
+    ],
+)
+def test_malformed_assessment_fails_closed(direct_vm, direct_deploy, direct_alice, direct_bob, mutation, error):
+    c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
+    direct_vm.warp(iso(NOW + 901))
+    raw = result("MAJOR")
+    if mutation == "fake_quote":
+        raw["source_findings"][0]["quote"] = "invented outage quote"
+    elif mutation == "omit_finding":
+        raw["source_findings"].pop()
+    elif mutation == "duplicate_finding":
+        raw["source_findings"][1] = dict(raw["source_findings"][0])
+    elif mutation == "unknown_classification":
+        raw["classification"] = "EXTREME"
+    else:
+        raw["source_findings"][0]["state"] = "MAYBE"
+    mock_evidence(direct_vm, llm=raw)
+    with direct_vm.expect_revert(error):
+        c.assess_period(PACT, 1)
+    assert c.get_accounting(addr(direct_bob))["locked"] == str(10**16)
+
+
+def test_validator_re_evaluation_rejects_a_different_classification(direct_vm, direct_deploy, direct_alice, direct_bob):
+    c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
+    direct_vm.warp(iso(NOW + 901)); mock_evidence(direct_vm, llm=result("MAJOR"))
+    c.assess_period(PACT, 1)
+    # The captured validator reruns the full source evaluation. A different
+    # substantive classification must fail its consequence-key comparison.
+    mock_evidence(direct_vm, llm=result("MINOR"))
+    assert direct_vm.run_validator() is False
+
+
 def test_model_cannot_choose_amount_or_recipient(direct_vm, direct_deploy, direct_alice, direct_bob):
     c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
     direct_vm.warp(iso(NOW + 901))
@@ -226,8 +284,11 @@ def test_withdraw_consumes_credit_once(direct_vm, direct_deploy, direct_alice, d
     c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
     direct_vm.warp(iso(NOW + 901)); mock_evidence(direct_vm); c.assess_period(PACT,1)
     direct_vm.sender = direct_alice
-    messages = direct_vm.capture_messages(lambda: c.withdraw())
-    assert len(messages) == 1
+    # The current Direct Mode API does not expose captured messages; assert
+    # the observable credit consumption and transfer accounting instead.
+    c.withdraw()
     assert c.get_accounting(addr(direct_alice))["claimable"] == "0"
+    assert c.get_accounting(addr(direct_alice))["withdrawn"] == str(6 * 10**15)
+    assert c.get_accounting(addr(direct_bob))["credited"] == str(4 * 10**15)
     with direct_vm.expect_revert("No claimable credit"):
         c.withdraw()

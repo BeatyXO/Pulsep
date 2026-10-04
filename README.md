@@ -131,4 +131,4 @@ gltest -q
 
 ## Current status
 
-This repository is a **pre-Codex implementation handoff**. Product design, core contract, frontend, CI, Direct Mode test suite, safety invariants and documentation are implemented. A live Studionet deployment is deliberately not fabricated. See `BUILD_STATUS.md`, `DEPLOYMENT.md`, and `AGENT_HANDOFF.md` for the exact remaining work.
+The local implementation has passed Direct Mode (21 cases), source invariants (5 cases), frontend typecheck, frontend tests (8 cases), static production build, and GenVM static plus SDK validation against stable runner `v0.2.16`. The contract is deployed and source-verified on Studionet; pact-level lifecycle, withdrawal, injected-wallet, and public hosting proof remain outstanding. Studionet GEN is simulated. See `BUILD_STATUS.md` and `DEPLOYMENT.md` for verified results and remaining evidence.

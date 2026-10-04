@@ -14,22 +14,16 @@ The target is evidence quality, not a vanity test count.
 
 ## 2. Direct Mode
 
-Behavioral cases already scaffolded cover:
+Direct Mode currently covers:
 
-- term freezing;
-- source URL policy;
-- provider authorization;
-- exact bond;
-- early assessment rejection;
-- major deterministic split;
-- attempted model payout injection ignored;
-- unavailable required role cannot support conclusive result;
-- inconclusive bond lock;
-- bounded reassessment;
-- unresolved expiry;
-- recurring period gate;
-- close gate;
-- single withdrawal.
+- proposal term freezing, source URL policy, designated-provider authorization and exact bond;
+- early-assessment rejection and NO_BREACH / MINOR / MAJOR / SEVERE deterministic outcomes;
+- payout-field injection has no authority, and customer/provider credits conserve the bond;
+- unavailable required role, INCONCLUSIVE lock, reassessment and unresolved expiry;
+- malformed classification, unknown finding state, fake quote, omitted finding and duplicate finding rejection;
+- validator re-evaluation disagreement, recurring period gate, close gate and single withdrawal accounting.
+
+Latest local run: `gltest -q` passed 26 tests (21 Direct Mode + 5 source invariants). This is local simulation evidence, not Studionet evidence or outbound-transfer proof.
 
 Codex must run these against the pinned environment, fix only real compatibility defects, and add cases where evidence/model output is malformed, duplicated, omitted or adversarial.
 
