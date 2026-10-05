@@ -18,7 +18,7 @@ import hashlib
 import json
 import re
 
-VERSION = "pulsep.v0.2"
+VERSION = "pulsep.v0.3"
 MAX_PACTS = 4096
 MAX_SOURCES = 4
 MAX_SOURCE_BYTES = 20_000
@@ -275,7 +275,39 @@ def normalize_assessment(value, pact: dict, period: dict, sources: list) -> dict
 
 
 def assessment_key(result: dict) -> str:
-    return compact(result)
+    # Validators independently produce natural-language explanations, so
+    # compare only the normalized material that affects the decision. Keep
+    # classification, every finding state and exact quote, coverage, exclusion
+    # evidence, event source/timing, complete fetched-source provenance, and the
+    # frozen period boundaries consensus-bound.
+    findings = [
+        {
+            "id": item["id"],
+            "state": item["state"],
+            "quote": item["quote"],
+            "coverage": item["coverage"],
+            "coverage_quote": item["coverage_quote"],
+        }
+        for item in result["source_findings"]
+    ]
+    timeline = sorted(
+        ({"at": item["at"], "source_id": item["source_id"]} for item in result["timeline"]),
+        key=lambda item: (item["at"], item["source_id"]),
+    )
+    material = {
+        "classification": result["classification"],
+        "source_findings": findings,
+        "exclusion": {
+            "status": result["exclusion"]["status"],
+            "source_id": result["exclusion"]["source_id"],
+            "quote": result["exclusion"]["quote"],
+        },
+        "timeline": timeline,
+        "evidence": result["evidence"],
+        "period_start": result["period_start"],
+        "period_end": result["period_end"],
+    }
+    return compact(material)
 
 
 def classify_period(pact: dict, period: dict, sources: list) -> dict:

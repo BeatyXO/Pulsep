@@ -227,11 +227,18 @@ def test_validator_re_evaluation_rejects_a_different_classification(direct_vm, d
     assert direct_vm.run_validator() is False
 
 
-def test_validator_comparison_binds_displayed_reason(direct_vm, direct_deploy, direct_alice, direct_bob):
+def test_validator_comparison_ignores_narrative_but_binds_exact_source_quotes(direct_vm, direct_deploy, direct_alice, direct_bob):
     c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
     direct_vm.warp(iso(NOW + 1201)); mock_evidence(direct_vm, llm=result("MAJOR"))
     c.assess_period(PACT, 1)
-    changed = result("MAJOR"); changed["reason"] = "Different displayed explanation"
+    changed = result("MAJOR")
+    changed["reason"] = "Different overall explanation"
+    changed["source_findings"][0]["reason"] = "Different source explanation"
+    changed["exclusion"]["reason"] = "Different exclusion explanation"
+    changed["timeline"][0]["event"] = "Different event wording"
+    mock_evidence(direct_vm, llm=changed)
+    assert direct_vm.run_validator() is True
+    changed = result("MAJOR"); changed["source_findings"][1]["quote"] = "A different quote present in the source"
     mock_evidence(direct_vm, llm=changed)
     assert direct_vm.run_validator() is False
 

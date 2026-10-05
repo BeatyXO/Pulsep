@@ -82,7 +82,7 @@ export async function readContract<T>(deployment: Deployment, functionName: stri
 }
 
 export async function verifyDeployment(deployment: Deployment) {
-  if (!deployment.verified || !deployment.address || deployment.chainId !== CHAIN_ID || deployment.network !== 'studionet' || deployment.version !== 'pulsep.v0.2') {
+  if (!deployment.verified || !deployment.address || deployment.chainId !== CHAIN_ID || deployment.network !== 'studionet' || deployment.version !== 'pulsep.v0.3') {
     throw new Error('Live signing is locked until the stable Studionet deployment is verified.');
   }
   const config = await readContract<{ version: string; network_scope: string; admin: null; assessment_cooldown_seconds: number; evidence_maturity_seconds: number }>(deployment, 'get_config');

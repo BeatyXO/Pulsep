@@ -52,7 +52,7 @@ if contract.exists():
     try: ast.parse(src)
     except SyntaxError as exc: errors.append(f"contract syntax error: {exc}")
     for marker in [
-        "pulsep.v0.2", "run_nondet_unsafe", "gl.nondet.web.get", "PULSEP_SLA_PERIOD_V1",
+        "pulsep.v0.3", "run_nondet_unsafe", "gl.nondet.web.get", "PULSEP_SLA_PERIOD_V1",
         "NO_BREACH", "MINOR", "MAJOR", "SEVERE", "INCONCLUSIVE",
         "PROVIDER", "INDEPENDENT", "assessment_key", "customer_bps",
         "EXPIRED_UNRESOLVED", "fund_next_period", "expire_unresolved",
