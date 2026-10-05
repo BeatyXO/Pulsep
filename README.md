@@ -67,7 +67,7 @@ During assessment the contract fetches each source through GenLayer web access. 
 
 ## Consensus design
 
-The leader fetches sources, runs the structured assessment and validates quotes/schema. Validators independently re-fetch all frozen sources and re-run the substantive classification. They compare the complete normalized assessment, including classification, reasons, exact quotes, coverage, exclusion reasoning, timeline, source provenance and period boundaries. Displayed assessment content is consensus-bound. Settlement remains deterministic contract code.
+The leader fetches sources, runs the structured assessment and validates quotes/schema. Validators independently re-fetch all frozen sources and re-run the substantive classification. v0.3 compares consequential material: classification, source finding IDs/states/exact quotes/coverage, exclusion evidence, timeline source/time, provenance and period boundaries. Free-form narrative reasons do not create disagreement when the independently judged facts match. Settlement remains deterministic contract code.
 ## Frontend safety
 
 The frontend:
@@ -123,4 +123,4 @@ gltest -q
 
 ## Current status
 
-Production frontend: [https://pulsep.vercel.app/](https://pulsep.vercel.app/). The root, pact creation, pact view, and activity routes are publicly reachable; anonymous reads load finalized contract state. The v0.2 contract is source-verified at `0x99b88F9724182Fa6e4C5A7a8e936AcAeA5872A82`; the updated verified deployment JSON has been pushed and the Vercel redeployment is being checked. The frontend build and typecheck pass; The latest pre-fix GitHub Actions run passed, and this working tree passes updated local checks; the new commit run is pending. Pact-level settlement/withdrawal evidence remains outstanding; see the machine-readable verification pack. This browser had no injected wallet, and tablet/mobile viewport E2E has not been verified. Studionet GEN is simulated. See `BUILD_STATUS.md` and `DEPLOYMENT.md` for the remaining evidence.
+The canonical contract is v0.3 at `0xfaA7FADDEcb4EDe3Bd46001bDf812076b953067A`, with source hash and deployment receipt recorded in `public/deployment.json`. One complete live NO_BREACH lifecycle has finalized, including exact-bond funding, assessment after the 900-second period plus five-minute maturity, deterministic provider credit and finalized withdrawal. v0.2 produced four MAJORITY_DISAGREE assessment receipts on the same no-breach case and remained locked; v0.3 narrowly excludes free-form narrative from consensus comparison while retaining substantive decision material. Production Vercel binding, wallet-browser verification, other classifications, and recurrence are not verified. GitHub push/CI for the v0.3 fix remains blocked by invalid local GitHub credentials. See `public/verification.json`. Studionet GEN is simulated.

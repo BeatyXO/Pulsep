@@ -16,8 +16,8 @@ Pulsep is a recurring SLA reliability protocol on GenLayer Studionet. A customer
 
 - GitHub: https://github.com/BeatyXO/Pulsep
 - Website: https://pulsep.vercel.app/
-- Contract explorer: https://explorer-studio.genlayer.com/address/0x99b88F9724182Fa6e4C5A7a8e936AcAeA5872A82
-- Deployment transaction: https://explorer-studio.genlayer.com/tx/0x43eb394bbbdd5842450e73e85d5cb10dc4d056ce004a8c3905ed4739a0c3fe35
-- Verification evidence: `public/verification.json` (deployment verified; live lifecycle proof remains incomplete)
+- Contract explorer: https://explorer-studio.genlayer.com/address/0xfaA7FADDEcb4EDe3Bd46001bDf812076b953067A
+- Deployment transaction: https://explorer-studio.genlayer.com/tx/0x768d607db626ceffc04290e446a756044c215b090d8fb316e0a948a96a77f7a2
+- Verification evidence: `public/verification.json` (source verified; one NO_BREACH lifecycle and withdrawal finalized; broader lifecycle proof remains incomplete)
 
 Studionet GEN is simulated. Pulsep is not described as audited, production-safe, real-money settlement or legally binding arbitration.

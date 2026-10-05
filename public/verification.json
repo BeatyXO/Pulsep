@@ -1,162 +1,94 @@
 {
   "schemaVersion": "pulsep.verification.v1",
-  "status": "deployed-source-verified-live-lifecycles-pending",
+  "status": "v0.3-live-no-breach-cycle-complete",
   "network": "studionet",
   "chainId": 61999,
-  "canonicalCommit": "ebcec3542349af107c2d8b821750369413d6c520",
+  "rpc": "https://studio.genlayer.com/api",
+  "canonicalCommit": "903b2ca3b7b6e1d3be4da4473dc6f3b529e6da13",
   "contract": {
-    "address": "0x99b88F9724182Fa6e4C5A7a8e936AcAeA5872A82",
-    "version": "pulsep.v0.2",
-    "sourceSha256NormalizedLf": "0a3c89de6f92ddb34832aaee53119a75d8293d98a04a3d006b4203a6e89902b1",
+    "address": "0xfaA7FADDEcb4EDe3Bd46001bDf812076b953067A",
+    "version": "pulsep.v0.3",
+    "sourceSha256NormalizedLf": "e197ed38930276bcdc49a0235717decd3dffd2a85227d104889400898d19dddc",
     "sourceReadbackMatches": true,
-    "methods": [
-      "accept_and_fund",
-      "assess_period",
-      "cancel_proposal",
-      "close_pact",
-      "expire_unresolved",
-      "fund_next_period",
-      "get_accounting",
-      "get_config",
-      "get_current_period",
-      "get_pact",
-      "get_period",
-      "list_pacts",
-      "propose_pact",
-      "withdraw"
-    ],
-    "config": {
-      "version": "pulsep.v0.2",
-      "network_scope": "studionet-only",
-      "admin": null,
-      "max_sources": 4,
-      "assessment_cooldown_seconds": 300,
-      "evidence_maturity_seconds": 300,
-      "evidence_grace_seconds": 604800
-    }
+    "deploymentTransaction": "0x768d607db626ceffc04290e446a756044c215b090d8fb316e0a948a96a77f7a2",
+    "deploymentStatus": "FINALIZED",
+    "executionResult": "SUCCESS",
+    "config": { "version": "pulsep.v0.3", "network_scope": "studionet-only", "admin": null }
   },
   "supersededDeployment": {
-    "address": "0x450d7D146B7F5041C7a4a0d0d70b65db1D58A43f",
-    "version": "pulsep.v0.1",
-    "sourceSha256NormalizedLf": "5a4784f9274bf12b68b3ff1d1b2b3906d473e72856a9641bda3a8a4d22f92bce",
-    "transactionHash": "0x11b096c4245e6f8d816f62cd9396972d7c2c12b9e229a3a91f3b22d0717f0362",
-    "status": "FINALIZED",
-    "executionResult": "SUCCESS",
-    "note": "Superseded by v0.2; not the current frontend signing target."
+    "address": "0x99b88F9724182Fa6e4C5A7a8e936AcAeA5872A82",
+    "version": "pulsep.v0.2",
+    "status": "SUPERSEDED_AFTER_LIVE_ASSESSMENT_DISAGREEMENT",
+    "assessmentTransactions": [
+      "0x52a3089cc3e61608f000b461497f0b219eb69a259f5c081e44a1f4803f24f94d",
+      "0xfa6a1954d0e178f97c851600cc9ad500f0cdf2566c12b254386f99584086ed1b",
+      "0xb5a657dd2a1515e8ff486f844a1c0c01fe299b0dad1ce2e487c2440831d3986",
+      "0x7132e6d74bfedbd24b07cdb603778ec41c82d3a063d2ffa55e26fca643416a55"
+    ],
+    "actualResult": "MAJORITY_DISAGREE",
+    "accountingEffect": "NONE; bond remained locked and no credit was created"
   },
-  "localVerification": {
-    "genlayerCli": "0.39.1",
-    "genvmRunner": "v0.2.16",
-    "genvmStaticLint": "PASS",
-    "genvmSemanticValidation": "PASS",
-    "directMode": {
-      "status": "PASS",
-      "tests": 28
-    },
-    "frontendTypecheck": "PASS",
-    "frontendTests": {
-      "status": "PASS",
-      "tests": 8
-    },
-    "frontendBuild": "PASS",
-    "githubActions": {
-      "lastMainRun": "https://github.com/BeatyXO/Pulsep/actions/runs/37240307084",
-      "status": "PASS",
-      "head": "e3d0f19dedeee5e842fe22c116631525c78a3933",
-      "updatedChangesRun": "https://github.com/BeatyXO/Pulsep/actions/runs/37243624520"
-    },
-    "pythonCompile": "PASS"
-  },
-  "fixtures": [
+  "successfulLifecycleEvidence": [
     {
-      "scenario": "NO_BREACH_PROVIDER",
-      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/ebcec3542349af107c2d8b821750369413d6c520/public/evidence/no-breach-provider.json",
-      "sha256": "071d147a7e92001d461f977aefe7fed312aa6d567416fc60e22f1a7dfb46549d",
-      "status": "PUBLIC_COMMIT_PINNED_FIXTURE_NOT_YET_FETCHED_BY_VALIDATORS"
-    },
-    {
-      "scenario": "NO_BREACH_INDEPENDENT",
-      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/ebcec3542349af107c2d8b821750369413d6c520/public/evidence/no-breach-independent.json",
-      "sha256": "4a1879eb9ea939f3058de2126329015e4cec8413ab49e55386707ee0d3022fce",
-      "status": "PUBLIC_COMMIT_PINNED_FIXTURE_NOT_YET_FETCHED_BY_VALIDATORS"
-    },
-    {
-      "scenario": "MAJOR_AND_MAINTENANCE_INDEPENDENT",
-      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/ebcec3542349af107c2d8b821750369413d6c520/public/evidence/major-independent.json",
-      "sha256": "181e237fa8a0b0d04212d8067b8101936fbfafdb486d73caa4914bbb8f24a109",
-      "status": "PUBLIC_COMMIT_PINNED_FIXTURE_NOT_YET_FETCHED_BY_VALIDATORS"
-    },
-    {
-      "scenario": "MAJOR_AND_MAINTENANCE_PROVIDER",
-      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/ebcec3542349af107c2d8b821750369413d6c520/public/evidence/late-maintenance-provider.json",
-      "sha256": "a5908278986f678e138e88bbac000d1991cf1a1975d971006ea13d9f7f547f0b",
-      "status": "PUBLIC_COMMIT_PINNED_FIXTURE_NOT_YET_FETCHED_BY_VALIDATORS"
-    },
-    {
-      "scenario": "LATE_MAINTENANCE_NOTICE",
-      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/ebcec3542349af107c2d8b821750369413d6c520/public/evidence/late-maintenance-notice.json",
-      "sha256": "75439d4800b65dd9cdb8e950af8c36445d422ff1769d9bfba4fd2744e5096261",
-      "status": "PUBLIC_COMMIT_PINNED_FIXTURE_NOT_YET_FETCHED_BY_VALIDATORS"
-    },
-    {
-      "scenario": "VALID_MAINTENANCE_NOTICE",
-      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/ebcec3542349af107c2d8b821750369413d6c520/public/evidence/valid-maintenance-notice.json",
-      "sha256": "075a92cd8ef4f65c8a38e500b904451801ef3d446644dd211b3289b31981ffc3",
-      "status": "PUBLIC_COMMIT_PINNED_FIXTURE_NOT_YET_FETCHED_BY_VALIDATORS"
-    },
-    {
-      "scenario": "RECOVERY_PROVIDER",
-      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/ebcec3542349af107c2d8b821750369413d6c520/public/evidence/recovery-provider.json",
-      "sha256": "5077f9da533332640560a3d892e21fbd2c7002470206a2dd33dc3f96aaad9469",
-      "status": "PUBLIC_COMMIT_PINNED_FIXTURE_NOT_YET_FETCHED_BY_VALIDATORS"
-    },
-    {
-      "scenario": "INDEPENDENT_EVIDENCE_UNAVAILABLE_THEN_RECOVER",
-      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/main/public/evidence/recoverable-independent.json",
-      "status": "URL_RESERVED_FILE_NOT_PUBLISHED; FIRST_ASSESSMENT_NOT_YET_RUN"
+      "scenario": "NO_BREACH",
+      "pactId": "PULSE-V03-LIVE-NB-20261005-01",
+      "periodId": 1,
+      "customer": "0x5bf2926e49d5896c975b03fee2fda5e96cb4dd04",
+      "provider": "0x7876e9f76f32925c212528d57bc9dfe5e34bcc07",
+      "periodBondWei": "1000000000000000",
+      "periodDurationSeconds": 900,
+      "fundedAtUnix": 1791192230,
+      "periodEndsAtUnix": 1791193130,
+      "assessmentOpensAtUnix": 1791193430,
+      "proposeTransaction": "0xda110e6a19ac732fe7660fbc457d0b5e36c0e3ffa1d2f411900cb66fe883ebf6",
+      "acceptAndFundTransaction": "0xf48b16acff977ff1ec862866eb107fab0c685b3aca35921e5301ff51b12e3ecf",
+      "assessmentTransaction": "0x7a9c9f00fc19258a89713a0cc0d4267a06460b77b553e26662cd76578fa8b352",
+      "assessmentFinality": "FINALIZED",
+      "assessmentExecutionResult": "SUCCESS",
+      "consensusResult": "MAJORITY_AGREE",
+      "classification": "NO_BREACH",
+      "sourceEvidence": [
+        { "role": "provider", "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/de57bbf5706781014a0555b664208e1d12bde2ad/public/evidence/no-breach-provider.json", "sha256": "52ce8f6c307f5dee821e369f9c7613a6e76c72317fd0e675b884edbdb406318a", "httpStatus": 200, "bytes": 255 },
+        { "role": "independent", "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/de57bbf5706781014a0555b664208e1d12bde2ad/public/evidence/no-breach-independent.json", "sha256": "0586ab206c587c18827ce22aab5e643a2574f60581bfe43dfe5aa037533b533b", "httpStatus": 200, "bytes": 375 }
+      ],
+      "settlement": { "customerCreditWei": "0", "providerCreditWei": "1000000000000000", "conservation": true },
+      "withdrawalTransaction": "0x29f0fbf72dd8decb9ab5f55e57637b15e6cf9271b064ebdddc59934d2235aac2",
+      "withdrawalFinality": "FINALIZED",
+      "withdrawalExecutionResult": "SUCCESS",
+      "outboundTransfer": { "recipient": "0x7876e9f76f32925c212528d57bc9dfe5e34bcc07", "amountWei": "1000000000000000", "receiptObserved": true },
+      "accountingSnapshots": [
+        { "stage": "after_funding", "depositedWei": "1000000000000000", "lockedWei": "1000000000000000", "creditedWei": "0", "withdrawnWei": "0", "customerClaimableWei": "0", "providerClaimableWei": "0" },
+        { "stage": "after_settlement_before_withdrawal", "depositedWei": "1000000000000000", "lockedWei": "0", "creditedWei": "1000000000000000", "withdrawnWei": "0", "customerClaimableWei": "0", "providerClaimableWei": "1000000000000000" },
+        { "stage": "after_withdrawal", "depositedWei": "1000000000000000", "lockedWei": "0", "creditedWei": "0", "withdrawnWei": "1000000000000000", "customerClaimableWei": "0", "providerClaimableWei": "0" }
+      ]
     }
   ],
-  "lifecycleEvidence": [],
   "negativeTransactionEvidence": [],
-  "accountingEvidence": [],
-  "walletBrowserVerification": null,
-  "publicFrontendUrl": "https://pulsep.vercel.app/",
-  "limitations": [
-    "No v0.2 pact lifecycle, settlement, withdrawal or outbound transfer proof has yet been recorded.",
-    "Recovery fixture path is intentionally unpublished until after an inconclusive assessment; it will use a mutable main URL so it can later become available.",
-    "No injected-wallet browser verification has been performed.",
-    "Production frontend redeploy with the v0.2 binding is pending verification.",
-    "Tablet/mobile viewport and real pending-hash refresh recovery remain unverified."
-  ],
-  "deployment": {
-    "transactionHash": "0x43eb394bbbdd5842450e73e85d5cb10dc4d056ce004a8c3905ed4739a0c3fe35",
-    "status": "FINALIZED",
-    "executionResult": "SUCCESS",
-    "consensusResult": "MAJORITY_AGREE",
-    "validatorVotes": [
-      "IDLE",
-      "AGREE",
-      "AGREE",
-      "IDLE",
-      "AGREE"
-    ]
+  "additionalLifecycleEvidence": [],
+  "localVerification": {
+    "genlayerCli": "0.39.1",
+    "pythonCompile": "PASS",
+    "genvmLint": "PASS",
+    "directMode": { "status": "PASS", "tests": 28 },
+    "frontendTypecheck": "PASS",
+    "frontendTestsAtV0_3": "NOT_CONFIRMED",
+    "frontendBuildAtV0_3": "NOT_CONFIRMED",
+    "githubActionsForCurrentCommit": "BLOCKED_PENDING_GITHUB_AUTH"
   },
+  "publicFrontendUrl": "https://pulsep.vercel.app/",
   "frontendVerification": {
-    "status": "PENDING_PRODUCTION_REDEPLOY_CHECK",
-    "routes": {
-      "/": "PENDING",
-      "/pacts/new/": "PENDING",
-      "/pacts/view/": "PENDING",
-      "/activity/": "PENDING"
-    },
-    "anonymousReadOnly": "PENDING",
-    "deploymentSourceGuard": "PENDING",
-    "responsive": {
-      "desktop": "PENDING",
-      "tablet": "PENDING",
-      "mobile": "PENDING"
-    },
-    "transactionRecovery": "PENDING",
-    "walletBrowser": "NOT_VERIFIED"
-  }
+    "status": "NOT_REVERIFIED_AGAINST_V0_3",
+    "productionDeploymentBinding": "NOT_CONFIRMED",
+    "anonymousReadOnly": "NOT_REVERIFIED",
+    "routes": { "/": "NOT_REVERIFIED", "/pacts/new": "NOT_REVERIFIED", "/pacts/view": "NOT_REVERIFIED", "/activity": "NOT_REVERIFIED" },
+    "walletBrowser": "NOT_VERIFIED",
+    "responsive": "NOT_REVERIFIED"
+  },
+  "limitations": [
+    "This records one complete NO_BREACH live cycle only; MAJOR, exclusion, INCONCLUSIVE/recovery, recurring period 2, and negative transactions are not evidenced here.",
+    "Studionet GEN is simulated; these transactions do not prove real-money settlement.",
+    "Recipient balance delta was not captured; the finalized withdrawal receipt records the outbound transfer amount and recipient.",
+    "Wallet browser verification was not performed.",
+    "The production frontend and GitHub Actions for this commit were not reverified."
+  ]
 }

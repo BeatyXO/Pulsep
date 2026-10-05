@@ -1,44 +1,24 @@
 # Stable Studionet deployment record
 
-## Network policy
+## Canonical v0.3 deployment
 
-- Network: stable **Studionet** only
-- Chain ID: `61999`
-- RPC: `https://studio.genlayer.com/api`
-- Repository-local CLI: `genlayer@0.39.1`
-- Contract: `contracts/pulsep.py`
+- Network: stable Studionet, chain ID `61999`; RPC `https://studio.genlayer.com/api`.
+- Repository-local CLI: `genlayer@0.39.1`.
+- Contract: [`0xfaA7FADDEcb4EDe3Bd46001bDf812076b953067A`](https://explorer-studio.genlayer.com/address/0xfaA7FADDEcb4EDe3Bd46001bDf812076b953067A).
+- Deployment transaction: [`0x768d607db626ceffc04290e446a756044c215b090d8fb316e0a948a96a77f7a2`](https://explorer-studio.genlayer.com/tx/0x768d607db626ceffc04290e446a756044c215b090d8fb316e0a948a96a77f7a2), FINALIZED, SUCCESS.
+- Normalized-LF source SHA-256: `e197ed38930276bcdc49a0235717decd3dffd2a85227d104889400898d19dddc`; deployed read-back matched.
+- `get_config()`: `version=pulsep.v0.3`, `network_scope=studionet-only`, `admin=null`.
 
-## Canonical v0.2 deployment (verified)
+The v0.2 deployment at `0x99b88F9724182Fa6e4C5A7a8e936AcAeA5872A82` was superseded after four finalized `MAJORITY_DISAGREE` no-breach assessments left its test bond locked. The minimal v0.3 fix compares consequential decision material but does not require narrative prose to match. v0.2 remains historical and is not the frontend target.
 
-- Contract: [`0x99b88F9724182Fa6e4C5A7a8e936AcAeA5872A82`](https://explorer-studio.genlayer.com/address/0x99b88F9724182Fa6e4C5A7a8e936AcAeA5872A82)
-- Deployment transaction: [`0x43eb394bbbdd5842450e73e85d5cb10dc4d056ce004a8c3905ed4739a0c3fe35`](https://explorer-studio.genlayer.com/tx/0x43eb394bbbdd5842450e73e85d5cb10dc4d056ce004a8c3905ed4739a0c3fe35)
-- Receipt: `FINALIZED`; execution `SUCCESS`; consensus `MAJORITY_AGREE` (three `AGREE`, two `IDLE`).
-- Normalized-LF source SHA-256: `0a3c89de6f92ddb34832aaee53119a75d8293d98a04a3d006b4203a6e89902b1`.
-- Deployed source read-back hash matches local tracked source exactly.
-- Schema: 14 methods (6 views, 8 writes).
-- `get_config()`: `version=pulsep.v0.2`, `network_scope=studionet-only`, `admin=null`, `assessment_cooldown_seconds=300`, `evidence_maturity_seconds=300`, `evidence_grace_seconds=604800`.
-- Contract source commit: [`ebcec3542349af107c2d8b821750369413d6c520`](https://github.com/BeatyXO/Pulsep/commit/ebcec3542349af107c2d8b821750369413d6c520).
+## Live lifecycle evidence
 
-Machine-readable values and remaining lifecycle proof are in `public/deployment.json` and `public/verification.json`.
+One full v0.3 NO_BREACH lifecycle is complete. Pact `PULSE-V03-LIVE-NB-20261005-01` was proposed, accepted and funded at exactly 0.001 GEN; after its 900-second service period and 300-second maturity window, assessment finalized as NO_BREACH. Contract credited the entire bond to the provider and a finalized withdrawal receipt records an outbound transfer of the exact amount to that provider. Transaction hashes, evidence source URLs/digests, and accounting snapshots are in `public/verification.json`.
 
-## Local and GitHub verification
+This is not proof for MAJOR, maintenance exclusions, INCONCLUSIVE recovery, recurrence, or negative transitions. The prior v0.2 locked bond has no withdrawal evidence. Studionet GEN is simulated.
 
-- Repository-local GenLayer CLI: `0.39.1`.
-- Stable GenVM semantic lint and Direct Mode runner: `v0.2.16`.
-- Direct Mode: 28 tests passed.
-- Frontend: typecheck passed, 8 tests passed, production build passed.
-- GitHub Actions run: [37243624520](https://github.com/BeatyXO/Pulsep/actions/runs/37243624520), green for commit `ebcec3542349af107c2d8b821750369413d6c520`.
+## Frontend binding and status
 
-## Synthetic public evidence fixtures
+The app reads `public/deployment.json`; no Vercel address environment variable is used. That local JSON now points to v0.3. The canonical frontend is [https://pulsep.vercel.app/](https://pulsep.vercel.app/), but its production deployment has not been verified against this v0.3 binding. Do not infer production guard success from the local binding.
 
-Labeled demonstration fixtures are in `public/evidence/`. Stable fixtures use commit-pinned raw URLs. The recovery case reserves one mutable `main` raw URL so the initially unavailable page can become available before reassessment; the fixture must be added only after the first INCONCLUSIVE transaction, preserving actual 404-then-recovery behavior.
-
-## Live lifecycle evidence still required
-
-The contract has not yet settled live pact periods. Record finalized Studionet transactions for NO_BREACH, MAJOR, provider-source failure with independent breach evidence, late and timely maintenance reasoning, INCONCLUSIVE with locked funds, later reassessment or expiry recovery, and recurring period 2. Also record expected failed executions, exact source digests, consensus details, accounting snapshots, recipient balance deltas and finalized outbound withdrawal evidence. Do not infer or fabricate these results.
-
-## Frontend binding
-
-The canonical frontend is [https://pulsep.vercel.app/](https://pulsep.vercel.app/). Its contract binding lives in `public/deployment.json`; no Vercel contract-address environment variable is read by the app. Pushing the verified JSON to the connected Vercel project should trigger a deploy. Verify production serves this exact v0.2 binding before treating frontend deployment as complete.
-
-Studionet GEN is simulated. No independent audit, real-money settlement or legal-arbitration claim is made.
+The v0.3 code/evidence/docs have not been pushed because available GitHub credentials are invalid. No GitHub Actions result exists for the v0.3 commit. See `public/verification.json` for the exact status and limitations.
