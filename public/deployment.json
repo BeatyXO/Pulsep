@@ -1,10 +1,10 @@
 {
   "verified": true,
-  "address": "0x5B5dDeeaDBfCc2075A7E75401202E259a076f9Cf",
+  "address": "0x60Bf858706D623C733199AC9c1648f789d35733E",
   "chainId": 61999,
   "network": "studionet",
-  "version": "pulsep.v0.4",
-  "sourceSha256": "a03b0b5b509af6648dfa95125594e5fd2ce01532de839dbb2bcf1f9e9c3df3c3",
-  "deploymentTransaction": "0xe6ac4004f06780953c9edcdaca61e7b90bc407c9bd0d5614bfe6a8abe23f4ef8",
-  "note": "Stable Studionet deployment finalized successfully; deployed source read-back matches this release. See public/versioned-renewal-verification.json for lifecycle status."
+  "version": "pulsep.v0.5",
+  "sourceSha256": "734b2e48ec60a6434ef29981fbbefbc0e4b2c3ebf344716fc1bcb33bb4b23ffa",
+  "deploymentTransaction": "0x6da71244307f1cce6b6915f7e7649e31b34c482c562817fc513edcba215d7093",
+  "note": "Stable Studionet v0.5 deployment finalized successfully; normalized-LF source read-back exactly matches the tested local release. Version 2 live settlement is in progress; see public/versioned-renewal-verification.json for status."
 }
