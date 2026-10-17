@@ -30,7 +30,7 @@ Studionet GEN is simulated. Pulsep is not described as audited, production-safe,
 
 **Baseline:** pre-milestone HEAD `fc667a11fcc467b99cdd7d68bf5bb745445b620d`. Official accepted submission SHA remains unverified; this is not labeled an accepted baseline.
 
-**Comparison URL:** provisional until final milestone commit exists: `https://github.com/BeatyXO/Pulsep/compare/fc667a11fcc467b99cdd7d68bf5bb745445b620d...FINAL_SHA`
+**Comparison URL:** provisional until final milestone commit exists: `https://github.com/BeatyXO/Pulsep/compare/fc667a11fcc467b99cdd7d68bf5bb745445b620d...1863b4ad9850543a6497b8db4a9db8d05e467c1a`
 
 **Milestone contract:** https://explorer-studio.genlayer.com/address/0x5B5dDeeaDBfCc2075A7E75401202E259a076f9Cf
 

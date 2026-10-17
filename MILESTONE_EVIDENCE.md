@@ -4,7 +4,7 @@
 
 - Verified pre-milestone `main` HEAD: `fc667a11fcc467b99cdd7d68bf5bb745445b620d`.
 - The official accepted submission commit could not be confirmed from repository tags, handoff files, or submission records. Candidate SHA `fc667a11fcc467b99cdd7d68bf5bb745445b620d` remains explicitly unverified; the same SHA is preserved separately as the pre-milestone HEAD.
-- The accepted submission baseline remains unverified. Latest commit, comparison link and CI run are recorded after the evidence update is pushed.
+- Evidence commit `1863b4ad9850543a6497b8db4a9db8d05e467c1a`; [compare with the pre-milestone HEAD](https://github.com/BeatyXO/Pulsep/compare/fc667a11fcc467b99cdd7d68bf5bb745445b620d...1863b4ad9850543a6497b8db4a9db8d05e467c1a). The officially accepted submission baseline remains unverified.
 - Historical v0.3 contract and its prior NO_BREACH proof remain preserved in the existing deployment/verification records.
 
 ## Existing Pulsep functionality preserved
@@ -41,7 +41,7 @@ The versioned-renewal proof is incomplete. Wallet-test pact `PULSE-WALLET-LIVE-2
 
 ## Frontend and CI
 
-The milestone frontend has passed local build/test checks. Anonymous HTTPS requests to `https://pulsep.vercel.app/`, `/pacts/new/`, `/pacts/view/`, and `/activity/` returned HTTP 200. The production `/deployment.json` reports v0.4, chain 61999, the new address and verified source hash. The in-app and Chrome browser surfaces returned `ERR_BLOCKED_BY_CLIENT`; visual responsive checks and browser-wallet actions are not claimed. CSS includes 980px and 680px responsive breakpoints. GitHub Actions passed on prior commit `348e7e1` at [run 39036674641](https://github.com/BeatyXO/Pulsep/actions/runs/39036674641); the evidence/documentation update requires its own CI run.
+The milestone frontend has passed local build/test checks. Anonymous HTTPS requests to `https://pulsep.vercel.app/`, `/pacts/new/`, `/pacts/view/`, and `/activity/` returned HTTP 200. The production `/deployment.json` reports v0.4, chain 61999, the new address and verified source hash. The in-app and Chrome browser surfaces returned `ERR_BLOCKED_BY_CLIENT`; visual responsive checks and browser-wallet actions are not claimed. CSS includes 980px and 680px responsive breakpoints. GitHub Actions passed for evidence commit `1863b4a` at [run 39061708882](https://github.com/BeatyXO/Pulsep/actions/runs/39061708882); both frontend and contract jobs are green.
 
 ## Limitations
 

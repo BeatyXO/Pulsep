@@ -25,7 +25,7 @@
 - Vitest: 19/19 PASS, including injected wallet, network, deployment/source guard, pending hash recovery and ambiguous send cases.
 - Next.js production build: PASS for routes `/`, `/activity`, `/pacts/new`, and `/pacts/view`.
 - Actual-contract mutation check: PASS, 4/4 weakened source variants killed (counterparty authorization, period version binding, atomic activation, settlement conservation).
-- GitHub Actions last passed on commit `348e7e113dab54a14aecd84d6ad5ac7c4792be55`: [run 39036674641](https://github.com/BeatyXO/Pulsep/actions/runs/39036674641). The latest evidence update requires a new run.
+- GitHub Actions passed for commit `1863b4ad9850543a6497b8db4a9db8d05e467c1a`: [run 39061708882](https://github.com/BeatyXO/Pulsep/actions/runs/39061708882), frontend and contract jobs green.
 - Production Vercel serves a v0.4 manifest for the verified Studionet contract; homepage and `/pacts/new/`, `/pacts/view/`, `/activity/` return HTTP 200 to anonymous requests.
 - Browser-wallet execution and visual desktop/tablet/mobile QA remain unverified; responsive breakpoints are present in the stylesheet.
 
