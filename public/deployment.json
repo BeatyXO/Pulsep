@@ -6,5 +6,5 @@
   "version": "pulsep.v0.5",
   "sourceSha256": "734b2e48ec60a6434ef29981fbbefbc0e4b2c3ebf344716fc1bcb33bb4b23ffa",
   "deploymentTransaction": "0x6da71244307f1cce6b6915f7e7649e31b34c482c562817fc513edcba215d7093",
-  "note": "Stable Studionet v0.5 deployment finalized successfully; normalized-LF source read-back exactly matches the tested local release. Version 2 live settlement is in progress; see public/versioned-renewal-verification.json for status."
+  "note": "Stable Studionet v0.5 deployment finalized successfully; normalized-LF source read-back exactly matches the tested release. The v1-to-v2 live renewal lifecycle completed with both periods settled; see public/versioned-renewal-verification.json."
 }

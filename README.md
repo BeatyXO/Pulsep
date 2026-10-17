@@ -48,7 +48,7 @@ An approval does not rewrite a funded period. At the next renewal, `fund_next_pe
 
 ## Current Studionet renewal proof
 
-The v0.4 live evidence is still in progress. A wallet-test pact completed a version-1 `NO_BREACH` period and provider withdrawal, then activated version 2 and funded period 2. A fresh criteria-proof pact also completed a version-1 `NO_BREACH` period and provider withdrawal using the same pinned source records. Four assessment transactions ended in validator disagreement; the period remains funded and its bond remains locked. A separate original pact period is also unresolved. At the latest recorded read, both evidence deadlines were still in the future, so expiry recovery was not eligible. No payout or recovery is claimed for those unresolved periods. Receipts, source digests, timestamps and accounting are published in [`public/versioned-renewal-verification.json`](public/versioned-renewal-verification.json).
+The source-verified v0.5 deployment completed a full two-period renewal proof on stable Studionet. One pact settled period 1 under SLA version 1, recorded bilateral approval of version 2, then atomically activated version 2 when period 2 was funded. After the full 15-minute service period and five-minute maturity window, validators independently assessed the pinned version-2 sources and settled period 2 as `NO_BREACH`. Each period credited the full 0.001 simulated GEN bond to the provider; both credits remain claimable. Historical v0.2/v0.4 validator disagreements remain preserved and are not represented as v0.5 results. Receipts, source digests, version records and accounting are in [`public/versioned-renewal-verification.json`](public/versioned-renewal-verification.json).
 
 ## Classification and settlement
 
@@ -77,7 +77,7 @@ During assessment the contract fetches each source through GenLayer web access. 
 
 ## Consensus design
 
-The leader fetches sources, runs the structured assessment and validates quotes/schema. Validators independently re-fetch all frozen sources and re-run the substantive classification. v0.3 compares consequential material: classification, source finding IDs/states/exact quotes/coverage, exclusion evidence, timeline source/time, provenance and period boundaries. Free-form narrative reasons do not create disagreement when the independently judged facts match. Settlement remains deterministic contract code.
+The leader fetches sources, runs the structured assessment and validates quotes/schema. Validators independently re-fetch all frozen sources and re-run the substantive classification. v0.5 compares decision-critical material: classification, finding states and exact quotes, source provenance, coverage conclusions, applied exclusion consequences, and event source/timing. Only semantically immaterial equivalent labels are normalized. Free-form narrative reasons do not create disagreement when independently judged facts match. Settlement remains deterministic contract code.
 ## Frontend safety
 
 The frontend:
@@ -130,8 +130,8 @@ gltest -q
 python scripts/mutation_check.py
 ```
 
-`python scripts/preflight.py --final` must remain red until a real deployment and evidence pack have replaced all deployment placeholders.
+`python scripts/preflight.py --final` checks the completed source-matched deployment and public evidence pack.
 
 ## Current status
 
-`public/deployment.json` binds the production frontend to the source-verified v0.4 Studionet contract. The public Vercel site serves this manifest, and the canonical routes load anonymously. Versioned renewals are deployed, and a two-period live proof is underway: the first period is funded under version 1 and a counterparty-approved version 2 is pending activation at the next eligible funding. See `DEPLOYMENT.md`, `MILESTONE_EVIDENCE.md`, and `public/versioned-renewal-verification.json` for transaction evidence. Studionet GEN is simulated.
+`public/deployment.json` binds the production frontend to the source-verified v0.5 Studionet contract. The canonical Vercel site serves the v0.5 manifest; `/`, `/pacts/new`, `/pacts/view`, and `/activity` returned HTTP 200 anonymously. A live v1-to-v2 renewal completed both settlements on the same pact. Browser-wallet execution was not verified. Historical v0.2/v0.4 disagreement evidence remains documented. See `DEPLOYMENT.md`, `MILESTONE_EVIDENCE.md`, and `public/versioned-renewal-verification.json` for receipts. Studionet GEN is simulated.

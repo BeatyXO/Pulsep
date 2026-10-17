@@ -1,6 +1,6 @@
 {
   "schemaVersion": "pulsep.versioned-renewals.v1",
-  "status": "new-criteria-proof-cycle-complete-no-breach; two-older-periods-unresolved",
+  "status": "v0.5-versioned-renewal-two-period-lifecycle-complete",
   "network": "studionet",
   "chainId": 61999,
   "rpc": "https://studio.genlayer.com/api",
@@ -10,26 +10,29 @@
     "candidate": "fc667a11fcc467b99cdd7d68bf5bb745445b620d",
     "note": "No authoritative accepted-submission record or baseline tag was found in the repository."
   },
-  "implementationCommit": "db1217201bc57b72e8a0d28d4d22fcce1dbdaa78",
-  "finalMilestoneCommit": null,
+  "implementationCommit": "87eb51e440ccbc53eb3ff1ba1c4a6526209dcb26",
   "contract": {
-    "version": "pulsep.v0.4",
-    "address": "0x5B5dDeeaDBfCc2075A7E75401202E259a076f9Cf",
-    "sourceSha256NormalizedLf": "a03b0b5b509af6648dfa95125594e5fd2ce01532de839dbb2bcf1f9e9c3df3c3",
-    "deploymentTransaction": "0xe6ac4004f06780953c9edcdaca61e7b90bc407c9bd0d5614bfe6a8abe23f4ef8",
+    "version": "pulsep.v0.5",
+    "address": "0x60Bf858706D623C733199AC9c1648f789d35733E",
+    "sourceSha256NormalizedLf": "734b2e48ec60a6434ef29981fbbefbc0e4b2c3ebf344716fc1bcb33bb4b23ffa",
+    "deploymentTransaction": "0x6da71244307f1cce6b6915f7e7649e31b34c482c562817fc513edcba215d7093",
     "deploymentStatus": "FINALIZED",
     "executionResult": "SUCCESS",
     "consensus": "MAJORITY_AGREE",
     "validatorCount": 5,
     "sourceReadbackMatches": true,
     "config": {
-      "version": "pulsep.v0.4",
+      "version": "pulsep.v0.5",
       "network_scope": "studionet-only",
       "admin": null,
+      "cooldown_seconds": 300,
+      "evidence_maturity_seconds": 300,
       "max_sla_versions": 8,
       "revision_expiry_seconds": 86400
     },
-    "schemaMethodCount": 21
+    "schemaMethodCount": 21,
+    "explorer": "https://explorer-studio.genlayer.com/address/0x60Bf858706D623C733199AC9c1648f789d35733E",
+    "deploymentExplorer": "https://explorer-studio.genlayer.com/tx/0x6da71244307f1cce6b6915f7e7649e31b34c482c562817fc513edcba215d7093"
   },
   "protocolLimits": {
     "maxSlaVersionsPerPact": 8,
@@ -39,15 +42,118 @@
   },
   "localVerification": {
     "repositoryLocalGenlayerCli": "0.39.1",
-    "genvmLint": "PASS",
-    "directMode": "PASS; 34 cases",
+    "genvmLint": "PASS; 3 checks, runner v0.2.16; 21 methods",
+    "directMode": "PASS; 37 tests",
     "pythonCompile": "PASS",
     "typecheck": "PASS",
     "vitest": "PASS; 19 tests",
     "productionBuild": "PASS",
-    "mutationTesting": "PASS; 4/4 actual-contract mutants killed"
+    "mutationTesting": "PASS; 10/10 actual-contract mutants killed"
   },
-  "twoPeriodLifecycle": {
+  "negativeCases": [
+    {
+      "case": "stale superseded proposal approval",
+      "transaction": "0x8cb1875099774d209d9d8c16cc8699875893d2b4349580217e905be4be8ef8fa",
+      "finality": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "executionResult": "ERROR",
+      "expectedError": "[EXPECTED] Revision proposal ID mismatch",
+      "effect": "No policy or accounting change"
+    },
+    {
+      "case": "proposer/customer attempts own revision approval",
+      "transaction": "0xa4bc1c68b3e7f19b22963877d5d13a694fb16cbf7fbfe7a24fc471d792a8f6e9",
+      "finality": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "executionResult": "ERROR",
+      "expectedError": "[EXPECTED] Only the designated counterparty may approve",
+      "effect": "No policy or accounting change"
+    },
+    {
+      "case": "counterparty approval with mismatched digest",
+      "transaction": "0x1b3c51c3114eff620cf45cbb73a6c9f884eabb276ce3c7bbfd07d6cb982e5527",
+      "finality": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "executionResult": "ERROR",
+      "expectedError": "[EXPECTED] Revision digest mismatch",
+      "effect": "No policy or accounting change"
+    }
+  ],
+  "sourceFixtures": [
+    {
+      "version": 1,
+      "role": "PROVIDER",
+      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-provider.json",
+      "sha256": "897f309ab2445fe370a578675eebc41e7663caad13f3885895e6bd886f9c63cb",
+      "synthetic": true
+    },
+    {
+      "version": 1,
+      "role": "INDEPENDENT",
+      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-independent.json",
+      "sha256": "fd67c76cedde845f91297c25d082adf0c663a59454bcf775c1dbe8a4c562038d",
+      "synthetic": true
+    },
+    {
+      "version": 2,
+      "role": "PROVIDER",
+      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-provider.json",
+      "sha256": "fdf147ee2e9c0d502c6284c0c452d0cdd773e9806e45b54abbe0c79865193a1e",
+      "synthetic": true
+    },
+    {
+      "version": 2,
+      "role": "INDEPENDENT",
+      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-independent.json",
+      "sha256": "082170251a40bd9b69c04b1fc3061969cb0c51fba0be6fdf03d95384cf55abd5",
+      "synthetic": true
+    }
+  ],
+  "frontend": {
+    "url": "https://pulsep.vercel.app/",
+    "servesV05Manifest": true,
+    "manifest": {
+      "address": "0x60Bf858706D623C733199AC9c1648f789d35733E",
+      "chainId": 61999,
+      "network": "studionet",
+      "version": "pulsep.v0.5",
+      "sourceSha256": "734b2e48ec60a6434ef29981fbbefbc0e4b2c3ebf344716fc1bcb33bb4b23ffa",
+      "deploymentTransaction": "0x6da71244307f1cce6b6915f7e7649e31b34c482c562817fc513edcba215d7093"
+    },
+    "readOnlyRoutes": {
+      "anonymousHttpStatus": 200,
+      "routes": [
+        "/",
+        "/pacts/new",
+        "/pacts/view",
+        "/activity"
+      ],
+      "renewalInterfacePresent": true
+    },
+    "transactionRecoveryAndFinality": "Covered by 19 passing frontend tests; known hash persistence, ambiguous send protection, Accepted pending, Finalized success/error handling.",
+    "walletBrowser": "NOT_VERIFIED; no injected browser wallet execution performed."
+  },
+  "githubActions": {
+    "status": "PASS",
+    "url": "https://github.com/BeatyXO/Pulsep/actions/runs/39070496982",
+    "commit": "878977113136e0746276462661e9fd3939e408d4",
+    "note": "Frontend and contract workflow jobs passed; final documentation commit will trigger a new run."
+  },
+  "comparison": {
+    "status": "PRE_MILESTONE_COMPARISON",
+    "url": "https://github.com/BeatyXO/Pulsep/compare/fc667a11fcc467b99cdd7d68bf5bb745445b620d...878977113136e0746276462661e9fd3939e408d4",
+    "from": "fc667a11fcc467b99cdd7d68bf5bb745445b620d",
+    "to": "878977113136e0746276462661e9fd3939e408d4",
+    "note": "Comparison destination reflects the manifest-binding commit; the final documentation commit is identified in the final report. Official accepted baseline remains unverified."
+  },
+  "limitations": [
+    "Studionet GEN is simulated; the demonstration is not real-money settlement.",
+    "No injected browser-wallet execution was performed; live transactions used unlocked local test accounts.",
+    "The official accepted submission baseline remains unverified; fc667a11fcc467b99cdd7d68bf5bb745445b620d is only the recorded pre-milestone HEAD.",
+    "Evidence fixtures are synthetic demonstrations and do not describe real provider incidents.",
+    "Historical v0.2/v0.4 disagreements and unresolved bonds remain in preserved historical records; they are not presented as v0.5 success."
+  ],
+  "historicalV04TwoPeriodLifecycle": {
     "status": "PERIOD_1_FUNDED_VERSION_1_REVISION_2_APPROVED_ASSESSMENT_DISAGREEMENT",
     "pactId": "PULSE-V04-RENEWAL-20261017-01",
     "customer": "0x7876e9f76f32925c212528d57bc9dfe5e34bcc07",
@@ -214,7 +320,947 @@
       "approvedVersion2NotYetActivated": true
     }
   },
-  "walletTestPact": {
+  "historicalContracts": [
+    {
+      "version": "pulsep.v0.4",
+      "address": "0x5B5dDeeaDBfCc2075A7E75401202E259a076f9Cf",
+      "sourceSha256NormalizedLf": "a03b0b5b509af6648dfa95125594e5fd2ce01532de839dbb2bcf1f9e9c3df3c3",
+      "deploymentTransaction": "0xe6ac4004f06780953c9edcdaca61e7b90bc407c9bd0d5614bfe6a8abe23f4ef8",
+      "deploymentStatus": "FINALIZED",
+      "executionResult": "SUCCESS",
+      "consensus": "MAJORITY_AGREE",
+      "validatorCount": 5,
+      "sourceReadbackMatches": true,
+      "config": {
+        "version": "pulsep.v0.4",
+        "network_scope": "studionet-only",
+        "admin": null,
+        "max_sla_versions": 8,
+        "revision_expiry_seconds": 86400
+      },
+      "schemaMethodCount": 21
+    },
+    {
+      "version": "pulsep.v0.3",
+      "address": "0xfaA7FADDEcb4EDe3Bd46001bDf812076b953067A",
+      "sourceSha256NormalizedLf": "e197ed38930276bcdc49a0235717decd3dffd2a85227d104889400898d19dddc",
+      "deploymentTransaction": "0x768d607db626ceffc04290e446a756044c215b090d8fb316e0a948a96a77f7a2",
+      "deploymentStatus": "FINALIZED",
+      "executionResult": "SUCCESS",
+      "historical": true
+    }
+  ],
+  "manifestBindingCommit": "878977113136e0746276462661e9fd3939e408d4",
+  "twoPeriodLifecycle": {
+    "network": "studionet",
+    "chainId": 61999,
+    "rpc": "https://studio.genlayer.com/api",
+    "contract": "0x60Bf858706D623C733199AC9c1648f789d35733E",
+    "pactId": "PULSE-V05-MILESTONE-20261017-01",
+    "fixtureCommit": "db1217201bc57b72e8a0d28d4d22fcce1dbdaa78",
+    "fixtureWindow": "2026-10-17T00:00:00Z through 2026-10-18T00:00:00Z",
+    "periodSeconds": 900,
+    "maturitySeconds": 300,
+    "bondWei": "1000000000000000",
+    "transactions": {
+      "proposePact": {
+        "hash": "0x39daed3017fb0a8404a29c7b65a53b492f093bbbb250b6f489449c73c2f20d7f",
+        "method": "propose_pact",
+        "valueWei": "0",
+        "status": "FINALIZED",
+        "consensus": "MAJORITY_AGREE",
+        "executionResult": "SUCCESS",
+        "rounds": "1",
+        "finalizedAt": "2026-10-17T21:16:21.490Z"
+      },
+      "acceptAndFundPeriod1": {
+        "hash": "0xd4efda691f61eb5a8210b9d8f8328ee5f5b13b9ed8cb21b143ff034a95c5364e",
+        "method": "accept_and_fund",
+        "valueWei": "1000000000000000",
+        "status": "FINALIZED",
+        "consensus": "MAJORITY_AGREE",
+        "executionResult": "SUCCESS",
+        "rounds": "1",
+        "finalizedAt": "2026-10-17T21:17:02.299Z"
+      },
+      "proposeRevisionV2": {
+        "hash": "0xd1507df2c59a8d6d9ee1c643296d495dd70daa0ecdb7d6803674964fb2f0c976",
+        "method": "propose_revision",
+        "valueWei": "0",
+        "status": "FINALIZED",
+        "consensus": "MAJORITY_AGREE",
+        "executionResult": "SUCCESS",
+        "rounds": "1",
+        "finalizedAt": "2026-10-17T21:17:40.029Z"
+      },
+      "approveRevisionV2": {
+        "hash": "0xf3608493f661c19d5cff1c23cf0ec9cdd1f0d5984664ac27e8ffd913e18274d3",
+        "method": "approve_revision",
+        "valueWei": "0",
+        "status": "FINALIZED",
+        "consensus": "MAJORITY_AGREE",
+        "executionResult": "SUCCESS",
+        "rounds": "1",
+        "finalizedAt": "2026-10-17T21:18:22.363Z"
+      },
+      "assessPeriod1": {
+        "hash": "0xca100581d6a6cf5f811ec631eeb0ce010ef6660e7c597d9b0904d651740661f3",
+        "method": "assess_period",
+        "valueWei": "0",
+        "status": "FINALIZED",
+        "consensus": "MAJORITY_AGREE",
+        "executionResult": "SUCCESS",
+        "rounds": "2",
+        "finalizedAt": "2026-10-17T21:37:49.294Z"
+      },
+      "fundPeriod2": {
+        "hash": "0xf4c7fe53cebe390d30ffaf1d47a8913ce90edc993bc6fb7ff5ce25f21538b04e",
+        "method": "fund_next_period",
+        "valueWei": "1000000000000000",
+        "status": "FINALIZED",
+        "consensus": "MAJORITY_AGREE",
+        "executionResult": "SUCCESS",
+        "rounds": "1",
+        "finalizedAt": "2026-10-17T21:38:33.054Z"
+      },
+      "assessPeriod2": {
+        "hash": "0x6cbeb47796a1e2e182ac4fe86d1fe71be58e2ef2db4d35b53cbdae57854a1612",
+        "method": "assess_period",
+        "valueWei": "0",
+        "status": "FINALIZED",
+        "consensus": "MAJORITY_AGREE",
+        "executionResult": "SUCCESS",
+        "rounds": "1",
+        "finalizedAt": "2026-10-17T21:58:52.234Z"
+      }
+    },
+    "stages": [
+      {
+        "name": "period1Eligibility",
+        "period": {
+          "assessment": null,
+          "assessment_attempts": 0,
+          "assessment_opens_at": 1792272983,
+          "bond": "1000000000000000",
+          "classification": "",
+          "customer_credit": "0",
+          "ends_at": 1792272683,
+          "evidence_deadline": 1792877483,
+          "funded_at": 1792271783,
+          "index": 1,
+          "last_assessment_at": 0,
+          "pact_id": "PULSE-V05-MILESTONE-20261017-01",
+          "policy": {
+            "service": "Synthetic Pulsep renewal API",
+            "service_scope": "Synthetic demonstration only; no real production provider or incident is represented.",
+            "sla_clauses": [
+              "NO_BREACH requires both frozen sources to confirm full-period coverage and no outage or material degradation."
+            ],
+            "sources": [
+              {
+                "id": "provider-v1",
+                "role": "PROVIDER",
+                "scope": "Synthetic provider full-period coverage and status for SLA version 1.",
+                "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-provider.json"
+              },
+              {
+                "id": "monitor-v1",
+                "role": "INDEPENDENT",
+                "scope": "Synthetic independent full-period coverage and status for SLA version 1.",
+                "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-independent.json"
+              }
+            ],
+            "tier_rules": {
+              "major": "MAJOR: qualifying availability loss from 15 minutes up to 60 minutes.",
+              "minor": "MINOR: qualifying availability loss under 15 minutes.",
+              "severe": "SEVERE: qualifying availability loss at least 60 minutes."
+            }
+          },
+          "provider_credit": "0",
+          "settled_at": 0,
+          "sla_version": 1,
+          "started_at": 1792271783,
+          "status": "FUNDED",
+          "terms_digest": "eb181ffec225d6366045b56d41681e578ca5d670530f3bf4ab78b7d96e525dc3"
+        },
+        "recordedAt": "2026-10-17T21:18:25.012Z"
+      },
+      {
+        "name": "period2Eligibility",
+        "period": {
+          "assessment": null,
+          "assessment_attempts": 0,
+          "assessment_opens_at": 1792274274,
+          "bond": "1000000000000000",
+          "classification": "",
+          "customer_credit": "0",
+          "ends_at": 1792273974,
+          "evidence_deadline": 1792878774,
+          "funded_at": 1792273074,
+          "index": 2,
+          "last_assessment_at": 0,
+          "pact_id": "PULSE-V05-MILESTONE-20261017-01",
+          "policy": {
+            "service": "Synthetic Pulsep renewal API",
+            "service_scope": "Version 2: synthetic status sources for the same demonstration API; this revision applies only to a future funded period.",
+            "sla_clauses": [
+              "NO_BREACH requires both version 2 sources to cover the full service period and report no qualifying availability event or material degradation."
+            ],
+            "sources": [
+              {
+                "id": "provider-v2",
+                "role": "PROVIDER",
+                "scope": "Synthetic provider full-period coverage and status for SLA version 2.",
+                "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-provider.json"
+              },
+              {
+                "id": "monitor-v2",
+                "role": "INDEPENDENT",
+                "scope": "Synthetic independent full-period coverage and status for SLA version 2.",
+                "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-independent.json"
+              }
+            ],
+            "tier_rules": {
+              "major": "MAJOR: qualifying availability loss from 15 minutes up to 60 minutes.",
+              "minor": "MINOR: qualifying availability loss under 15 minutes.",
+              "severe": "SEVERE: qualifying availability loss at least 60 minutes."
+            }
+          },
+          "provider_credit": "0",
+          "settled_at": 0,
+          "sla_version": 2,
+          "started_at": 1792273074,
+          "status": "FUNDED",
+          "terms_digest": "c441ab124c28ec49614cc7cd697965c8b489537af4b32dcd4b64cdc198e97341"
+        },
+        "recordedAt": "2026-10-17T21:38:38.153Z"
+      }
+    ],
+    "customer": "0x39680bd423437C0Eaa18493629652821Ec672C61",
+    "provider": "0xA49c51d759790116D451f256654dD9F0549D341F",
+    "version1PolicyDigest": "eb181ffec225d6366045b56d41681e578ca5d670530f3bf4ab78b7d96e525dc3",
+    "sourceSha256": "734b2e48ec60a6434ef29981fbbefbc0e4b2c3ebf344716fc1bcb33bb4b23ffa",
+    "period1Initial": {
+      "pact": {
+        "activated_at": 1792271783,
+        "active_sla_version": 1,
+        "bond": "1000000000000000",
+        "closed_at": 0,
+        "created_at": 1792271742,
+        "customer": "0x39680bd423437c0eaa18493629652821ec672c61",
+        "customer_bps": {
+          "major": 5000,
+          "minor": 1000,
+          "severe": 10000
+        },
+        "id": "PULSE-V05-MILESTONE-20261017-01",
+        "pending_revision": null,
+        "period_count": 1,
+        "period_seconds": 900,
+        "provider": "0xa49c51d759790116d451f256654dd9f0549d341f",
+        "revision_events": [],
+        "revision_nonce": 0,
+        "service": "Synthetic Pulsep renewal API",
+        "service_scope": "Synthetic demonstration only; no real production provider or incident is represented.",
+        "sla_clauses": [
+          "NO_BREACH requires both frozen sources to confirm full-period coverage and no outage or material degradation."
+        ],
+        "sla_versions": [
+          {
+            "activated_at": 1792271783,
+            "approved_at": 1792271783,
+            "approved_by": "0xa49c51d759790116d451f256654dd9f0549d341f",
+            "created_at": 1792271742,
+            "digest": "eb181ffec225d6366045b56d41681e578ca5d670530f3bf4ab78b7d96e525dc3",
+            "proposal_id": "",
+            "proposer": "0x39680bd423437c0eaa18493629652821ec672c61",
+            "version": 1
+          }
+        ],
+        "sources": [
+          {
+            "id": "provider-v1",
+            "role": "PROVIDER",
+            "scope": "Synthetic provider full-period coverage and status for SLA version 1.",
+            "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-provider.json"
+          },
+          {
+            "id": "monitor-v1",
+            "role": "INDEPENDENT",
+            "scope": "Synthetic independent full-period coverage and status for SLA version 1.",
+            "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-independent.json"
+          }
+        ],
+        "status": "ACTIVE",
+        "terms_hash": "8850949c0f7d2d20c22972e154a553d9beec896358cf0d4717ab93051144f46a",
+        "tier_rules": {
+          "major": "MAJOR: qualifying availability loss from 15 minutes up to 60 minutes.",
+          "minor": "MINOR: qualifying availability loss under 15 minutes.",
+          "severe": "SEVERE: qualifying availability loss at least 60 minutes."
+        },
+        "title": "Synthetic Versioned SLA Renewal Demonstration"
+      },
+      "period": {
+        "assessment": null,
+        "assessment_attempts": 0,
+        "assessment_opens_at": 1792272983,
+        "bond": "1000000000000000",
+        "classification": "",
+        "customer_credit": "0",
+        "ends_at": 1792272683,
+        "evidence_deadline": 1792877483,
+        "funded_at": 1792271783,
+        "index": 1,
+        "last_assessment_at": 0,
+        "pact_id": "PULSE-V05-MILESTONE-20261017-01",
+        "policy": {
+          "service": "Synthetic Pulsep renewal API",
+          "service_scope": "Synthetic demonstration only; no real production provider or incident is represented.",
+          "sla_clauses": [
+            "NO_BREACH requires both frozen sources to confirm full-period coverage and no outage or material degradation."
+          ],
+          "sources": [
+            {
+              "id": "provider-v1",
+              "role": "PROVIDER",
+              "scope": "Synthetic provider full-period coverage and status for SLA version 1.",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-provider.json"
+            },
+            {
+              "id": "monitor-v1",
+              "role": "INDEPENDENT",
+              "scope": "Synthetic independent full-period coverage and status for SLA version 1.",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-independent.json"
+            }
+          ],
+          "tier_rules": {
+            "major": "MAJOR: qualifying availability loss from 15 minutes up to 60 minutes.",
+            "minor": "MINOR: qualifying availability loss under 15 minutes.",
+            "severe": "SEVERE: qualifying availability loss at least 60 minutes."
+          }
+        },
+        "provider_credit": "0",
+        "settled_at": 0,
+        "sla_version": 1,
+        "started_at": 1792271783,
+        "status": "FUNDED",
+        "terms_digest": "eb181ffec225d6366045b56d41681e578ca5d670530f3bf4ab78b7d96e525dc3"
+      },
+      "recordedAt": "2026-10-17T21:17:04.870Z"
+    },
+    "revisionProposal": {
+      "approved_at": 0,
+      "approved_by": "",
+      "base_version": 1,
+      "created_at": 1792271827,
+      "digest": "c441ab124c28ec49614cc7cd697965c8b489537af4b32dcd4b64cdc198e97341",
+      "expires_at": 1792358227,
+      "next_version": 2,
+      "policy": {
+        "service": "Synthetic Pulsep renewal API",
+        "service_scope": "Version 2: synthetic status sources for the same demonstration API; this revision applies only to a future funded period.",
+        "sla_clauses": [
+          "NO_BREACH requires both version 2 sources to cover the full service period and report no qualifying availability event or material degradation."
+        ],
+        "sources": [
+          {
+            "id": "provider-v2",
+            "role": "PROVIDER",
+            "scope": "Synthetic provider full-period coverage and status for SLA version 2.",
+            "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-provider.json"
+          },
+          {
+            "id": "monitor-v2",
+            "role": "INDEPENDENT",
+            "scope": "Synthetic independent full-period coverage and status for SLA version 2.",
+            "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-independent.json"
+          }
+        ],
+        "tier_rules": {
+          "major": "MAJOR: qualifying availability loss from 15 minutes up to 60 minutes.",
+          "minor": "MINOR: qualifying availability loss under 15 minutes.",
+          "severe": "SEVERE: qualifying availability loss at least 60 minutes."
+        }
+      },
+      "proposal_id": "5f60544abb02f8bc9406e4578dbc321f9a4b14c0483f4f7f44ce2ad46719f3af",
+      "proposer": "0x39680bd423437c0eaa18493629652821ec672c61",
+      "status": "PENDING"
+    },
+    "revisionApproved": {
+      "pending": {
+        "approved_at": 1792271863,
+        "approved_by": "0xa49c51d759790116d451f256654dd9f0549d341f",
+        "base_version": 1,
+        "created_at": 1792271827,
+        "digest": "c441ab124c28ec49614cc7cd697965c8b489537af4b32dcd4b64cdc198e97341",
+        "expires_at": 1792358227,
+        "next_version": 2,
+        "policy": {
+          "service": "Synthetic Pulsep renewal API",
+          "service_scope": "Version 2: synthetic status sources for the same demonstration API; this revision applies only to a future funded period.",
+          "sla_clauses": [
+            "NO_BREACH requires both version 2 sources to cover the full service period and report no qualifying availability event or material degradation."
+          ],
+          "sources": [
+            {
+              "id": "provider-v2",
+              "role": "PROVIDER",
+              "scope": "Synthetic provider full-period coverage and status for SLA version 2.",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-provider.json"
+            },
+            {
+              "id": "monitor-v2",
+              "role": "INDEPENDENT",
+              "scope": "Synthetic independent full-period coverage and status for SLA version 2.",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-independent.json"
+            }
+          ],
+          "tier_rules": {
+            "major": "MAJOR: qualifying availability loss from 15 minutes up to 60 minutes.",
+            "minor": "MINOR: qualifying availability loss under 15 minutes.",
+            "severe": "SEVERE: qualifying availability loss at least 60 minutes."
+          }
+        },
+        "proposal_id": "5f60544abb02f8bc9406e4578dbc321f9a4b14c0483f4f7f44ce2ad46719f3af",
+        "proposer": "0x39680bd423437c0eaa18493629652821ec672c61",
+        "status": "APPROVED"
+      },
+      "recordedAt": "2026-10-17T21:18:23.689Z"
+    },
+    "period1Settlement": {
+      "period": {
+        "assessment": {
+          "classification": "NO_BREACH",
+          "evidence": [
+            {
+              "available": true,
+              "bytes": 450,
+              "http_status": 200,
+              "id": "provider-v1",
+              "role": "PROVIDER",
+              "sha256": "897f309ab2445fe370a578675eebc41e7663caad13f3885895e6bd886f9c63cb",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-provider.json"
+            },
+            {
+              "available": true,
+              "bytes": 480,
+              "http_status": 200,
+              "id": "monitor-v1",
+              "role": "INDEPENDENT",
+              "sha256": "fd67c76cedde845f91297c25d082adf0c663a59454bcf775c1dbe8a4c562038d",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-independent.json"
+            }
+          ],
+          "exclusion": {
+            "quote": "",
+            "reason": "No maintenance or exclusion claim is present; no outage occurred.",
+            "source_id": "",
+            "status": "NOT_RELEVANT"
+          },
+          "period_end": 1792272683,
+          "period_start": 1792271783,
+          "reason": "Both frozen sources confirm full-period coverage with no outage or degradation.",
+          "sla_version": 1,
+          "source_findings": [
+            {
+              "coverage": "COVERS_PERIOD",
+              "coverage_quote": "2026-10-17T00:00:00Z through 2026-10-18T00:00:00Z",
+              "id": "provider-v1",
+              "quote": "The synthetic provider status record shows no outage or material degradation during the stated coverage interval.",
+              "reason": "Provider record covers the full period and reports no outage or material degradation.",
+              "state": "NO_BREACH"
+            },
+            {
+              "coverage": "COVERS_PERIOD",
+              "coverage_quote": "Independent monitor coverage: 2026-10-17T00:00:00Z through 2026-10-18T00:00:00Z",
+              "id": "monitor-v1",
+              "quote": "No outage or material degradation was recorded for the synthetic service throughout the stated coverage interval.",
+              "reason": "Independent monitor covers the full period and records no outage or material degradation.",
+              "state": "NO_BREACH"
+            }
+          ],
+          "terms_digest": "eb181ffec225d6366045b56d41681e578ca5d670530f3bf4ab78b7d96e525dc3",
+          "timeline": []
+        },
+        "assessment_attempts": 1,
+        "assessment_opens_at": 1792272983,
+        "bond": "1000000000000000",
+        "classification": "NO_BREACH",
+        "customer_credit": "0",
+        "ends_at": 1792272683,
+        "evidence_deadline": 1792877483,
+        "funded_at": 1792271783,
+        "index": 1,
+        "last_assessment_at": 1792272985,
+        "pact_id": "PULSE-V05-MILESTONE-20261017-01",
+        "policy": {
+          "service": "Synthetic Pulsep renewal API",
+          "service_scope": "Synthetic demonstration only; no real production provider or incident is represented.",
+          "sla_clauses": [
+            "NO_BREACH requires both frozen sources to confirm full-period coverage and no outage or material degradation."
+          ],
+          "sources": [
+            {
+              "id": "provider-v1",
+              "role": "PROVIDER",
+              "scope": "Synthetic provider full-period coverage and status for SLA version 1.",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-provider.json"
+            },
+            {
+              "id": "monitor-v1",
+              "role": "INDEPENDENT",
+              "scope": "Synthetic independent full-period coverage and status for SLA version 1.",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-independent.json"
+            }
+          ],
+          "tier_rules": {
+            "major": "MAJOR: qualifying availability loss from 15 minutes up to 60 minutes.",
+            "minor": "MINOR: qualifying availability loss under 15 minutes.",
+            "severe": "SEVERE: qualifying availability loss at least 60 minutes."
+          }
+        },
+        "provider_credit": "1000000000000000",
+        "settled_at": 1792272985,
+        "sla_version": 1,
+        "started_at": 1792271783,
+        "status": "SETTLED",
+        "terms_digest": "eb181ffec225d6366045b56d41681e578ca5d670530f3bf4ab78b7d96e525dc3"
+      },
+      "policy": {
+        "activated_at": 1792271783,
+        "approved_at": 1792271783,
+        "approved_by": "0xa49c51d759790116d451f256654dd9f0549d341f",
+        "created_at": 1792271742,
+        "digest": "eb181ffec225d6366045b56d41681e578ca5d670530f3bf4ab78b7d96e525dc3",
+        "policy": {
+          "service": "Synthetic Pulsep renewal API",
+          "service_scope": "Synthetic demonstration only; no real production provider or incident is represented.",
+          "sla_clauses": [
+            "NO_BREACH requires both frozen sources to confirm full-period coverage and no outage or material degradation."
+          ],
+          "sources": [
+            {
+              "id": "provider-v1",
+              "role": "PROVIDER",
+              "scope": "Synthetic provider full-period coverage and status for SLA version 1.",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-provider.json"
+            },
+            {
+              "id": "monitor-v1",
+              "role": "INDEPENDENT",
+              "scope": "Synthetic independent full-period coverage and status for SLA version 1.",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-independent.json"
+            }
+          ],
+          "tier_rules": {
+            "major": "MAJOR: qualifying availability loss from 15 minutes up to 60 minutes.",
+            "minor": "MINOR: qualifying availability loss under 15 minutes.",
+            "severe": "SEVERE: qualifying availability loss at least 60 minutes."
+          }
+        },
+        "proposal_id": "",
+        "proposer": "0x39680bd423437c0eaa18493629652821ec672c61",
+        "version": 1
+      },
+      "recordedAt": "2026-10-17T21:37:51.903Z"
+    },
+    "period2Initial": {
+      "pact": {
+        "activated_at": 1792271783,
+        "active_sla_version": 2,
+        "bond": "1000000000000000",
+        "closed_at": 0,
+        "created_at": 1792271742,
+        "customer": "0x39680bd423437c0eaa18493629652821ec672c61",
+        "customer_bps": {
+          "major": 5000,
+          "minor": 1000,
+          "severe": 10000
+        },
+        "id": "PULSE-V05-MILESTONE-20261017-01",
+        "pending_revision": null,
+        "period_count": 2,
+        "period_seconds": 900,
+        "provider": "0xa49c51d759790116d451f256654dd9f0549d341f",
+        "revision_events": [
+          {
+            "actor": "0x39680bd423437c0eaa18493629652821ec672c61",
+            "base_version": 1,
+            "digest": "c441ab124c28ec49614cc7cd697965c8b489537af4b32dcd4b64cdc198e97341",
+            "event": "PROPOSED",
+            "next_version": 2,
+            "proposal_id": "5f60544abb02f8bc9406e4578dbc321f9a4b14c0483f4f7f44ce2ad46719f3af",
+            "proposer": "0x39680bd423437c0eaa18493629652821ec672c61",
+            "sequence": 1,
+            "timestamp": 1792271827
+          },
+          {
+            "actor": "0xa49c51d759790116d451f256654dd9f0549d341f",
+            "base_version": 1,
+            "digest": "c441ab124c28ec49614cc7cd697965c8b489537af4b32dcd4b64cdc198e97341",
+            "event": "APPROVED",
+            "next_version": 2,
+            "proposal_id": "5f60544abb02f8bc9406e4578dbc321f9a4b14c0483f4f7f44ce2ad46719f3af",
+            "proposer": "0x39680bd423437c0eaa18493629652821ec672c61",
+            "sequence": 2,
+            "timestamp": 1792271863
+          },
+          {
+            "actor": "0xa49c51d759790116d451f256654dd9f0549d341f",
+            "base_version": 1,
+            "digest": "c441ab124c28ec49614cc7cd697965c8b489537af4b32dcd4b64cdc198e97341",
+            "event": "ACTIVATED",
+            "next_version": 2,
+            "proposal_id": "5f60544abb02f8bc9406e4578dbc321f9a4b14c0483f4f7f44ce2ad46719f3af",
+            "proposer": "0x39680bd423437c0eaa18493629652821ec672c61",
+            "sequence": 3,
+            "timestamp": 1792273074
+          }
+        ],
+        "revision_nonce": 1,
+        "service": "Synthetic Pulsep renewal API",
+        "service_scope": "Synthetic demonstration only; no real production provider or incident is represented.",
+        "sla_clauses": [
+          "NO_BREACH requires both frozen sources to confirm full-period coverage and no outage or material degradation."
+        ],
+        "sla_versions": [
+          {
+            "activated_at": 1792271783,
+            "approved_at": 1792271783,
+            "approved_by": "0xa49c51d759790116d451f256654dd9f0549d341f",
+            "created_at": 1792271742,
+            "digest": "eb181ffec225d6366045b56d41681e578ca5d670530f3bf4ab78b7d96e525dc3",
+            "proposal_id": "",
+            "proposer": "0x39680bd423437c0eaa18493629652821ec672c61",
+            "version": 1
+          },
+          {
+            "activated_at": 1792273074,
+            "approved_at": 1792271863,
+            "approved_by": "0xa49c51d759790116d451f256654dd9f0549d341f",
+            "created_at": 1792271827,
+            "digest": "c441ab124c28ec49614cc7cd697965c8b489537af4b32dcd4b64cdc198e97341",
+            "proposal_id": "5f60544abb02f8bc9406e4578dbc321f9a4b14c0483f4f7f44ce2ad46719f3af",
+            "proposer": "0x39680bd423437c0eaa18493629652821ec672c61",
+            "version": 2
+          }
+        ],
+        "sources": [
+          {
+            "id": "provider-v1",
+            "role": "PROVIDER",
+            "scope": "Synthetic provider full-period coverage and status for SLA version 1.",
+            "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-provider.json"
+          },
+          {
+            "id": "monitor-v1",
+            "role": "INDEPENDENT",
+            "scope": "Synthetic independent full-period coverage and status for SLA version 1.",
+            "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-independent.json"
+          }
+        ],
+        "status": "ACTIVE",
+        "terms_hash": "8850949c0f7d2d20c22972e154a553d9beec896358cf0d4717ab93051144f46a",
+        "tier_rules": {
+          "major": "MAJOR: qualifying availability loss from 15 minutes up to 60 minutes.",
+          "minor": "MINOR: qualifying availability loss under 15 minutes.",
+          "severe": "SEVERE: qualifying availability loss at least 60 minutes."
+        },
+        "title": "Synthetic Versioned SLA Renewal Demonstration"
+      },
+      "period": {
+        "assessment": null,
+        "assessment_attempts": 0,
+        "assessment_opens_at": 1792274274,
+        "bond": "1000000000000000",
+        "classification": "",
+        "customer_credit": "0",
+        "ends_at": 1792273974,
+        "evidence_deadline": 1792878774,
+        "funded_at": 1792273074,
+        "index": 2,
+        "last_assessment_at": 0,
+        "pact_id": "PULSE-V05-MILESTONE-20261017-01",
+        "policy": {
+          "service": "Synthetic Pulsep renewal API",
+          "service_scope": "Version 2: synthetic status sources for the same demonstration API; this revision applies only to a future funded period.",
+          "sla_clauses": [
+            "NO_BREACH requires both version 2 sources to cover the full service period and report no qualifying availability event or material degradation."
+          ],
+          "sources": [
+            {
+              "id": "provider-v2",
+              "role": "PROVIDER",
+              "scope": "Synthetic provider full-period coverage and status for SLA version 2.",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-provider.json"
+            },
+            {
+              "id": "monitor-v2",
+              "role": "INDEPENDENT",
+              "scope": "Synthetic independent full-period coverage and status for SLA version 2.",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-independent.json"
+            }
+          ],
+          "tier_rules": {
+            "major": "MAJOR: qualifying availability loss from 15 minutes up to 60 minutes.",
+            "minor": "MINOR: qualifying availability loss under 15 minutes.",
+            "severe": "SEVERE: qualifying availability loss at least 60 minutes."
+          }
+        },
+        "provider_credit": "0",
+        "settled_at": 0,
+        "sla_version": 2,
+        "started_at": 1792273074,
+        "status": "FUNDED",
+        "terms_digest": "c441ab124c28ec49614cc7cd697965c8b489537af4b32dcd4b64cdc198e97341"
+      },
+      "policy": {
+        "activated_at": 1792273074,
+        "approved_at": 1792271863,
+        "approved_by": "0xa49c51d759790116d451f256654dd9f0549d341f",
+        "created_at": 1792271827,
+        "digest": "c441ab124c28ec49614cc7cd697965c8b489537af4b32dcd4b64cdc198e97341",
+        "policy": {
+          "service": "Synthetic Pulsep renewal API",
+          "service_scope": "Version 2: synthetic status sources for the same demonstration API; this revision applies only to a future funded period.",
+          "sla_clauses": [
+            "NO_BREACH requires both version 2 sources to cover the full service period and report no qualifying availability event or material degradation."
+          ],
+          "sources": [
+            {
+              "id": "provider-v2",
+              "role": "PROVIDER",
+              "scope": "Synthetic provider full-period coverage and status for SLA version 2.",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-provider.json"
+            },
+            {
+              "id": "monitor-v2",
+              "role": "INDEPENDENT",
+              "scope": "Synthetic independent full-period coverage and status for SLA version 2.",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-independent.json"
+            }
+          ],
+          "tier_rules": {
+            "major": "MAJOR: qualifying availability loss from 15 minutes up to 60 minutes.",
+            "minor": "MINOR: qualifying availability loss under 15 minutes.",
+            "severe": "SEVERE: qualifying availability loss at least 60 minutes."
+          }
+        },
+        "proposal_id": "5f60544abb02f8bc9406e4578dbc321f9a4b14c0483f4f7f44ce2ad46719f3af",
+        "proposer": "0x39680bd423437c0eaa18493629652821ec672c61",
+        "version": 2
+      },
+      "recordedAt": "2026-10-17T21:38:36.873Z"
+    },
+    "period2Settlement": {
+      "period": {
+        "assessment": {
+          "classification": "NO_BREACH",
+          "evidence": [
+            {
+              "available": true,
+              "bytes": 501,
+              "http_status": 200,
+              "id": "provider-v2",
+              "role": "PROVIDER",
+              "sha256": "fdf147ee2e9c0d502c6284c0c452d0cdd773e9806e45b54abbe0c79865193a1e",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-provider.json"
+            },
+            {
+              "available": true,
+              "bytes": 504,
+              "http_status": 200,
+              "id": "monitor-v2",
+              "role": "INDEPENDENT",
+              "sha256": "082170251a40bd9b69c04b1fc3061969cb0c51fba0be6fdf03d95384cf55abd5",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-independent.json"
+            }
+          ],
+          "exclusion": {
+            "quote": "No maintenance exclusion was invoked.",
+            "reason": "Provider来源明确表示未援引维护豁免。",
+            "source_id": "provider-v2",
+            "status": "DOES_NOT_APPLY"
+          },
+          "period_end": 1792273974,
+          "period_start": 1792273074,
+          "reason": "两个版本2来源均覆盖完整服务期间；独立来源明确报告期间内无达到违约条款的可用性事件，因此不构成违约。",
+          "sla_version": 2,
+          "source_findings": [
+            {
+              "coverage": "COVERS_PERIOD",
+              "coverage_quote": "2026-10-17T00:00:00Z through 2026-10-18T00:00:00Z",
+              "id": "provider-v2",
+              "quote": "Version 2 provider record reports no qualifying availability incident during the stated coverage interval.",
+              "reason": "Provider record覆盖完整服务期间，并报告无符合版本2条款的可用性事件。",
+              "state": "NO_BREACH"
+            },
+            {
+              "coverage": "COVERS_PERIOD",
+              "coverage_quote": "Independent monitor coverage: 2026-10-17T00:00:00Z through 2026-10-18T00:00:00Z",
+              "id": "monitor-v2",
+              "quote": "No availability event meeting the version 2 breach clause was recorded for the synthetic service throughout the stated coverage interval.",
+              "reason": "独立监控覆盖完整服务期间，并报告整个覆盖区间内无达到版本2违约条款的可用性事件。",
+              "state": "NO_BREACH"
+            }
+          ],
+          "terms_digest": "c441ab124c28ec49614cc7cd697965c8b489537af4b32dcd4b64cdc198e97341",
+          "timeline": []
+        },
+        "assessment_attempts": 1,
+        "assessment_opens_at": 1792274274,
+        "bond": "1000000000000000",
+        "classification": "NO_BREACH",
+        "customer_credit": "0",
+        "ends_at": 1792273974,
+        "evidence_deadline": 1792878774,
+        "funded_at": 1792273074,
+        "index": 2,
+        "last_assessment_at": 1792274276,
+        "pact_id": "PULSE-V05-MILESTONE-20261017-01",
+        "policy": {
+          "service": "Synthetic Pulsep renewal API",
+          "service_scope": "Version 2: synthetic status sources for the same demonstration API; this revision applies only to a future funded period.",
+          "sla_clauses": [
+            "NO_BREACH requires both version 2 sources to cover the full service period and report no qualifying availability event or material degradation."
+          ],
+          "sources": [
+            {
+              "id": "provider-v2",
+              "role": "PROVIDER",
+              "scope": "Synthetic provider full-period coverage and status for SLA version 2.",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-provider.json"
+            },
+            {
+              "id": "monitor-v2",
+              "role": "INDEPENDENT",
+              "scope": "Synthetic independent full-period coverage and status for SLA version 2.",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-independent.json"
+            }
+          ],
+          "tier_rules": {
+            "major": "MAJOR: qualifying availability loss from 15 minutes up to 60 minutes.",
+            "minor": "MINOR: qualifying availability loss under 15 minutes.",
+            "severe": "SEVERE: qualifying availability loss at least 60 minutes."
+          }
+        },
+        "provider_credit": "1000000000000000",
+        "settled_at": 1792274276,
+        "sla_version": 2,
+        "started_at": 1792273074,
+        "status": "SETTLED",
+        "terms_digest": "c441ab124c28ec49614cc7cd697965c8b489537af4b32dcd4b64cdc198e97341"
+      },
+      "policy": {
+        "activated_at": 1792273074,
+        "approved_at": 1792271863,
+        "approved_by": "0xa49c51d759790116d451f256654dd9f0549d341f",
+        "created_at": 1792271827,
+        "digest": "c441ab124c28ec49614cc7cd697965c8b489537af4b32dcd4b64cdc198e97341",
+        "policy": {
+          "service": "Synthetic Pulsep renewal API",
+          "service_scope": "Version 2: synthetic status sources for the same demonstration API; this revision applies only to a future funded period.",
+          "sla_clauses": [
+            "NO_BREACH requires both version 2 sources to cover the full service period and report no qualifying availability event or material degradation."
+          ],
+          "sources": [
+            {
+              "id": "provider-v2",
+              "role": "PROVIDER",
+              "scope": "Synthetic provider full-period coverage and status for SLA version 2.",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-provider.json"
+            },
+            {
+              "id": "monitor-v2",
+              "role": "INDEPENDENT",
+              "scope": "Synthetic independent full-period coverage and status for SLA version 2.",
+              "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-independent.json"
+            }
+          ],
+          "tier_rules": {
+            "major": "MAJOR: qualifying availability loss from 15 minutes up to 60 minutes.",
+            "minor": "MINOR: qualifying availability loss under 15 minutes.",
+            "severe": "SEVERE: qualifying availability loss at least 60 minutes."
+          }
+        },
+        "proposal_id": "5f60544abb02f8bc9406e4578dbc321f9a4b14c0483f4f7f44ce2ad46719f3af",
+        "proposer": "0x39680bd423437c0eaa18493629652821ec672c61",
+        "version": 2
+      },
+      "customerAccounting": {
+        "claimable": "0",
+        "credited": "2000000000000000",
+        "deposited": "2000000000000000",
+        "locked": "0",
+        "withdrawn": "0"
+      },
+      "providerAccounting": {
+        "claimable": "2000000000000000",
+        "credited": "2000000000000000",
+        "deposited": "2000000000000000",
+        "locked": "0",
+        "withdrawn": "0"
+      },
+      "contractBalanceWei": "2000000000000000",
+      "recordedAt": "2026-10-17T21:58:56.560Z"
+    },
+    "lifecycleStatus": "COMPLETE",
+    "status": "COMPLETE; both periods settled successfully on source-verified v0.5",
+    "version2PolicyDigest": "c441ab124c28ec49614cc7cd697965c8b489537af4b32dcd4b64cdc198e97341",
+    "period1ValidatorAddresses": [
+      "0x6a4179A851B3747A458baD2f089AB2EeFE0eBbAb",
+      "0x5Bbbd7cdD63c0ba7f088038Cb049bDDAbE4F6fd1",
+      "0x892C437da9b9CA0b6017B6f046F58E3526B46ec6",
+      "0xf29b6947ed298d139FC2655DB15D868C9AbB3091",
+      "0x1dEcE6A694520b1d3a2e24b9f28500858C756BDb"
+    ],
+    "period1ValidatorVotesLastRound": [
+      "IDLE",
+      "AGREE",
+      "AGREE",
+      "AGREE",
+      "IDLE"
+    ],
+    "period2ValidatorAddresses": [
+      "0x1dEcE6A694520b1d3a2e24b9f28500858C756BDb",
+      "0x5Bbbd7cdD63c0ba7f088038Cb049bDDAbE4F6fd1",
+      "0x0B50B270Eba5D9B780272C4Cf4720260177e761D",
+      "0xe7eEe8a1c1690b0322d795B80A76ab2Cd1a0eAFd",
+      "0x40533175AfBbAee2c030F88259Afb5aEDbCF0E05"
+    ],
+    "period2ValidatorVotesLastRound": [
+      "AGREE",
+      "AGREE",
+      "AGREE",
+      "IDLE",
+      "IDLE"
+    ],
+    "accountingReconciliation": {
+      "periodBondWei": "1000000000000000",
+      "period1CustomerCreditWei": "0",
+      "period1ProviderCreditWei": "1000000000000000",
+      "period2CustomerCreditWei": "0",
+      "period2ProviderCreditWei": "1000000000000000",
+      "customerAccounting": {
+        "deposited": "2000000000000000",
+        "locked": "0",
+        "credited": "2000000000000000",
+        "withdrawn": "0",
+        "claimable": "0"
+      },
+      "providerAccounting": {
+        "deposited": "2000000000000000",
+        "locked": "0",
+        "credited": "2000000000000000",
+        "withdrawn": "0",
+        "claimable": "2000000000000000"
+      },
+      "contractBalanceWei": "2000000000000000",
+      "withdrawals": "none in this v0.5 milestone proof",
+      "conservation": "Each settled period customer credit + provider credit equals 1000000000000000 wei; aggregate credited equals both deposited bonds; locked=0."
+    }
+  },
+  "historicalV04WalletTestPact": {
     "status": "PERIOD_2_VERSION_2_FOURTH_ASSESSMENT_FINALIZED_MAJORITY_DISAGREE; EXPIRY_NOT_YET_ELIGIBLE",
     "pactId": "PULSE-WALLET-LIVE-20261017-01",
     "customer": "0x39680bd423437C0Eaa18493629652821Ec672C61",
@@ -472,103 +1518,7 @@
       "readFrom": "get_accounting for both test wallets and eth_getBalance(contract)"
     }
   },
-  "negativeCases": [
-    {
-      "case": "stale superseded proposal approval",
-      "transaction": "0x8cb1875099774d209d9d8c16cc8699875893d2b4349580217e905be4be8ef8fa",
-      "finality": "FINALIZED",
-      "consensus": "MAJORITY_AGREE",
-      "executionResult": "ERROR",
-      "expectedError": "[EXPECTED] Revision proposal ID mismatch",
-      "effect": "No policy or accounting change"
-    },
-    {
-      "case": "proposer/customer attempts own revision approval",
-      "transaction": "0xa4bc1c68b3e7f19b22963877d5d13a694fb16cbf7fbfe7a24fc471d792a8f6e9",
-      "finality": "FINALIZED",
-      "consensus": "MAJORITY_AGREE",
-      "executionResult": "ERROR",
-      "expectedError": "[EXPECTED] Only the designated counterparty may approve",
-      "effect": "No policy or accounting change"
-    },
-    {
-      "case": "counterparty approval with mismatched digest",
-      "transaction": "0x1b3c51c3114eff620cf45cbb73a6c9f884eabb276ce3c7bbfd07d6cb982e5527",
-      "finality": "FINALIZED",
-      "consensus": "MAJORITY_AGREE",
-      "executionResult": "ERROR",
-      "expectedError": "[EXPECTED] Revision digest mismatch",
-      "effect": "No policy or accounting change"
-    }
-  ],
-  "sourceFixtures": [
-    {
-      "version": 1,
-      "role": "PROVIDER",
-      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-provider.json",
-      "sha256": "897f309ab2445fe370a578675eebc41e7663caad13f3885895e6bd886f9c63cb",
-      "synthetic": true
-    },
-    {
-      "version": 1,
-      "role": "INDEPENDENT",
-      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-independent.json",
-      "sha256": "fd67c76cedde845f91297c25d082adf0c663a59454bcf775c1dbe8a4c562038d",
-      "synthetic": true
-    },
-    {
-      "version": 2,
-      "role": "PROVIDER",
-      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-provider.json",
-      "sha256": "fdf147ee2e9c0d502c6284c0c452d0cdd773e9806e45b54abbe0c79865193a1e",
-      "synthetic": true
-    },
-    {
-      "version": 2,
-      "role": "INDEPENDENT",
-      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-independent.json",
-      "sha256": "082170251a40bd9b69c04b1fc3061969cb0c51fba0be6fdf03d95384cf55abd5",
-      "synthetic": true
-    }
-  ],
-  "frontend": {
-    "url": "https://pulsep.vercel.app/",
-    "servesV04Manifest": true,
-    "readOnlyRoutes": {
-      "anonymousHttpStatus": 200,
-      "routes": [
-        "/",
-        "/pacts/new/",
-        "/pacts/view/",
-        "/activity/"
-      ],
-      "deploymentManifest": "v0.4, chainId 61999, source SHA-256 matches verified deployment"
-    },
-    "walletBrowser": "NOT_VERIFIED; browser returned ERR_BLOCKED_BY_CLIENT, no injected wallet transaction performed",
-    "responsiveVisualQa": "NOT_VERIFIED; CSS 980px and 680px breakpoints present"
-  },
-  "githubActions": {
-    "status": "PASS",
-    "url": "https://github.com/BeatyXO/Pulsep/actions/runs/39061927383",
-    "commit": "395b1c5",
-    "note": "Both frontend and contract jobs passed."
-  },
-  "comparison": {
-    "status": "PROVISIONAL_BASELINE_ONLY",
-    "url": null,
-    "from": "fc667a11fcc467b99cdd7d68bf5bb745445b620d",
-    "to": null
-  },
-  "limitations": [
-    "Browser wallet execution and visual viewport testing are not verified; the browser blocked the site while anonymous HTTP route checks succeeded.",
-    "No independent source-mutation framework or independent audit is claimed; four actual-contract weakened-source mutants were killed by Direct Mode tests.",
-    "The officially accepted submission baseline remains unverified.",
-    "Studionet GEN is simulated; these are not real-money settlements.",
-    "The original pact PULSE-V04-RENEWAL-20261017-01 period 1 remains FUNDED after three prior finalized disagreements and a new UNDETERMINED / MAJORITY_DISAGREE receipt (0x6028606862a2f7ba8d6f786d1f48af2de814fdbb993ceb16acbc47f7ba127e88). No assessment was recorded and no credit was created.",
-    "Wallet-test pact PULSE-WALLET-LIVE-20261017-01 period 2 is funded under SLA version 2. A fourth assessment finalized MAJORITY_DISAGREE (0x68ac2cba23484f595d0e8d2eac90f463856f4b20d87c7ff35d26faaaab8b2dcd); no assessment was recorded and no credit was created.",
-    "The separate original pact period 1 and wallet-test pact period 2 remain FUNDED after validator disagreement. Their evidence deadlines are still in the future at the latest read; no recovery, credit, or withdrawal is claimed for those two periods."
-  ],
-  "latestLiveReadback": {
+  "historicalV04LatestLiveReadback": {
     "studionetTimestamp": 1792266502,
     "periods": [
       {
@@ -616,7 +1566,7 @@
     },
     "note": "The new criteria-proof pact completed its full NO_BREACH settlement and provider withdrawal. The two earlier unresolved periods are still FUNDED, with deadlines in the future and bonds locked."
   },
-  "criteriaProofPact": {
+  "historicalV04CriteriaProofPact": {
     "status": "PERIOD_1_SETTLED_NO_BREACH_PROVIDER_WITHDREW",
     "pactId": "PULSE-CRITERIA-LIVE-20261017-01",
     "title": "Pulsep synthetic criteria proof",

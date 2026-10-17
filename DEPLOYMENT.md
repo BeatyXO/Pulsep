@@ -1,8 +1,23 @@
 # Stable Studionet deployment record
 
+## Active v0.5 deployment and completed two-period proof
+
+- Network: stable Studionet, chain ID `61999`; RPC `https://studio.genlayer.com/api`.
+- Repository-local CLI: `genlayer@0.39.1`; compatible `genlayer-js@1.1.8`.
+- Active contract: [`0x60Bf858706D623C733199AC9c1648f789d35733E`](https://explorer-studio.genlayer.com/address/0x60Bf858706D623C733199AC9c1648f789d35733E).
+- Deployment transaction: [`0x6da71244307f1cce6b6915f7e7649e31b34c482c562817fc513edcba215d7093`](https://explorer-studio.genlayer.com/tx/0x6da71244307f1cce6b6915f7e7649e31b34c482c562817fc513edcba215d7093), FINALIZED, SUCCESS, MAJORITY_AGREE (5 validators).
+- Normalized-LF source SHA-256: `734b2e48ec60a6434ef29981fbbefbc0e4b2c3ebf344716fc1bcb33bb4b23ffa`; deployed source read-back matches. `get_config()` reports `pulsep.v0.5`, `studionet-only`, and `admin=null`.
+- Pact `PULSE-V05-MILESTONE-20261017-01` completed v1 and v2 periods. Proposal `0x39daed3017fb0a8404a29c7b65a53b492f093bbbb250b6f489449c73c2f20d7f`; period-1 funding `0xd4efda691f61eb5a8210b9d8f8328ee5f5b13b9ed8cb21b143ff034a95c5364e`; v2 proposal `0xd1507df2c59a8d6d9ee1c643296d495dd70daa0ecdb7d6803674964fb2f0c976`; bilateral approval `0xf3608493f661c19d5cff1c23cf0ec9cdd1f0d5984664ac27e8ffd913e18274d3`.
+- Period 1 assessment settled `NO_BREACH`: `0xca100581d6a6cf5f811ec631eeb0ce010ef6660e7c597d9b0904d651740661f3`. Period-2 funding atomically activated v2: `0xf4c7fe53cebe390d30ffaf1d47a8913ce90edc993bc6fb7ff5ce25f21538b04e`. Period 2 settled `NO_BREACH`: `0x6cbeb47796a1e2e182ac4fe86d1fe71be58e2ef2db4d35b53cbdae57854a1612`.
+- Each bond was `1000000000000000` wei. Period 1 and 2 each credited customer `0` and provider `1000000000000000` wei. Customer aggregate: deposited/credited `2000000000000000`, locked/withdrawn/claimable `0`. Provider aggregate: deposited/credited `2000000000000000`, locked/withdrawn `0`, claimable `2000000000000000`. Contract balance: `2000000000000000` wei. No v0.5 withdrawal is claimed.
+- The evidence records are synthetic and commit-pinned at `db1217201bc57b72e8a0d28d4d22fcce1dbdaa78`; they do not describe a real provider incident. Exact source digests, period windows, version digests, validator receipts and accounting snapshots are in `public/versioned-renewal-verification.json`.
+- Production frontend: [https://pulsep.vercel.app/](https://pulsep.vercel.app/). The public manifest reports v0.5, chain 61999 and the matching source digest; `/`, `/pacts/new`, `/pacts/view`, and `/activity` returned anonymous HTTP 200. Browser-wallet execution was not verified.
+
+Studionet GEN is simulated. Historical v0.2/v0.4 deployments and their disagreements remain preserved below and in the verification records.
+
 ## Historical v0.3 deployment
 
-This is the preserved original deployment and completed lifecycle proof. The v0.4 milestone deployment below is now the current contract target.
+This is the preserved original deployment and completed lifecycle proof. It is superseded by the active v0.5 contract above.
 
 - Network: stable Studionet, chain ID `61999`; RPC `https://studio.genlayer.com/api`.
 - Repository-local CLI: `genlayer@0.39.1`.
@@ -21,9 +36,9 @@ This is not proof for MAJOR, maintenance exclusions, INCONCLUSIVE recovery, recu
 
 ## Frontend binding and status
 
-The app reads `public/deployment.json`; no Vercel address environment variable is used. At the time this historical v0.3 proof was recorded, that manifest pointed to v0.3. The canonical frontend is [https://pulsep.vercel.app/](https://pulsep.vercel.app/); its production v0.4 binding still needs post-release verification.
+The app reads `public/deployment.json`; no Vercel address environment variable is used. At the time this historical v0.3 proof was recorded, that manifest pointed to v0.3. Current production binding is documented in the active v0.5 section above.
 
-## Versioned SLA Renewals milestone (v0.4)
+## Historical v0.4 deployment and unresolved attempts
 
 - Network: stable Studionet, chain ID `61999`; RPC `https://studio.genlayer.com/api`.
 - Repository-local CLI: `genlayer@0.39.1`.
@@ -32,6 +47,6 @@ The app reads `public/deployment.json`; no Vercel address environment variable i
 - Normalized-LF source SHA-256: `a03b0b5b509af6648dfa95125594e5fd2ce01532de839dbb2bcf1f9e9c3df3c3`; read-back matched local source exactly.
 - `get_config()`: `version=pulsep.v0.4`, `network_scope=studionet-only`, `admin=null`, `max_sla_versions=8`, `revision_expiry_seconds=86400`.
 - Deployed schema: 21 methods (9 views, 12 writes), including all four revision writes.
-- The versioned-renewal live proof remains incomplete. On `PULSE-WALLET-LIVE-20261017-01`, period 1 settled `NO_BREACH`; the provider withdrew exactly `0.001 GEN`, and a finalized outbound transfer receipt and balance delta are recorded. The same pact accepted version 2 and funded period 2. Four period-2 assessments ended in `MAJORITY_DISAGREE`, leaving its 0.001 GEN bond locked. A separate fresh pact, `PULSE-CRITERIA-LIVE-20261017-01`, used the same pinned version-1 evidence, finalized as `NO_BREACH`, and completed the provider withdrawal for exactly 0.001 GEN with a matching transfer and balance delta. The separate pact `PULSE-V04-RENEWAL-20261017-01` period 1 remains funded after another `UNDETERMINED / MAJORITY_DISAGREE` assessment. At the latest recorded Studionet timestamp, both evidence deadlines were still in the future, so `expire_unresolved` was not eligible. Full receipts, source digests and accounting are in `public/versioned-renewal-verification.json`.
+- Historical v0.4 attempts: on `PULSE-WALLET-LIVE-20261017-01`, period 1 settled `NO_BREACH`; the provider withdrew exactly `0.001 GEN`, and a finalized outbound transfer receipt and balance delta were recorded. The same pact accepted version 2 and funded period 2, but four assessments ended in `MAJORITY_DISAGREE`, leaving that historical bond locked. A separate criteria-proof pact completed a v1 settlement and withdrawal. The separate original v0.4 pact period 1 also remained funded after `UNDETERMINED / MAJORITY_DISAGREE`. These are preserved historical outcomes, not the v0.5 proof. Receipts, source digests and accounting remain in `public/versioned-renewal-verification.json`.
 
-The public frontend [https://pulsep.vercel.app/](https://pulsep.vercel.app/) serves `public/deployment.json` with this v0.4 address, chain ID 61999 and matching source hash. Anonymous HTTP requests to `/`, `/pacts/new/`, `/pacts/view/`, and `/activity/` returned 200. Browser-driven wallet verification and responsive visual QA have not been verified. The versioned-renewal live proof remains incomplete because the two current unresolved periods have not reached their evidence deadlines and validators have not agreed on a classification. Studionet GEN is simulated.
+The v0.4 contract and its unresolved validator disagreements are historical and are not the active frontend target. Their receipts remain in `public/versioned-renewal-verification.json`. The active production manifest now binds v0.5 as recorded above.

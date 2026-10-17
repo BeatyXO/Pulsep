@@ -1,32 +1,30 @@
 # Pulsep build status — Versioned SLA Renewals
 
+## Completed v0.5 milestone
+
+- Source-verified v0.5 contract deployed to stable Studionet 61999: `0x60Bf858706D623C733199AC9c1648f789d35733E`.
+- Deployment transaction `0x6da71244307f1cce6b6915f7e7649e31b34c482c562817fc513edcba215d7093` finalized successfully. Deployed source read-back matches normalized-LF SHA-256 `734b2e48ec60a6434ef29981fbbefbc0e4b2c3ebf344716fc1bcb33bb4b23ffa`.
+- `get_config()` confirms `pulsep.v0.5`, `studionet-only`, and `admin=null`.
+- One live pact completed SLA v1 assessment/settlement, bilateral approval of v2, atomic v2 activation on period 2 funding, and v2 assessment/settlement after the full period and maturity delay.
+- Both synthetic periods settled `NO_BREACH`; each 0.001 GEN period bond credited 100% to the provider. Aggregate deposits and credits are 0.002 GEN; locked funds are zero. Credits remain claimable; no withdrawal was part of this v0.5 proof.
+- Final v0.5 transaction receipts and policy digests are in `public/versioned-renewal-verification.json`. Earlier v0.2/v0.4 disagreements remain preserved as historical evidence.
+
+## Verification
+
+- Repository-local GenLayer CLI: `0.39.1`.
+- GenVM lint: PASS, 3 checks; pinned runner v0.2.16.
+- Direct Mode: PASS, 37 tests.
+- Actual-contract mutation checks: PASS, 10/10 weakened-source mutants killed.
+- Python compile: PASS.
+- Frontend typecheck: PASS; Vitest: 19/19; production build: PASS.
+- GitHub Actions for manifest commit `878977113136e0746276462661e9fd3939e408d4`: [run 39070496982](https://github.com/BeatyXO/Pulsep/actions/runs/39070496982), PASS. A final documentation commit will trigger a further run.
+- Production frontend `https://pulsep.vercel.app/` serves the v0.5 manifest. `/`, `/pacts/new`, `/pacts/view`, and `/activity` returned anonymous HTTP 200.
+- Browser injected-wallet execution was not performed. Studionet GEN is simulated. The official accepted submission baseline remains unverified; `fc667a11fcc467b99cdd7d68bf5bb745445b620d` is the recorded pre-milestone HEAD only.
+
 ## Preserved baseline
 
-- Pre-milestone repository HEAD verified locally: `fc667a11fcc467b99cdd7d68bf5bb745445b620d`.
-- The repository has no accepted-baseline tag or authoritative acceptance record. `fc667a1` is preserved as the pre-milestone point, not described as the officially accepted submission.
-- The historical v0.3 contract and completed NO_BREACH transaction proof remain in `public/deployment.json` and `public/verification.json`.
+- Pre-milestone repository HEAD: `fc667a11fcc467b99cdd7d68bf5bb745445b620d`.
+- The repository has no authoritative acceptance record; this SHA is not claimed as officially accepted.
+- Historical v0.3 and v0.4 deployments, receipts, and unresolved disagreement records remain in the deployment and verification history.
 
-## Milestone implementation
-
-- Version `pulsep.v0.4` is deployed to stable Studionet and source-readback verified.
-- SLA version 1 freezes the original semantic policy. Up to eight versions are stored separately with full policy and canonical digest; periods store their own full source/policy snapshot, version number and digest.
-- Either party may propose permitted future terms; only the exact counterparty approves the proposal ID, base version and policy digest. Proposals expire after 24 hours. Pending state is single-entry; audit events are capped at 64 per pact.
-- An approved revision activates only in the atomic next-period payable call. Parties, service identity, period duration, bond and payout bps cannot be revised.
-- Contract reads expose version records and paginated revision events. Pact detail UI includes the editor, exact digest approval, expiry/cancel/replacement status, period version, immutable history, and before/after policy presentation.
-- The versioned-renewal live proof is incomplete. On pact `PULSE-WALLET-LIVE-20261017-01`, period 1 settled `NO_BREACH` and the provider withdrew its exact 0.001 GEN credit; the same pact then activated approved SLA version 2 and funded period 2. Four period-2 assessments ended in `MAJORITY_DISAGREE`; period 2 remains `FUNDED` with its bond locked. The separate original pact period 1 also remains `FUNDED` after disagreement. Both evidence deadlines are still in the future, so expiry recovery cannot yet be called. A separate criteria-proof pact also completed a version-1 `NO_BREACH` settlement and provider withdrawal using the pinned evidence. Current receipts and accounting are in `public/versioned-renewal-verification.json`.
-
-## Local verification
-
-- Repository-local GenLayer CLI installed and reports `0.39.1`.
-- Python compile: PASS.
-- Direct Mode plus source invariants: PASS, 34 cases.
-- GenVM lint 0.11.0 with stable runner v0.2.16: PASS; 21 contract methods (9 views, 12 writes).
-- TypeScript typecheck: PASS.
-- Vitest: 19/19 PASS, including injected wallet, network, deployment/source guard, pending hash recovery and ambiguous send cases.
-- Next.js production build: PASS for routes `/`, `/activity`, `/pacts/new`, and `/pacts/view`.
-- Actual-contract mutation check: PASS, 4/4 weakened source variants killed (counterparty authorization, period version binding, atomic activation, settlement conservation).
-- GitHub Actions passed for commit `1863b4ad9850543a6497b8db4a9db8d05e467c1a`: [run 39061708882](https://github.com/BeatyXO/Pulsep/actions/runs/39061708882), frontend and contract jobs green.
-- Production Vercel serves a v0.4 manifest for the verified Studionet contract; homepage and `/pacts/new/`, `/pacts/view/`, `/activity/` return HTTP 200 to anonymous requests.
-- Browser-wallet execution and visual desktop/tablet/mobile QA remain unverified; responsive breakpoints are present in the stylesheet.
-
-Studionet GEN is simulated. This prototype is not independently audited, bug-free, production-safe, real-money settlement, or legal arbitration.
+This prototype is not independently audited, bug-free, production-safe, real-money settlement, or legally binding arbitration.

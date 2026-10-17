@@ -1,41 +1,43 @@
-# Pulsep submission draft
+# Pulsep submission
 
 ## Name
 Pulsep
 
-## Primary category
-Infrastructure / service reliability (choose the closest Portal category available at submission time).
-
 ## One-liner
-Recurring GenLayer reliability pacts that judge public SLA evidence through validator re-fetch and independent re-evaluation, then deterministically settle a frozen period bond.
+Recurring GenLayer reliability pacts where validators independently assess frozen public SLA evidence and contract code deterministically settles each period.
 
-## Description draft
-Pulsep is a recurring SLA reliability protocol on GenLayer Studionet. A customer freezes the covered service, SLA clauses, breach-tier rules, public evidence policy, period duration, provider bond and payout percentages before provider acceptance. After a post-period evidence-maturity window, validators independently retrieve the agreed sources and determine NO_BREACH, MINOR, MAJOR, SEVERE or INCONCLUSIVE. INDEPENDENT is a customer-declared role accepted by the provider, not externally authenticated ownership. Provider-source unavailability alone cannot veto an independently supported breach. NO_BREACH requires explicit quoted independent coverage of the entire period. Validators compare the full normalized explanation and evidence record; the model cannot choose recipients or amounts. Frozen contract basis points determine settlement. INCONCLUSIVE keeps the bond locked for cooldown-limited reassessment until the evidence deadline, after which unresolved recovery follows deterministic contract rules. The same pact can fund another period after terminal settlement.
+## Product
+
+Pulsep is a recurring SLA reliability protocol on GenLayer Studionet. A customer freezes the covered service, SLA clauses, breach tiers, public evidence policy, period duration, provider bond, and payout basis points before provider acceptance. After a service period and evidence-maturity window, validators independently retrieve frozen sources and substantively classify the period as `NO_BREACH`, `MINOR`, `MAJOR`, `SEVERE`, or `INCONCLUSIVE`. The model never selects recipients or amounts. Contract code applies the precommitted split. `INCONCLUSIVE` keeps funds locked for bounded reassessment and deterministic unresolved recovery. The same pact can renew for later periods.
+
+## Versioned SLA Renewals milestone
+
+**Status:** Completed with a source-verified v0.5 Studionet deployment and a successful two-period live proof.
+
+**Copy-ready milestone description (under 1,000 characters):**
+
+> Pulsep adds mutually approved, versioned SLA renewals to its recurring GenLayer settlement pact. Either party may propose future service-scope, SLA-clause, tier-rule, or evidence-source changes; only the designated counterparty can approve the exact proposal ID, base version, and canonical policy digest before expiry. Approval leaves funded periods unchanged. The next renewal atomically activates the approved policy and binds its full snapshot and digest to the new period. On stable Studionet, one pact completed a v1 NO_BREACH settlement, bilateral v2 approval, atomic v2 activation, and a v2 NO_BREACH settlement after the full service and evidence-maturity windows. Validators fetched commit-pinned synthetic provider and independent records; contract code issued deterministic credits from frozen terms. The model never selects amounts or recipients.
+
+**Pre-milestone HEAD:** `fc667a11fcc467b99cdd7d68bf5bb745445b620d`. This is not claimed as the officially accepted submission baseline; acceptance remains unverified.
+
+**Final Git commit / compare URL:** The final commit is the GitHub `main` HEAD for this submission; compare from the recorded pre-milestone HEAD. The exact SHA and compare URL are included in the closeout report.
+
+**Active contract:** [`0x60Bf858706D623C733199AC9c1648f789d35733E`](https://explorer-studio.genlayer.com/address/0x60Bf858706D623C733199AC9c1648f789d35733E), stable Studionet chain 61999.
+
+**Deployment:** [`0x6da71244307f1cce6b6915f7e7649e31b34c482c562817fc513edcba215d7093`](https://explorer-studio.genlayer.com/tx/0x6da71244307f1cce6b6915f7e7649e31b34c482c562817fc513edcba215d7093), FINALIZED / SUCCESS. Normalized-LF source SHA-256: `734b2e48ec60a6434ef29981fbbefbc0e4b2c3ebf344716fc1bcb33bb4b23ffa`; deployed read-back matches.
+
+**Live proof:** Pact `PULSE-V05-MILESTONE-20261017-01` completed period 1 v1 settlement, v2 proposal and bilateral approval, atomic v2 activation on period 2 funding, and period 2 v2 semantic assessment and settlement. Receipts, version digests, validator information, pinned source digests and exact accounting are in `MILESTONE_EVIDENCE.md` and `public/versioned-renewal-verification.json`.
+
+**Frontend:** [https://pulsep.vercel.app/](https://pulsep.vercel.app/). Production manifest verified against the v0.5 contract and source digest; anonymous route checks returned HTTP 200 for `/`, `/pacts/new`, `/pacts/view`, and `/activity`.
+
+**Verification:** GenVM lint PASS; Direct Mode PASS (37 tests); actual-contract mutations PASS (10/10); frontend typecheck, 19 tests, and production build PASS. CI for the preceding manifest commit passed at [run 39070496982](https://github.com/BeatyXO/Pulsep/actions/runs/39070496982); a new run is required for the final documentation commit.
+
+**Limitations:** Studionet GEN is simulated. The evidence fixtures are synthetic. Browser injected-wallet execution was not performed. Official accepted submission baseline is unverified. Pulsep is not represented as independently audited, production-safe, real-money settlement, or legally binding arbitration.
 
 ## Links
 
 - GitHub: https://github.com/BeatyXO/Pulsep
 - Website: https://pulsep.vercel.app/
-- Current contract explorer: https://explorer-studio.genlayer.com/address/0x5B5dDeeaDBfCc2075A7E75401202E259a076f9Cf
-- Current deployment transaction: https://explorer-studio.genlayer.com/tx/0xe6ac4004f06780953c9edcdaca61e7b90bc407c9bd0d5614bfe6a8abe23f4ef8
-- Historical v0.3 completed NO_BREACH lifecycle evidence and v0.4 renewal evidence (one successful period-1 settlement/withdrawal; version-2 period-2 assessment unresolved): `public/verification.json`, `public/versioned-renewal-verification.json`
-
-Studionet GEN is simulated. Pulsep is not described as audited, production-safe, real-money settlement or legally binding arbitration.
-
-## Versioned SLA Renewals milestone submission (provisional until live evidence is complete)
-
-**Milestone title:** Versioned SLA Renewals
-
-**Milestone description (copy-ready, under 1,000 characters):** Pulsep adds mutually approved, versioned SLA renewals to its recurring GenLayer settlement pact. Either party can propose future service-scope, SLA-clause, tier-rule, or evidence-source changes; only the designated counterparty can approve the exact proposal ID, base version, and canonical policy digest before its 24-hour expiry. Approval does not alter a funded period. The next renewal atomically activates the approved policy and binds its full snapshot and digest to the new period. Historical periods, evidence URLs, bond, parties, and deterministic payout basis points remain fixed. Validators assess each period using its original version-specific evidence and terms.
-
-**Baseline:** pre-milestone HEAD `fc667a11fcc467b99cdd7d68bf5bb745445b620d`. Official accepted submission SHA remains unverified; this is not labeled an accepted baseline.
-
-**Comparison URL:** provisional until final milestone commit exists: `https://github.com/BeatyXO/Pulsep/compare/fc667a11fcc467b99cdd7d68bf5bb745445b620d...1863b4ad9850543a6497b8db4a9db8d05e467c1a`
-
-**Milestone contract:** https://explorer-studio.genlayer.com/address/0x5B5dDeeaDBfCc2075A7E75401202E259a076f9Cf
-
-**Deployment receipt:** https://explorer-studio.genlayer.com/tx/0xe6ac4004f06780953c9edcdaca61e7b90bc407c9bd0d5614bfe6a8abe23f4ef8 (FINALIZED, SUCCESS; source read-back matches).
-
-**Live URL:** https://pulsep.vercel.app/ (verified serving the v0.4 Studionet manifest; browser wallet flow not verified).
-
-**Evidence:** `MILESTONE_EVIDENCE.md`, `public/versioned-renewal-verification.json`; deployment is proven and the v0.4 manifest is being prepared. Period-1 settlement, period-2 activation, final CI for the release commit, and production frontend verification remain in progress.
+- Active contract: https://explorer-studio.genlayer.com/address/0x60Bf858706D623C733199AC9c1648f789d35733E
+- Historical v0.3 lifecycle evidence: `public/verification.json`
+- Historical v0.2/v0.4 and final v0.5 evidence: `public/versioned-renewal-verification.json`
