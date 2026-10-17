@@ -46,6 +46,10 @@ The original SLA is immutable version 1. Either customer or provider may propose
 
 An approval does not rewrite a funded period. At the next renewal, `fund_next_period` atomically activates an unexpired approved version and binds its complete policy snapshot and digest to that period. If there is no approved revision, the current version continues. Assessment, retry, and expiry always use the period's original source URLs and policy snapshot. The cap is eight SLA versions and 64 revision audit events per pact. Parties, service identity, period length, bond, and payout basis points cannot change.
 
+## Current Studionet renewal proof
+
+The v0.4 live evidence is still in progress. A wallet-test pact completed a version-1 `NO_BREACH` period and provider withdrawal, then activated version 2 and funded period 2. Four assessment transactions ended in validator disagreement; the period remains funded and its bond remains locked. A separate original pact period is also unresolved. At the latest recorded read, both evidence deadlines were still in the future, so expiry recovery was not eligible. No payout or recovery is claimed for those unresolved periods. Receipts, source digests, timestamps and accounting are published in [`public/versioned-renewal-verification.json`](public/versioned-renewal-verification.json).
+
 ## Classification and settlement
 
 The contract recognizes only:

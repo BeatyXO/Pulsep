@@ -4,7 +4,7 @@
 
 - Verified pre-milestone `main` HEAD: `fc667a11fcc467b99cdd7d68bf5bb745445b620d`.
 - The official accepted submission commit could not be confirmed from repository tags, handoff files, or submission records. Candidate SHA `fc667a11fcc467b99cdd7d68bf5bb745445b620d` remains explicitly unverified; the same SHA is preserved separately as the pre-milestone HEAD.
-- Final milestone commit and compare link: pending.
+- The accepted submission baseline remains unverified. Latest commit, comparison link and CI run are recorded after the evidence update is pushed.
 - Historical v0.3 contract and its prior NO_BREACH proof remain preserved in the existing deployment/verification records.
 
 ## Existing Pulsep functionality preserved
@@ -34,18 +34,18 @@ The v0.4 contract is deployed and verified on stable Studionet:
 - Deployment transaction: [`0xe6ac4004f06780953c9edcdaca61e7b90bc407c9bd0d5614bfe6a8abe23f4ef8`](https://explorer-studio.genlayer.com/tx/0xe6ac4004f06780953c9edcdaca61e7b90bc407c9bd0d5614bfe6a8abe23f4ef8), FINALIZED, SUCCESS, MAJORITY_AGREE with five validators.
 - Normalized-LF source SHA-256: `a03b0b5b509af6648dfa95125594e5fd2ce01532de839dbb2bcf1f9e9c3df3c3`; the deployed source read-back matches exactly.
 - `get_config()` reports `pulsep.v0.4`, `studionet-only`, `admin=null`, 8 maximum SLA versions and a 24-hour revision expiry. The deployed schema has 21 methods.
-- Live pact `PULSE-V04-RENEWAL-20261017-01` is proposed and funded at exactly `0.001 GEN`. Period 1 snapshots version 1. A version 2 proposal using the v2 source records was approved by the counterparty and awaits atomic activation during the eligible period-2 funding call.
+- Live pact `PULSE-V04-RENEWAL-20261017-01` is proposed and funded at exactly `0.001 GEN`. Period 1 snapshots version 1; the approved version 2 was activated atomically on the separate wallet-test pact when period 2 was funded.
 - Proposal, funding, revision and approval transactions, period timestamps and fixture digests are recorded in `public/versioned-renewal-verification.json`.
 
-The two-period proof is still in progress; no assessment, settlement, withdrawal or period-2 result is claimed yet. The original v0.3 deployment and completed NO_BREACH cycle remain preserved in `public/verification.json`.
+The versioned-renewal proof is incomplete. Wallet-test pact `PULSE-WALLET-LIVE-20261017-01` completed period 1 as `NO_BREACH`; provider withdrawal and its finalized outbound transfer are recorded. The same pact activated approved SLA version 2 and funded period 2. Four assessment calls ended in `MAJORITY_DISAGREE`, leaving period 2 `FUNDED` with the 0.001 GEN bond locked. On the separate original pact `PULSE-V04-RENEWAL-20261017-01`, period 1 remains `FUNDED`; an additional assessment ended `UNDETERMINED / MAJORITY_DISAGREE`. At the latest read, both evidence deadlines were still future, so deterministic expiry recovery was not eligible. No result, credit, recovery or withdrawal is claimed for either unresolved period. Receipt hashes, source evidence, timing and accounting are in `public/versioned-renewal-verification.json`. The earlier completed v0.3 `NO_BREACH` lifecycle remains in `public/verification.json`.
 
 ## Frontend and CI
 
-The milestone frontend has passed local build/test checks. Anonymous HTTPS requests to `https://pulsep.vercel.app/`, `/pacts/new/`, `/pacts/view/`, and `/activity/` returned HTTP 200. The production `/deployment.json` reports v0.4, chain 61999, the new address and verified source hash. The in-app and Chrome browser surfaces returned `ERR_BLOCKED_BY_CLIENT`; visual responsive checks and browser-wallet actions are not claimed. CSS includes 980px and 680px responsive breakpoints. The initial milestone GitHub Actions run is green; final-release CI remains pending.
+The milestone frontend has passed local build/test checks. Anonymous HTTPS requests to `https://pulsep.vercel.app/`, `/pacts/new/`, `/pacts/view/`, and `/activity/` returned HTTP 200. The production `/deployment.json` reports v0.4, chain 61999, the new address and verified source hash. The in-app and Chrome browser surfaces returned `ERR_BLOCKED_BY_CLIENT`; visual responsive checks and browser-wallet actions are not claimed. CSS includes 980px and 680px responsive breakpoints. GitHub Actions passed on prior commit `348e7e1` at [run 39036674641](https://github.com/BeatyXO/Pulsep/actions/runs/39036674641); the evidence/documentation update requires its own CI run.
 
 ## Limitations
 
 - Studionet GEN is simulated.
 - No independent audit or production safety claim is made.
 - Original accepted submission baseline remains unverified.
-- Period-1 settlement and period-2 renewal/settlement receipts, live negative-transition receipts, final-release GitHub Actions, and production frontend verification remain outstanding.
+- A version-2 renewal was funded, but period 2 has not settled because four validator assessments disagreed. The separate original pact period 1 is also unresolved. Expiry recovery cannot be submitted before the recorded evidence deadlines. No full v0.4 renewal settlement cycle or live negative-transition set is claimed.

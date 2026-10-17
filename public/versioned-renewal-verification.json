@@ -1,6 +1,6 @@
 {
   "schemaVersion": "pulsep.versioned-renewals.v1",
-  "status": "wallet-test-period-2-v2-assessment-consensus-disagreement; original-v0.4-pact-period-1-unresolved",
+  "status": "additional-assessments-decided-with-validator-disagreement; expiry-recovery-not-yet-eligible",
   "network": "studionet",
   "chainId": 61999,
   "rpc": "https://studio.genlayer.com/api",
@@ -104,23 +104,53 @@
         "assessmentAttemptsRecorded": 0,
         "consensusOutcome": "MAJORITY_DISAGREE",
         "finality": "FINALIZED",
-        "validatorVotesLastRound": ["IDLE", "IDLE", "DISAGREE", "DISAGREE", "DISAGREE"],
+        "validatorVotesLastRound": [
+          "IDLE",
+          "IDLE",
+          "DISAGREE",
+          "DISAGREE",
+          "DISAGREE"
+        ],
         "leaderExecution": "SUCCESS",
         "validatorExecution": "ERROR: idle / Validator execution cancelled after quorum",
         "transactions": [
           "0x5e6482a285413cbeef3c5e901c91081756795b878748091e79b2c9a834048593",
           "0xa044ee60d0d832f1c6b33d28ef74699e71a51cdd2271828b32145544bcae6411",
-          "0x27258dbda018ec17b3736553ca350d069b178ca1eaac223397c7096f047ce0f2"
+          "0x27258dbda018ec17b3736553ca350d069b178ca1eaac223397c7096f047ce0f2",
+          "0x6028606862a2f7ba8d6f786d1f48af2de814fdbb993ceb16acbc47f7ba127e88"
         ],
         "latestFinalizedReceipt": {
           "transaction": "0x27258dbda018ec17b3736553ca350d069b178ca1eaac223397c7096f047ce0f2",
           "status": "FINALIZED",
           "consensus": "MAJORITY_DISAGREE",
           "rounds": 4,
-          "lastRoundVotes": ["AGREE", "DISAGREE", "DISAGREE", "DISAGREE", "IDLE"],
+          "lastRoundVotes": [
+            "AGREE",
+            "DISAGREE",
+            "DISAGREE",
+            "DISAGREE",
+            "IDLE"
+          ],
           "leaderClassification": "NO_BREACH"
         },
-        "note": "Three assessment transactions finalized with MAJORITY_DISAGREE; none changed the funded period or accounting. No classification or settlement is claimed."
+        "note": "Three assessment transactions finalized with MAJORITY_DISAGREE; none changed the funded period or accounting. No classification or settlement is claimed.",
+        "additionalAssessment": {
+          "transaction": "0x6028606862a2f7ba8d6f786d1f48af2de814fdbb993ceb16acbc47f7ba127e88",
+          "status": "UNDETERMINED",
+          "consensus": "MAJORITY_DISAGREE",
+          "rounds": 16,
+          "consensusMaxRotations": 30,
+          "lastRoundVotes": [
+            "IDLE",
+            "DISAGREE",
+            "DISAGREE",
+            "DISAGREE",
+            "IDLE"
+          ],
+          "leaderExecution": "SUCCESS",
+          "validatorExecution": "CONTRACT_ERROR",
+          "contractEffect": "none; period remains FUNDED and assessment_attempts remains 0"
+        }
       },
       "fundPeriod2": null,
       "period2Assessment": null,
@@ -185,7 +215,7 @@
     }
   },
   "walletTestPact": {
-    "status": "PERIOD_2_VERSION_2_FUNDED_ASSESSMENTS_FINALIZED_MAJORITY_DISAGREE",
+    "status": "PERIOD_2_VERSION_2_FOURTH_ASSESSMENT_FINALIZED_MAJORITY_DISAGREE; EXPIRY_NOT_YET_ELIGIBLE",
     "pactId": "PULSE-WALLET-LIVE-20261017-01",
     "customer": "0x39680bd423437C0Eaa18493629652821Ec672C61",
     "provider": "0xA49c51d759790116D451f256654dD9F0549D341F",
@@ -229,10 +259,24 @@
         "classification": "NO_BREACH",
         "leaderClassification": "NO_BREACH",
         "sourceEvidence": [
-          {"id": "provider-v1", "httpStatus": 200, "sha256": "897f309ab2445fe370a578675eebc41e7663caad13f3885895e6bd886f9c63cb"},
-          {"id": "monitor-v1", "httpStatus": 200, "sha256": "fd67c76cedde845f91297c25d082adf0c663a59454bcf775c1dbe8a4c562038d"}
+          {
+            "id": "provider-v1",
+            "httpStatus": 200,
+            "sha256": "897f309ab2445fe370a578675eebc41e7663caad13f3885895e6bd886f9c63cb"
+          },
+          {
+            "id": "monitor-v1",
+            "httpStatus": 200,
+            "sha256": "fd67c76cedde845f91297c25d082adf0c663a59454bcf775c1dbe8a4c562038d"
+          }
         ],
-        "validatorVotesLastRound": ["AGREE", "DISAGREE", "AGREE", "IDLE", "AGREE"]
+        "validatorVotesLastRound": [
+          "AGREE",
+          "DISAGREE",
+          "AGREE",
+          "IDLE",
+          "AGREE"
+        ]
       },
       "withdrawals": [
         {
@@ -297,7 +341,13 @@
           "consensus": "MAJORITY_DISAGREE",
           "rounds": 11,
           "consensusMaxRotations": 10,
-          "lastRoundVotes": ["AGREE", "DISAGREE", "DISAGREE", "DISAGREE", "IDLE"]
+          "lastRoundVotes": [
+            "AGREE",
+            "DISAGREE",
+            "DISAGREE",
+            "DISAGREE",
+            "IDLE"
+          ]
         },
         {
           "hash": "0x86563210ebb7c99cce0640c8253cbc755cbc2f59f53d1647a896744c3b12fff9",
@@ -305,7 +355,13 @@
           "consensus": "MAJORITY_DISAGREE",
           "rounds": 16,
           "consensusMaxRotations": 20,
-          "lastRoundVotes": ["DISAGREE", "DISAGREE", "IDLE", "DISAGREE", "IDLE"]
+          "lastRoundVotes": [
+            "DISAGREE",
+            "DISAGREE",
+            "IDLE",
+            "DISAGREE",
+            "IDLE"
+          ]
         },
         {
           "hash": "0x8f43689c0db0f17a2e63f74e0a622f9dd49dcae6b2e73328d6facda251074118",
@@ -313,13 +369,44 @@
           "consensus": "MAJORITY_DISAGREE",
           "rounds": 16,
           "consensusMaxRotations": 30,
-          "lastRoundVotes": ["DISAGREE", "DISAGREE", "IDLE", "IDLE", "DISAGREE"]
+          "lastRoundVotes": [
+            "DISAGREE",
+            "DISAGREE",
+            "IDLE",
+            "IDLE",
+            "DISAGREE"
+          ]
+        },
+        {
+          "hash": "0x68ac2cba23484f595d0e8d2eac90f463856f4b20d87c7ff35d26faaaab8b2dcd",
+          "finality": "FINALIZED",
+          "consensus": "MAJORITY_DISAGREE",
+          "rounds": 16,
+          "consensusMaxRotations": 30,
+          "lastRoundVotes": [
+            "AGREE",
+            "DISAGREE",
+            "IDLE",
+            "DISAGREE",
+            "DISAGREE"
+          ],
+          "leaderClassification": "NO_BREACH",
+          "contractEffect": "none; period remains FUNDED and assessment_attempts remains 0"
         }
       ]
     },
     "versionHistory": [
-      {"version": 1, "digest": "8048ea823e74560005980b882455744ee31a16e9d00cd6c38bc638564884af23", "activatedAtUnix": 1792239348},
-      {"version": 2, "digest": "4e3e08b786c7c121aadccf619b898db9ee196c775bcc715764fbf4966163139b", "proposalId": "b571738a479ba5c47d2a91f6afd1d247262bb2fd8462f4570cb940fa768fd84f", "activatedAtUnix": 1792241065}
+      {
+        "version": 1,
+        "digest": "8048ea823e74560005980b882455744ee31a16e9d00cd6c38bc638564884af23",
+        "activatedAtUnix": 1792239348
+      },
+      {
+        "version": 2,
+        "digest": "4e3e08b786c7c121aadccf619b898db9ee196c775bcc715764fbf4966163139b",
+        "proposalId": "b571738a479ba5c47d2a91f6afd1d247262bb2fd8462f4570cb940fa768fd84f",
+        "activatedAtUnix": 1792241065
+      }
     ],
     "accountingAfterFunding": {
       "protocolTotalDepositedWei": "2000000000000000",
@@ -352,8 +439,16 @@
       "source": "get_accounting(customer/provider) and eth_getBalance after three finalized period-2 disagreements"
     },
     "syntheticSourcesV2": [
-      {"role":"PROVIDER","url":"https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-provider.json","sha256":"fdf147ee2e9c0d502c6284c0c452d0cdd773e9806e45b54abbe0c79865193a1e"},
-      {"role":"INDEPENDENT","url":"https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-independent.json","sha256":"082170251a40bd9b69c04b1fc3061969cb0c51fba0be6fdf03d95384cf55abd5"}
+      {
+        "role": "PROVIDER",
+        "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-provider.json",
+        "sha256": "fdf147ee2e9c0d502c6284c0c452d0cdd773e9806e45b54abbe0c79865193a1e"
+      },
+      {
+        "role": "INDEPENDENT",
+        "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-independent.json",
+        "sha256": "082170251a40bd9b69c04b1fc3061969cb0c51fba0be6fdf03d95384cf55abd5"
+      }
     ],
     "syntheticSources": [
       {
@@ -366,7 +461,16 @@
         "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-independent.json",
         "sha256": "fd67c76cedde845f91297c25d082adf0c663a59454bcf775c1dbe8a4c562038d"
       }
-    ]
+    ],
+    "accountingAfterLatestAssessments": {
+      "totalDepositedWei": "3000000000000000",
+      "totalLockedWei": "2000000000000000",
+      "totalCreditedWei": "0",
+      "totalWithdrawnWei": "1000000000000000",
+      "claimableWei": "0",
+      "contractBalanceWei": "2000000000000000",
+      "readFrom": "get_accounting for both test wallets and eth_getBalance(contract)"
+    }
   },
   "negativeCases": [
     {
@@ -455,11 +559,48 @@
     "to": null
   },
   "limitations": [
-    "The earlier preexisting pact PULSE-V04-RENEWAL-20261017-01 period 1 remains FUNDED after three finalized MAJORITY_DISAGREE outcomes, with its 0.001 GEN bond locked and no credits. That separate pact remains unresolved.",
-    "Wallet-test pact period 2 is funded under activated SLA version 2. Three assessment transactions finalized MAJORITY_DISAGREE, leaving it FUNDED with no assessment recorded or credit created; the agreed classification and settlement remain unresolved.",
     "Browser wallet execution and visual viewport testing are not verified; the browser blocked the site while anonymous HTTP route checks succeeded.",
     "No independent source-mutation framework or independent audit is claimed; four actual-contract weakened-source mutants were killed by Direct Mode tests.",
     "The officially accepted submission baseline remains unverified.",
-    "Studionet GEN is simulated; these are not real-money settlements."
-  ]
+    "Studionet GEN is simulated; these are not real-money settlements.",
+    "The original pact PULSE-V04-RENEWAL-20261017-01 period 1 remains FUNDED after three prior finalized disagreements and a new UNDETERMINED / MAJORITY_DISAGREE receipt (0x6028606862a2f7ba8d6f786d1f48af2de814fdbb993ceb16acbc47f7ba127e88). No assessment was recorded and no credit was created.",
+    "Wallet-test pact PULSE-WALLET-LIVE-20261017-01 period 2 is funded under SLA version 2. A fourth assessment finalized MAJORITY_DISAGREE (0x68ac2cba23484f595d0e8d2eac90f463856f4b20d87c7ff35d26faaaab8b2dcd); no assessment was recorded and no credit was created.",
+    "At Studionet timestamp 1792261758, both periods’ evidence deadlines remained in the future (1792835608 and 1792846765). expire_unresolved is not yet eligible. Each unresolved bond remains locked under the contract rule until a conclusive assessment or deadline recovery."
+  ],
+  "latestLiveReadback": {
+    "studionetBlockTimestamp": 1792261758,
+    "readAtBlockTimestamp": 1792261758,
+    "periods": [
+      {
+        "pactId": "PULSE-V04-RENEWAL-20261017-01",
+        "index": 1,
+        "status": "FUNDED",
+        "evidenceDeadlineUnix": 1792835608,
+        "assessmentAttemptsRecorded": 0,
+        "classification": null,
+        "customerCreditWei": "0",
+        "providerCreditWei": "0"
+      },
+      {
+        "pactId": "PULSE-WALLET-LIVE-20261017-01",
+        "index": 2,
+        "status": "FUNDED",
+        "evidenceDeadlineUnix": 1792846765,
+        "assessmentAttemptsRecorded": 0,
+        "classification": null,
+        "customerCreditWei": "0",
+        "providerCreditWei": "0"
+      }
+    ],
+    "accounting": {
+      "totalDepositedWei": "3000000000000000",
+      "totalLockedWei": "2000000000000000",
+      "totalCreditedWei": "0",
+      "totalWithdrawnWei": "1000000000000000",
+      "claimableWei": "0",
+      "contractBalanceWei": "2000000000000000",
+      "readFrom": "get_accounting for both test wallets and eth_getBalance(contract)"
+    },
+    "note": "Both evidence windows remain open at this read. Deterministic expiry recovery is not yet eligible."
+  }
 }
