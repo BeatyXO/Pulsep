@@ -35,6 +35,22 @@
 3. Unavailable source cannot be represented as available evidence.
 4. Validator comparison binds the complete normalized assessment, including reason, quotes, coverage/freshness, timeline, exclusion reasoning, provenance and period boundaries.
 5. The LLM has no accepted schema fields for recipients or payout bps.
+6. Assessment comparison binds the funded period's SLA version number and canonical policy digest; arbitrary narrative wording is not a decision fact.
+
+## Versioned renewal invariants
+
+1. Version 1 is the original accepted semantic policy; version numbers increase by exactly one and are capped at 8.
+2. Every complete policy snapshot is append-only under its pact/version identity and has a SHA-256 digest over canonical sorted-key JSON.
+3. A period stores its full policy snapshot, SLA version, and digest at funding; later revisions cannot change that record.
+4. A revision can change only service scope, SLA clauses, tier meanings, and source IDs/roles/URLs/scopes. Customer, provider, service identity, period duration, bond, and payout basis points stay fixed.
+5. A revision requires 2–4 valid sources including provider and independent roles; sources are revalidated with the same URL/ID/role rules as an initial pact.
+6. At most one pending revision exists. Proposals are bound to pact, proposer, base/next versions, monotonic nonce, exact policy digest, creation time, and 24-hour expiry.
+7. Only the other designated party may approve the exact proposal ID, base version, and digest before expiry. Approval replay, wrong-pact approval, stale base, superseded IDs, and digest mismatch fail.
+8. Only the proposer can cancel. Expiry clearing is permissionless and cannot approve the revision.
+9. An unapproved pending proposal does not prevent a renewal under the current version. An approved unexpired revision activates atomically in the payable next-period funding call. Expired approval makes that call revert without consuming bond or approval.
+10. Funding activation, period version binding, and active-version update occur in one contract transaction; no intermediate signing gap exists.
+11. Assessment, reassessment, and unresolved expiry use only the period's saved policy, including its source URLs and meanings.
+12. Audit history records proposal, approval, replacement, cancellation, expiry and activation; each pact retains at most 64 revision events.
 
 ## Accounting invariants
 

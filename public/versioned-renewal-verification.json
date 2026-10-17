@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "pulsep.versioned-renewals.v1",
+  "status": "implementation-local-verification-passed-live-proof-pending",
+  "network": "studionet",
+  "chainId": 61999,
+  "rpc": "https://studio.genlayer.com/api",
+  "preMilestoneHead": "fc667a11fcc467b99cdd7d68bf5bb745445b620d",
+  "acceptedSubmissionBaseline": {
+    "status": "UNVERIFIED",
+    "candidate": "fc667a11fcc467b99cdd7d68bf5bb745445b620d",
+    "note": "No authoritative accepted-submission record or baseline tag was found in the repository."
+  },
+  "finalMilestoneCommit": null,
+  "contract": {
+    "version": "pulsep.v0.4",
+    "address": null,
+    "sourceSha256NormalizedLf": null,
+    "deploymentTransaction": null,
+    "sourceReadbackMatches": null,
+    "config": null
+  },
+  "protocolLimits": {
+    "maxSlaVersionsPerPact": 8,
+    "maxPendingRevisionsPerPact": 1,
+    "revisionExpirySeconds": 86400,
+    "maxRevisionEventsPerPact": 64
+  },
+  "localVerification": {
+    "repositoryLocalGenlayerCli": "0.39.1",
+    "genvmLint": "PASS",
+    "directMode": "PASS; 34 cases",
+    "pythonCompile": "PASS",
+    "typecheck": "PASS",
+    "vitest": "PASS; 8 tests",
+    "productionBuild": "PASS",
+    "mutationTesting": "NOT_RUN_AS_SOURCE_MUTATION_HARNESS"
+  },
+  "twoPeriodLifecycle": {
+    "status": "NOT_RUN",
+    "pactId": null,
+    "period1Version": null,
+    "period2Version": null,
+    "transactions": {
+      "proposePact": null,
+      "acceptFundPeriod1": null,
+      "proposeRevision": null,
+      "approveRevision": null,
+      "period1Assessment": null,
+      "period1Settlement": null,
+      "fundPeriod2": null,
+      "period2Assessment": null,
+      "period2Settlement": null
+    },
+    "accountingSnapshots": [],
+    "versionHistoryReadback": null
+  },
+  "negativeCases": [],
+  "sourceFixtures": [],
+  "frontend": {
+    "url": "https://pulsep.vercel.app/",
+    "servesV04Manifest": false,
+    "readOnlyRoutes": "NOT_REVERIFIED",
+    "walletBrowser": "NOT_VERIFIED"
+  },
+  "githubActions": { "status": "PENDING", "url": null, "commit": null },
+  "comparison": {
+    "status": "PROVISIONAL_BASELINE_ONLY",
+    "url": null,
+    "from": "fc667a11fcc467b99cdd7d68bf5bb745445b620d",
+    "to": null
+  },
+  "limitations": [
+    "No v0.4 deployment or two-period live transaction receipts have been recorded.",
+    "The officially accepted submission baseline is unverified.",
+    "Production Vercel binding and browser-wallet interaction are unverified.",
+    "Studionet GEN is simulated; these are not real-money settlements."
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "fixture": "Pulsep Versioned SLA Renewals demonstration",
+  "synthetic": true,
+  "periodPolicy": "SLA version 2",
+  "service": "Synthetic Pulsep renewal API",
+  "coverage": "2026-10-17T00:00:00Z through 2026-10-18T00:00:00Z",
+  "status": "Version 2 provider record reports no qualifying availability incident during the stated coverage interval.",
+  "maintenance": "No maintenance exclusion was invoked.",
+  "notice": "This fixture is test data and does not describe a real production service."
+}

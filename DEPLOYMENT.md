@@ -2,6 +2,8 @@
 
 ## Canonical v0.3 deployment
 
+This is the preserved original production deployment and is not overwritten by the milestone record below.
+
 - Network: stable Studionet, chain ID `61999`; RPC `https://studio.genlayer.com/api`.
 - Repository-local CLI: `genlayer@0.39.1`.
 - Contract: [`0xfaA7FADDEcb4EDe3Bd46001bDf812076b953067A`](https://explorer-studio.genlayer.com/address/0xfaA7FADDEcb4EDe3Bd46001bDf812076b953067A).
@@ -21,4 +23,6 @@ This is not proof for MAJOR, maintenance exclusions, INCONCLUSIVE recovery, recu
 
 The app reads `public/deployment.json`; no Vercel address environment variable is used. That local JSON now points to v0.3. The canonical frontend is [https://pulsep.vercel.app/](https://pulsep.vercel.app/), but its production deployment has not been verified against this v0.3 binding. Do not infer production guard success from the local binding.
 
-The v0.3 code/evidence/docs have not been pushed because available GitHub credentials are invalid. No GitHub Actions result exists for the v0.3 commit. See `public/verification.json` for the exact status and limitations.
+## Versioned SLA Renewals milestone (v0.4)
+
+The v0.4 source is under implementation and local verification. No v0.4 contract address, transaction, source read-back, or live two-period version proof is claimed yet. Deploy only after Direct Mode, GenVM lint, frontend tests/build, and preflight pass. Preserve v0.3 above as historical evidence. The new verified manifest and final receipts will be recorded here only after they are observed on stable Studionet.

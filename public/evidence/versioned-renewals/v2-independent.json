@@ -1,0 +1,9 @@
+{
+  "fixture": "Pulsep Versioned SLA Renewals demonstration",
+  "synthetic": true,
+  "periodPolicy": "SLA version 2",
+  "service": "Synthetic Pulsep renewal API",
+  "coverage": "Independent monitor coverage: 2026-10-17T00:00:00Z through 2026-10-18T00:00:00Z",
+  "status": "No availability event meeting the version 2 breach clause was recorded for the synthetic service throughout the stated coverage interval.",
+  "notice": "This fixture is test data and does not describe a real production service."
+}

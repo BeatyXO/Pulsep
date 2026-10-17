@@ -21,3 +21,19 @@ Pulsep is a recurring SLA reliability protocol on GenLayer Studionet. A customer
 - Verification evidence: `public/verification.json` (source verified; one NO_BREACH lifecycle and withdrawal finalized; broader lifecycle proof remains incomplete)
 
 Studionet GEN is simulated. Pulsep is not described as audited, production-safe, real-money settlement or legally binding arbitration.
+
+## Versioned SLA Renewals milestone submission (provisional until live evidence is complete)
+
+**Milestone title:** Versioned SLA Renewals
+
+**Milestone description (copy-ready, under 1,000 characters):** Pulsep adds mutually approved, versioned SLA renewals to its recurring GenLayer settlement pact. Either party can propose future service-scope, SLA-clause, tier-rule, or evidence-source changes; only the designated counterparty can approve the exact proposal ID, base version, and canonical policy digest before its 24-hour expiry. Approval does not alter a funded period. The next renewal atomically activates the approved policy and binds its full snapshot and digest to the new period. Historical periods, evidence URLs, bond, parties, and deterministic payout basis points remain fixed. Validators assess each period using its original version-specific evidence and terms.
+
+**Baseline:** pre-milestone HEAD `fc667a11fcc467b99cdd7d68bf5bb745445b620d`. Official accepted submission SHA remains unverified; this is not labeled an accepted baseline.
+
+**Comparison URL:** provisional until final milestone commit exists: `https://github.com/BeatyXO/Pulsep/compare/fc667a11fcc467b99cdd7d68bf5bb745445b620d...FINAL_SHA`
+
+**Milestone contract / explorer / deployment receipt:** pending deployment and read-back verification.
+
+**Live URL:** https://pulsep.vercel.app/ (v0.4 production binding pending verification).
+
+**Evidence:** `MILESTONE_EVIDENCE.md`, `public/versioned-renewal-verification.json`; two-period Studionet receipts, final CI link, and v0.4 deployment manifest will be filled only after observed.

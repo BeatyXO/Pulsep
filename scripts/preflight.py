@@ -31,11 +31,13 @@ required = [
     "components/ViewPactClient.tsx",
     "lib/chain.ts",
     "public/deployment.json",
+    "public/versioned-renewal-verification.json",
     "README.md",
     "BUILD_STATUS.md",
     "AGENT_HANDOFF.md",
     "DEPLOYMENT.md",
     "SUBMISSION.md",
+    "MILESTONE_EVIDENCE.md",
     "docs/ARCHITECTURE.md",
     "docs/INVARIANTS.md",
     "docs/SECURITY.md",
@@ -52,7 +54,8 @@ if contract.exists():
     try: ast.parse(src)
     except SyntaxError as exc: errors.append(f"contract syntax error: {exc}")
     for marker in [
-        "pulsep.v0.3", "run_nondet_unsafe", "gl.nondet.web.get", "PULSEP_SLA_PERIOD_V1",
+        "pulsep.v0.4", "run_nondet_unsafe", "gl.nondet.web.get", "PULSEP_SLA_PERIOD_V2",
+        "propose_revision", "approve_revision", "cancel_revision", "expire_revision", "terms_digest",
         "NO_BREACH", "MINOR", "MAJOR", "SEVERE", "INCONCLUSIVE",
         "PROVIDER", "INDEPENDENT", "assessment_key", "customer_bps",
         "EXPIRED_UNRESOLVED", "fund_next_period", "expire_unresolved",

@@ -27,6 +27,10 @@ Latest local run before final commit: `gltest -q` passed 28 behavior/source-inva
 
 Codex must run these against the pinned environment, fix only real compatibility defects, and add cases where evidence/model output is malformed, duplicated, omitted or adversarial.
 
+Versioned renewal coverage additionally exercises both proposer roles, exact counterparty authorization, wrong pact/base/digest, stale/replayed IDs, replacement/cancellation/expiry, unapproved renewal under the current version, the 8-version cap, atomic activation, immutable period snapshots, version-specific source URLs, v2 assessment and inconclusive retry under the original period version, and unchanged economic terms. The contract exposes full version records in bounded pages and up to 64 append-only revision events per pact.
+
+Security mutation focus: remove or alter the counterparty check, proposal/digest/base binding, pending-status/expiry check, version snapshot selection, or frozen settlement bps. Each corresponding Direct Mode assertion must fail against such a mutation. The current suite directly exercises malicious actor/argument/state transitions; any mutation harness or results must be reported separately from ordinary test counts.
+
 ## 3. Frontend
 
 Current unit tests cover high-risk pure behavior: precise amount handling and finalized receipt interpretation. Codex should add:
@@ -43,6 +47,8 @@ Current unit tests cover high-risk pure behavior: precise amount handling and fi
 - contract role-state gating.
 
 ## 4. Live Studionet
+
+Milestone-specific live proof must use one pact and two consecutive periods: period 1 bound to v1, jointly approved revision, period 1 settled with v1, then period 2 funded and atomically bound to v2, assessed against v2 evidence and settled. Read version records and both period snapshots after finality. Also submit stale/superseded, unauthorized, and wrong-digest approval attempts and prove they have no state/economic effect.
 
 Use disposable wallets and public, intentionally controlled evidence fixtures. Evidence must be genuinely fetched by GenLayer validators. Do not fake a status source inside the frontend.
 

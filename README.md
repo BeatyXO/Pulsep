@@ -40,6 +40,12 @@ The core path is:
 11. Once a period is terminal, the provider may fund the next period or either party may close future renewal.
 12. Credits are withdrawn pull-style by the credited wallet.
 
+## Versioned SLA renewals
+
+The original SLA is immutable version 1. Either customer or provider may propose a future-policy revision that changes service scope, SLA clauses, tier meanings, or the permitted evidence-source set. Only the exact counterparty can approve the proposal ID, base version, and canonical policy digest. Proposals expire after 24 hours; replacing, cancelling, or expiring one invalidates its prior approval path.
+
+An approval does not rewrite a funded period. At the next renewal, `fund_next_period` atomically activates an unexpired approved version and binds its complete policy snapshot and digest to that period. If there is no approved revision, the current version continues. Assessment, retry, and expiry always use the period's original source URLs and policy snapshot. The cap is eight SLA versions and 64 revision audit events per pact. Parties, service identity, period length, bond, and payout basis points cannot change.
+
 ## Classification and settlement
 
 The contract recognizes only:
@@ -123,4 +129,4 @@ gltest -q
 
 ## Current status
 
-The canonical contract is v0.3 at `0xfaA7FADDEcb4EDe3Bd46001bDf812076b953067A`, with source hash and deployment receipt recorded in `public/deployment.json`. One complete live NO_BREACH lifecycle has finalized, including exact-bond funding, assessment after the 900-second period plus five-minute maturity, deterministic provider credit and finalized withdrawal. v0.2 produced four MAJORITY_DISAGREE assessment receipts on the same no-breach case and remained locked; v0.3 narrowly excludes free-form narrative from consensus comparison while retaining substantive decision material. Production Vercel binding, wallet-browser verification, other classifications, and recurrence are not verified. GitHub push/CI for the v0.3 fix remains blocked by invalid local GitHub credentials. See `public/verification.json`. Studionet GEN is simulated.
+The production deployment recorded in `public/deployment.json` is the historical v0.3 contract and its NO_BREACH live lifecycle. The Versioned SLA Renewals milestone is being implemented on top of it. Until a new v0.4 Studionet deployment, two-period live receipts, GitHub Actions result, and production frontend verification are recorded, v0.4 is not presented as deployed. See `MILESTONE_EVIDENCE.md` and `public/versioned-renewal-verification.json` for current milestone status. Studionet GEN is simulated.

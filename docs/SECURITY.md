@@ -48,6 +48,12 @@ A wallet rejection is not evidence that no unknown transaction exists if a walle
 
 `get_config()` reports `admin: None`. There is no write path for an operator to replace a consensus classification or redirect settlement.
 
+## SLA revision boundary
+
+Versioned terms are bilateral. Either pact party may propose only the permitted future policy fields; the exact counterparty must approve the canonical policy digest together with the proposal ID and base version before a 24-hour deadline. Superseding/cancelling/expiring a proposal invalidates its prior identifier. Version count and event history are bounded at eight and 64.
+
+An approved revision is not active until the provider's atomic next-period funding call. That call binds the policy snapshot and digest to the new funded period in the same state transition. The previous period retains its saved policy for later assessment/retry/expiry. Parties, service identity, bond and payout basis points are immutable across revisions. An approved-but-expired revision blocks that renewal until fresh approval; no balance or credit moves on revision proposal, approval or expiry.
+
 ## Outbound transfer limitation
 
 Withdrawal uses a finalized outbound EVM transfer message. Local/direct tests can prove ledger consumption and message creation; live verification must separately prove the resulting transfer transaction/finalization.

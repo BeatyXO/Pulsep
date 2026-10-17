@@ -22,12 +22,12 @@ def test_stable_runner_pin_is_present(): assert "py-genlayer:1jb45aa8ynh2a9c9xn3
 
 def test_consensus_and_web_access_are_substantive():
     text = source()
-    for marker in ["run_nondet_unsafe", "gl.nondet.web.get", "PULSEP_SLA_PERIOD_V1", "INCONCLUSIVE", "assessment_key"]:
+    for marker in ["run_nondet_unsafe", "gl.nondet.web.get", "PULSEP_SLA_PERIOD_V2", "INCONCLUSIVE", "assessment_key"]:
         assert marker in text
 
 def test_model_does_not_receive_settlement_authority():
     text = source()
-    prompt = text[text.index('PULSEP_SLA_PERIOD_V1'):text.index('INPUT:', text.index('PULSEP_SLA_PERIOD_V1'))]
+    prompt = text[text.index('PULSEP_SLA_PERIOD_V2'):text.index('INPUT:', text.index('PULSEP_SLA_PERIOD_V2'))]
     assert "Do not decide recipients" in prompt
     assert "customer_bps" not in prompt
 
