@@ -184,6 +184,63 @@
       "approvedVersion2NotYetActivated": true
     }
   },
+  "walletTestPact": {
+    "status": "PERIOD_1_FUNDED_WAITING_FOR_MATURITY",
+    "pactId": "PULSE-WALLET-LIVE-20261017-01",
+    "customer": "0x39680bd423437C0Eaa18493629652821Ec672C61",
+    "provider": "0xA49c51d759790116D451f256654dD9F0549D341F",
+    "bondWei": "1000000000000000",
+    "periodSeconds": 900,
+    "period1": {
+      "index": 1,
+      "status": "FUNDED",
+      "slaVersion": 1,
+      "termsDigest": "8048ea823e74560005980b882455744ee31a16e9d00cd6c38bc638564884af23",
+      "fundedAtUnix": 1792239348,
+      "endsAtUnix": 1792240248,
+      "assessmentOpensAtUnix": 1792240548,
+      "evidenceDeadlineUnix": 1792845048
+    },
+    "transactions": {
+      "proposePact": {
+        "hash": "0xd8f3c80ed7d842b7c4004068f37c5010cde94ceb77df7f60afde18c7c5e4479d",
+        "executionResult": "SUCCESS",
+        "consensus": "MAJORITY_AGREE",
+        "finality": "FINALIZED"
+      },
+      "acceptAndFund": {
+        "hash": "0x9e53b62764d6cd00304ad683d9a57d553fe3e2ec8836d4669d8294340557797c",
+        "executionResult": "SUCCESS",
+        "consensus": "MAJORITY_AGREE",
+        "finality": "FINALIZED",
+        "valueWei": "1000000000000000"
+      },
+      "assessment": null,
+      "withdrawals": []
+    },
+    "accountingAfterFunding": {
+      "protocolTotalDepositedWei": "2000000000000000",
+      "protocolTotalLockedWei": "2000000000000000",
+      "protocolTotalCreditedWei": "0",
+      "protocolTotalWithdrawnWei": "0",
+      "customerClaimableWei": "0",
+      "providerClaimableWei": "0",
+      "contractBalanceWei": "2000000000000000",
+      "source": "get_accounting(customer/provider) and eth_getBalance; totals include both the unresolved original pact and this new wallet test pact"
+    },
+    "syntheticSources": [
+      {
+        "role": "PROVIDER",
+        "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-provider.json",
+        "sha256": "897f309ab2445fe370a578675eebc41e7663caad13f3885895e6bd886f9c63cb"
+      },
+      {
+        "role": "INDEPENDENT",
+        "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-independent.json",
+        "sha256": "fd67c76cedde845f91297c25d082adf0c663a59454bcf775c1dbe8a4c562038d"
+      }
+    ]
+  },
   "negativeCases": [
     {
       "case": "stale superseded proposal approval",
