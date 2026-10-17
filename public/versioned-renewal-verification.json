@@ -48,7 +48,7 @@
     "mutationTesting": "PASS; 4/4 actual-contract mutants killed"
   },
   "twoPeriodLifecycle": {
-    "status": "PERIOD_1_FUNDED_VERSION_1_REVISION_2_APPROVED_WAITING_ASSESSMENT_WINDOW",
+    "status": "PERIOD_1_FUNDED_VERSION_1_REVISION_2_APPROVED_ASSESSMENT_DISAGREEMENT",
     "pactId": "PULSE-V04-RENEWAL-20261017-01",
     "customer": "0x7876e9f76f32925c212528d57bc9dfe5e34bcc07",
     "provider": "0x5bf2926e49d5896c975b03fee2fda5e96cb4dd04",
@@ -98,7 +98,21 @@
         "executionResult": "SUCCESS",
         "finality": "FINALIZED"
       },
-      "period1Assessment": null,
+      "period1Assessment": {
+        "actualClassification": null,
+        "periodStateAfterAttempts": "FUNDED",
+        "assessmentAttemptsRecorded": 0,
+        "consensusOutcome": "MAJORITY_DISAGREE",
+        "finality": "FINALIZED",
+        "validatorVotesLastRound": ["IDLE", "IDLE", "DISAGREE", "DISAGREE", "DISAGREE"],
+        "leaderExecution": "SUCCESS",
+        "validatorExecution": "ERROR: idle / Validator execution cancelled after quorum",
+        "transactions": [
+          "0x5e6482a285413cbeef3c5e901c91081756795b878748091e79b2c9a834048593",
+          "0xa044ee60d0d832f1c6b33d28ef74699e71a51cdd2271828b32145544bcae6411"
+        ],
+        "note": "Both assessment attempts finalized with MAJORITY_DISAGREE; neither changed the funded period or accounting. No classification or settlement is claimed."
+      },
       "fundPeriod2": null,
       "period2Assessment": null,
       "revisionHistory": [
@@ -136,7 +150,7 @@
     },
     "accountingSnapshots": [
       {
-        "when": "after period-1 funding, valid revision approval, and three rejected approvals; before period-1 assessment",
+        "when": "after two finalized period-1 assessment disagreements; read-back showed the funded bond remained locked and no credits were created",
         "totalDepositedWei": "1000000000000000",
         "totalLockedWei": "1000000000000000",
         "totalCreditedWei": "0",
@@ -238,8 +252,8 @@
   },
   "githubActions": {
     "status": "PASS",
-    "url": "https://github.com/BeatyXO/Pulsep/actions/runs/39021211509",
-    "commit": "db1217201bc57b72e8a0d28d4d22fcce1dbdaa78"
+    "url": "https://github.com/BeatyXO/Pulsep/actions/runs/39024729259",
+    "commit": "f711dd7"
   },
   "comparison": {
     "status": "PROVISIONAL_BASELINE_ONLY",
@@ -248,7 +262,7 @@
     "to": null
   },
   "limitations": [
-    "Period 1 has not yet reached its assessment-open timestamp; no period-1 classification or settlement is claimed.",
+    "Period 1 reached assessment eligibility, but two finalized validator MAJORITY_DISAGREE outcomes left it FUNDED; no classification or settlement is claimed. A further assessment needs the configured signer unlocked, and the source/validator disagreement still requires resolution.",
     "No period-2 funding, assessment, settlement or withdrawal is claimed yet.",
     "Browser wallet execution and visual viewport testing are not verified; the browser blocked the site while anonymous HTTP route checks succeeded.",
     "No independent source-mutation framework or independent audit is claimed; four actual-contract weakened-source mutants were killed by Direct Mode tests.",
