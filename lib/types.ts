@@ -24,6 +24,11 @@ export type Pact = {
   activated_at?: number;
   closed_at?: number;
   terms_hash?: string;
+  active_sla_version?: number;
+  pending_revision?: Revision | null;
+  sla_versions?: SlaVersion[];
+  revision_events?: RevisionEvent[];
+  revision_nonce?: number;
   sla_clauses?: string[];
   tier_rules?: { minor: string; major: string; severe: string };
   customer_bps?: { minor: number; major: number; severe: number };
@@ -48,6 +53,8 @@ export type Assessment = {
   evidence: { id: string; role: string; url: string; available: boolean; http_status: number; sha256: string; bytes: number }[];
   period_start: number;
   period_end: number;
+  sla_version: number;
+  terms_digest: string;
 };
 
 export type Period = {
@@ -67,6 +74,55 @@ export type Period = {
   settled_at: number;
   customer_credit: string;
   provider_credit: string;
+  sla_version: number;
+  terms_digest: string;
+  policy: SlaPolicy;
+};
+
+export type SlaPolicy = {
+  service: string;
+  service_scope: string;
+  sla_clauses: string[];
+  tier_rules: { minor: string; major: string; severe: string };
+  sources: EvidenceSource[];
+};
+
+export type Revision = {
+  proposal_id: string;
+  proposer: string;
+  base_version: number;
+  next_version: number;
+  policy: SlaPolicy;
+  digest: string;
+  created_at: number;
+  expires_at: number;
+  status: 'PENDING' | 'APPROVED';
+  approved_by: string;
+  approved_at: number;
+};
+
+export type SlaVersion = {
+  version: number;
+  policy: SlaPolicy;
+  digest: string;
+  proposal_id: string;
+  proposer: string;
+  approved_by: string;
+  created_at: number;
+  approved_at: number;
+  activated_at: number;
+};
+
+export type RevisionEvent = {
+  sequence: number;
+  event: 'PROPOSED' | 'APPROVED' | 'SUPERSEDED' | 'CANCELLED' | 'EXPIRED' | 'ACTIVATED';
+  proposal_id: string;
+  proposer: string;
+  base_version: number;
+  next_version: number;
+  digest: string;
+  actor: string;
+  timestamp: number;
 };
 
 export type Deployment = {

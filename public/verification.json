@@ -13,7 +13,11 @@
     "deploymentTransaction": "0x768d607db626ceffc04290e446a756044c215b090d8fb316e0a948a96a77f7a2",
     "deploymentStatus": "FINALIZED",
     "executionResult": "SUCCESS",
-    "config": { "version": "pulsep.v0.3", "network_scope": "studionet-only", "admin": null }
+    "config": {
+      "version": "pulsep.v0.3",
+      "network_scope": "studionet-only",
+      "admin": null
+    }
   },
   "supersededDeployment": {
     "address": "0x99b88F9724182Fa6e4C5A7a8e936AcAeA5872A82",
@@ -48,18 +52,62 @@
       "consensusResult": "MAJORITY_AGREE",
       "classification": "NO_BREACH",
       "sourceEvidence": [
-        { "role": "provider", "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/de57bbf5706781014a0555b664208e1d12bde2ad/public/evidence/no-breach-provider.json", "sha256": "52ce8f6c307f5dee821e369f9c7613a6e76c72317fd0e675b884edbdb406318a", "httpStatus": 200, "bytes": 255 },
-        { "role": "independent", "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/de57bbf5706781014a0555b664208e1d12bde2ad/public/evidence/no-breach-independent.json", "sha256": "0586ab206c587c18827ce22aab5e643a2574f60581bfe43dfe5aa037533b533b", "httpStatus": 200, "bytes": 375 }
+        {
+          "role": "provider",
+          "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/de57bbf5706781014a0555b664208e1d12bde2ad/public/evidence/no-breach-provider.json",
+          "sha256": "52ce8f6c307f5dee821e369f9c7613a6e76c72317fd0e675b884edbdb406318a",
+          "httpStatus": 200,
+          "bytes": 255
+        },
+        {
+          "role": "independent",
+          "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/de57bbf5706781014a0555b664208e1d12bde2ad/public/evidence/no-breach-independent.json",
+          "sha256": "0586ab206c587c18827ce22aab5e643a2574f60581bfe43dfe5aa037533b533b",
+          "httpStatus": 200,
+          "bytes": 375
+        }
       ],
-      "settlement": { "customerCreditWei": "0", "providerCreditWei": "1000000000000000", "conservation": true },
+      "settlement": {
+        "customerCreditWei": "0",
+        "providerCreditWei": "1000000000000000",
+        "conservation": true
+      },
       "withdrawalTransaction": "0x29f0fbf72dd8decb9ab5f55e57637b15e6cf9271b064ebdddc59934d2235aac2",
       "withdrawalFinality": "FINALIZED",
       "withdrawalExecutionResult": "SUCCESS",
-      "outboundTransfer": { "recipient": "0x7876e9f76f32925c212528d57bc9dfe5e34bcc07", "amountWei": "1000000000000000", "receiptObserved": true },
+      "outboundTransfer": {
+        "recipient": "0x7876e9f76f32925c212528d57bc9dfe5e34bcc07",
+        "amountWei": "1000000000000000",
+        "receiptObserved": true
+      },
       "accountingSnapshots": [
-        { "stage": "after_funding", "depositedWei": "1000000000000000", "lockedWei": "1000000000000000", "creditedWei": "0", "withdrawnWei": "0", "customerClaimableWei": "0", "providerClaimableWei": "0" },
-        { "stage": "after_settlement_before_withdrawal", "depositedWei": "1000000000000000", "lockedWei": "0", "creditedWei": "1000000000000000", "withdrawnWei": "0", "customerClaimableWei": "0", "providerClaimableWei": "1000000000000000" },
-        { "stage": "after_withdrawal", "depositedWei": "1000000000000000", "lockedWei": "0", "creditedWei": "0", "withdrawnWei": "1000000000000000", "customerClaimableWei": "0", "providerClaimableWei": "0" }
+        {
+          "stage": "after_funding",
+          "depositedWei": "1000000000000000",
+          "lockedWei": "1000000000000000",
+          "creditedWei": "0",
+          "withdrawnWei": "0",
+          "customerClaimableWei": "0",
+          "providerClaimableWei": "0"
+        },
+        {
+          "stage": "after_settlement_before_withdrawal",
+          "depositedWei": "1000000000000000",
+          "lockedWei": "0",
+          "creditedWei": "1000000000000000",
+          "withdrawnWei": "0",
+          "customerClaimableWei": "0",
+          "providerClaimableWei": "1000000000000000"
+        },
+        {
+          "stage": "after_withdrawal",
+          "depositedWei": "1000000000000000",
+          "lockedWei": "0",
+          "creditedWei": "0",
+          "withdrawnWei": "1000000000000000",
+          "customerClaimableWei": "0",
+          "providerClaimableWei": "0"
+        }
       ]
     }
   ],
@@ -69,7 +117,10 @@
     "genlayerCli": "0.39.1",
     "pythonCompile": "PASS",
     "genvmLint": "PASS",
-    "directMode": { "status": "PASS", "tests": 28 },
+    "directMode": {
+      "status": "PASS",
+      "tests": 28
+    },
     "frontendTypecheck": "PASS",
     "frontendTestsAtV0_3": "NOT_CONFIRMED",
     "frontendBuildAtV0_3": "NOT_CONFIRMED",
@@ -80,7 +131,12 @@
     "status": "NOT_REVERIFIED_AGAINST_V0_3",
     "productionDeploymentBinding": "NOT_CONFIRMED",
     "anonymousReadOnly": "NOT_REVERIFIED",
-    "routes": { "/": "NOT_REVERIFIED", "/pacts/new": "NOT_REVERIFIED", "/pacts/view": "NOT_REVERIFIED", "/activity": "NOT_REVERIFIED" },
+    "routes": {
+      "/": "NOT_REVERIFIED",
+      "/pacts/new": "NOT_REVERIFIED",
+      "/pacts/view": "NOT_REVERIFIED",
+      "/activity": "NOT_REVERIFIED"
+    },
     "walletBrowser": "NOT_VERIFIED",
     "responsive": "NOT_REVERIFIED"
   },
@@ -90,5 +146,27 @@
     "Recipient balance delta was not captured; the finalized withdrawal receipt records the outbound transfer amount and recipient.",
     "Wallet browser verification was not performed.",
     "The production frontend and GitHub Actions for this commit were not reverified."
-  ]
+  ],
+  "milestoneDeployment": {
+    "network": "studionet",
+    "chainId": 61999,
+    "rpc": "https://studio.genlayer.com/api",
+    "version": "pulsep.v0.4",
+    "address": "0x5B5dDeeaDBfCc2075A7E75401202E259a076f9Cf",
+    "sourceSha256NormalizedLf": "a03b0b5b509af6648dfa95125594e5fd2ce01532de839dbb2bcf1f9e9c3df3c3",
+    "sourceReadbackMatches": true,
+    "deploymentTransaction": "0xe6ac4004f06780953c9edcdaca61e7b90bc407c9bd0d5614bfe6a8abe23f4ef8",
+    "deploymentStatus": "FINALIZED",
+    "executionResult": "SUCCESS",
+    "consensus": "MAJORITY_AGREE",
+    "validatorCount": 5,
+    "config": {
+      "version": "pulsep.v0.4",
+      "network_scope": "studionet-only",
+      "admin": null,
+      "max_sla_versions": 8,
+      "revision_expiry_seconds": 86400
+    },
+    "schemaMethodCount": 21
+  }
 }

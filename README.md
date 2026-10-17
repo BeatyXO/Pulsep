@@ -129,4 +129,4 @@ gltest -q
 
 ## Current status
 
-The production deployment recorded in `public/deployment.json` is the historical v0.3 contract and its NO_BREACH live lifecycle. The Versioned SLA Renewals milestone is being implemented on top of it. Until a new v0.4 Studionet deployment, two-period live receipts, GitHub Actions result, and production frontend verification are recorded, v0.4 is not presented as deployed. See `MILESTONE_EVIDENCE.md` and `public/versioned-renewal-verification.json` for current milestone status. Studionet GEN is simulated.
+`public/deployment.json` binds this frontend release to the source-verified v0.4 Studionet contract. Versioned renewals are deployed, and a two-period live proof is underway: the first period is funded under version 1 and a counterparty-approved version 2 is pending activation at the next eligible funding. See `DEPLOYMENT.md`, `MILESTONE_EVIDENCE.md`, and `public/versioned-renewal-verification.json` for transaction evidence. Production Vercel delivery of the v0.4 manifest is not claimed until verified. Studionet GEN is simulated.

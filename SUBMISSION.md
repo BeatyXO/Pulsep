@@ -16,9 +16,9 @@ Pulsep is a recurring SLA reliability protocol on GenLayer Studionet. A customer
 
 - GitHub: https://github.com/BeatyXO/Pulsep
 - Website: https://pulsep.vercel.app/
-- Contract explorer: https://explorer-studio.genlayer.com/address/0xfaA7FADDEcb4EDe3Bd46001bDf812076b953067A
-- Deployment transaction: https://explorer-studio.genlayer.com/tx/0x768d607db626ceffc04290e446a756044c215b090d8fb316e0a948a96a77f7a2
-- Verification evidence: `public/verification.json` (source verified; one NO_BREACH lifecycle and withdrawal finalized; broader lifecycle proof remains incomplete)
+- Current contract explorer: https://explorer-studio.genlayer.com/address/0x5B5dDeeaDBfCc2075A7E75401202E259a076f9Cf
+- Current deployment transaction: https://explorer-studio.genlayer.com/tx/0xe6ac4004f06780953c9edcdaca61e7b90bc407c9bd0d5614bfe6a8abe23f4ef8
+- Historical v0.3 completed NO_BREACH lifecycle evidence and v0.4 renewal proof-in-progress: `public/verification.json`, `public/versioned-renewal-verification.json`
 
 Studionet GEN is simulated. Pulsep is not described as audited, production-safe, real-money settlement or legally binding arbitration.
 
@@ -32,8 +32,10 @@ Studionet GEN is simulated. Pulsep is not described as audited, production-safe,
 
 **Comparison URL:** provisional until final milestone commit exists: `https://github.com/BeatyXO/Pulsep/compare/fc667a11fcc467b99cdd7d68bf5bb745445b620d...FINAL_SHA`
 
-**Milestone contract / explorer / deployment receipt:** pending deployment and read-back verification.
+**Milestone contract:** https://explorer-studio.genlayer.com/address/0x5B5dDeeaDBfCc2075A7E75401202E259a076f9Cf
+
+**Deployment receipt:** https://explorer-studio.genlayer.com/tx/0xe6ac4004f06780953c9edcdaca61e7b90bc407c9bd0d5614bfe6a8abe23f4ef8 (FINALIZED, SUCCESS; source read-back matches).
 
 **Live URL:** https://pulsep.vercel.app/ (v0.4 production binding pending verification).
 
-**Evidence:** `MILESTONE_EVIDENCE.md`, `public/versioned-renewal-verification.json`; two-period Studionet receipts, final CI link, and v0.4 deployment manifest will be filled only after observed.
+**Evidence:** `MILESTONE_EVIDENCE.md`, `public/versioned-renewal-verification.json`; deployment is proven and the v0.4 manifest is being prepared. Period-1 settlement, period-2 activation, final CI for the release commit, and production frontend verification remain in progress.

@@ -28,15 +28,24 @@ Current milestone checks have passed: Python compile, Direct Mode/source invaria
 
 ## Deployment and live evidence
 
-The v0.4 contract has not yet been deployed in this evidence file. Address, deployment transaction, source hash/read-back, config and explorer link remain pending until observed. Required live two-period lifecycle and negative approval receipts also remain pending; do not infer that local tests establish them. The original v0.3 deployment and one completed NO_BREACH cycle are preserved in `public/verification.json`.
+The v0.4 contract is deployed and verified on stable Studionet:
+
+- Contract: [`0x5B5dDeeaDBfCc2075A7E75401202E259a076f9Cf`](https://explorer-studio.genlayer.com/address/0x5B5dDeeaDBfCc2075A7E75401202E259a076f9Cf).
+- Deployment transaction: [`0xe6ac4004f06780953c9edcdaca61e7b90bc407c9bd0d5614bfe6a8abe23f4ef8`](https://explorer-studio.genlayer.com/tx/0xe6ac4004f06780953c9edcdaca61e7b90bc407c9bd0d5614bfe6a8abe23f4ef8), FINALIZED, SUCCESS, MAJORITY_AGREE with five validators.
+- Normalized-LF source SHA-256: `a03b0b5b509af6648dfa95125594e5fd2ce01532de839dbb2bcf1f9e9c3df3c3`; the deployed source read-back matches exactly.
+- `get_config()` reports `pulsep.v0.4`, `studionet-only`, `admin=null`, 8 maximum SLA versions and a 24-hour revision expiry. The deployed schema has 21 methods.
+- Live pact `PULSE-V04-RENEWAL-20261017-01` is proposed and funded at exactly `0.001 GEN`. Period 1 snapshots version 1. A version 2 proposal using the v2 source records was approved by the counterparty and awaits atomic activation during the eligible period-2 funding call.
+- Proposal, funding, revision and approval transactions, period timestamps and fixture digests are recorded in `public/versioned-renewal-verification.json`.
+
+The two-period proof is still in progress; no assessment, settlement, withdrawal or period-2 result is claimed yet. The original v0.3 deployment and completed NO_BREACH cycle remain preserved in `public/verification.json`.
 
 ## Frontend and CI
 
-The milestone frontend has passed local build/test checks. The production URL `https://pulsep.vercel.app/` is not yet verified to serve a v0.4 manifest. Browser wallet actions are not claimed. CI and Vercel evidence links remain pending until completed.
+The milestone frontend has passed local build/test checks. Its v0.4 deployment manifest is set to the source-verified address. The production URL `https://pulsep.vercel.app/` still needs a post-release check to verify it serves that manifest and build. Browser wallet actions are not claimed. The initial milestone GitHub Actions run is green; final-release CI remains pending.
 
 ## Limitations
 
 - Studionet GEN is simulated.
 - No independent audit or production safety claim is made.
 - Original accepted submission baseline remains unverified.
-- Two-version live proof, adversarial live receipts, final GitHub Actions status, and production frontend verification remain outstanding.
+- Period-1 settlement and period-2 renewal/settlement receipts, live negative-transition receipts, final-release GitHub Actions, and production frontend verification remain outstanding.

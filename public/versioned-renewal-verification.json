@@ -1,6 +1,6 @@
 {
   "schemaVersion": "pulsep.versioned-renewals.v1",
-  "status": "implementation-local-verification-passed-live-proof-pending",
+  "status": "two-period-live-proof-in-progress",
   "network": "studionet",
   "chainId": 61999,
   "rpc": "https://studio.genlayer.com/api",
@@ -10,14 +10,26 @@
     "candidate": "fc667a11fcc467b99cdd7d68bf5bb745445b620d",
     "note": "No authoritative accepted-submission record or baseline tag was found in the repository."
   },
+  "implementationCommit": "db1217201bc57b72e8a0d28d4d22fcce1dbdaa78",
   "finalMilestoneCommit": null,
   "contract": {
     "version": "pulsep.v0.4",
-    "address": null,
-    "sourceSha256NormalizedLf": null,
-    "deploymentTransaction": null,
-    "sourceReadbackMatches": null,
-    "config": null
+    "address": "0x5B5dDeeaDBfCc2075A7E75401202E259a076f9Cf",
+    "sourceSha256NormalizedLf": "a03b0b5b509af6648dfa95125594e5fd2ce01532de839dbb2bcf1f9e9c3df3c3",
+    "deploymentTransaction": "0xe6ac4004f06780953c9edcdaca61e7b90bc407c9bd0d5614bfe6a8abe23f4ef8",
+    "deploymentStatus": "FINALIZED",
+    "executionResult": "SUCCESS",
+    "consensus": "MAJORITY_AGREE",
+    "validatorCount": 5,
+    "sourceReadbackMatches": true,
+    "config": {
+      "version": "pulsep.v0.4",
+      "network_scope": "studionet-only",
+      "admin": null,
+      "max_sla_versions": 8,
+      "revision_expiry_seconds": 86400
+    },
+    "schemaMethodCount": 21
   },
   "protocolLimits": {
     "maxSlaVersionsPerPact": 8,
@@ -36,33 +48,105 @@
     "mutationTesting": "NOT_RUN_AS_SOURCE_MUTATION_HARNESS"
   },
   "twoPeriodLifecycle": {
-    "status": "NOT_RUN",
-    "pactId": null,
-    "period1Version": null,
-    "period2Version": null,
+    "status": "PERIOD_1_FUNDED_VERSION_1_REVISION_2_APPROVED_WAITING_PERIOD_END",
+    "pactId": "PULSE-V04-RENEWAL-20261017-01",
+    "customer": "0x7876e9f76f32925c212528d57bc9dfe5e34bcc07",
+    "provider": "0x5bf2926e49d5896c975b03fee2fda5e96cb4dd04",
+    "bondWei": "1000000000000000",
+    "periodSeconds": 900,
+    "period1": {
+      "index": 1,
+      "status": "FUNDED",
+      "slaVersion": 1,
+      "termsDigest": "1c75399054ae91ac17985ba602234de668337379d807a2259db840d5a80da956",
+      "fundedAtUnix": 1792229908,
+      "endsAtUnix": 1792230808,
+      "assessmentOpensAtUnix": 1792231108,
+      "bondWei": "1000000000000000"
+    },
+    "revision": {
+      "status": "APPROVED",
+      "proposalId": "a2c4205e096394ce2384c4aaa84a8bf2c935b4c2d038fc61bbd0f4e48ffa9a51",
+      "baseVersion": 1,
+      "nextVersion": 2,
+      "digest": "11f3cb9770c106e0651c528a42d031d2ccb53c4b8426916baa39d2cba436e24c",
+      "proposer": "0x7876e9f76f32925c212528d57bc9dfe5e34bcc07",
+      "approvedBy": "0x5bf2926e49d5896c975b03fee2fda5e96cb4dd04",
+      "expiresAtUnix": 1792316370
+    },
     "transactions": {
-      "proposePact": null,
-      "acceptFundPeriod1": null,
-      "proposeRevision": null,
-      "approveRevision": null,
+      "proposePact": {
+        "hash": "0x00d44e553ff29d12216972bbd1f149e961bc9a84f954b4987a2ca76bfe0124ec",
+        "executionResult": "SUCCESS",
+        "finality": "FINALIZED"
+      },
+      "acceptFundPeriod1": {
+        "hash": "0x3364e838fa40899fbe44fccb3d47f6fea1e4604c3c01033fcb6f3e6d7f8bad5e",
+        "executionResult": "SUCCESS",
+        "finality": "FINALIZED"
+      },
+      "proposeRevision": {
+        "hash": "0xd20c6d07e68e3f13c88f3d040080c32f1d4c15960686e70a428a7570b653cf3a",
+        "executionResult": "SUCCESS",
+        "finality": "FINALIZED"
+      },
+      "approveRevision": {
+        "hash": "0x5ecf663cc173b00931c1caa9cd0ddc2693afffc49da4825f8ad420515afa65ab",
+        "executionResult": "SUCCESS",
+        "finality": "FINALIZED"
+      },
       "period1Assessment": null,
-      "period1Settlement": null,
       "fundPeriod2": null,
-      "period2Assessment": null,
-      "period2Settlement": null
+      "period2Assessment": null
     },
     "accountingSnapshots": [],
-    "versionHistoryReadback": null
+    "versionHistoryReadback": {
+      "version1": "verified in get_pact and get_current_period read-back",
+      "version2": "approved revision read back; activation pending period-2 funding"
+    }
   },
   "negativeCases": [],
-  "sourceFixtures": [],
+  "sourceFixtures": [
+    {
+      "version": 1,
+      "role": "PROVIDER",
+      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-provider.json",
+      "sha256": "897f309ab2445fe370a578675eebc41e7663caad13f3885895e6bd886f9c63cb",
+      "synthetic": true
+    },
+    {
+      "version": 1,
+      "role": "INDEPENDENT",
+      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-independent.json",
+      "sha256": "fd67c76cedde845f91297c25d082adf0c663a59454bcf775c1dbe8a4c562038d",
+      "synthetic": true
+    },
+    {
+      "version": 2,
+      "role": "PROVIDER",
+      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-provider.json",
+      "sha256": "fdf147ee2e9c0d502c6284c0c452d0cdd773e9806e45b54abbe0c79865193a1e",
+      "synthetic": true
+    },
+    {
+      "version": 2,
+      "role": "INDEPENDENT",
+      "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-independent.json",
+      "sha256": "082170251a40bd9b69c04b1fc3061969cb0c51fba0be6fdf03d95384cf55abd5",
+      "synthetic": true
+    }
+  ],
   "frontend": {
     "url": "https://pulsep.vercel.app/",
     "servesV04Manifest": false,
     "readOnlyRoutes": "NOT_REVERIFIED",
     "walletBrowser": "NOT_VERIFIED"
   },
-  "githubActions": { "status": "PENDING", "url": null, "commit": null },
+  "githubActions": {
+    "status": "PASS",
+    "url": "https://github.com/BeatyXO/Pulsep/actions/runs/39021211509",
+    "commit": "db1217201bc57b72e8a0d28d4d22fcce1dbdaa78"
+  },
   "comparison": {
     "status": "PROVISIONAL_BASELINE_ONLY",
     "url": null,
@@ -70,9 +154,10 @@
     "to": null
   },
   "limitations": [
-    "No v0.4 deployment or two-period live transaction receipts have been recorded.",
+    "The two-period lifecycle is in progress; no settlement, withdrawal, or second-period activation is claimed yet.",
+    "Production Vercel v0.4 binding and browser-wallet interaction are not yet verified.",
+    "No independent source-mutation harness or independent audit is claimed.",
     "The officially accepted submission baseline is unverified.",
-    "Production Vercel binding and browser-wallet interaction are unverified.",
     "Studionet GEN is simulated; these are not real-money settlements."
   ]
 }
