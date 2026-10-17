@@ -1,6 +1,6 @@
 {
   "schemaVersion": "pulsep.versioned-renewals.v1",
-  "status": "two-period-live-proof-in-progress",
+  "status": "wallet-test-period-2-v2-funded-awaiting-assessment; original-v0.4-pact-period-1-unresolved",
   "network": "studionet",
   "chainId": 61999,
   "rpc": "https://studio.genlayer.com/api",
@@ -185,7 +185,7 @@
     }
   },
   "walletTestPact": {
-    "status": "PERIOD_1_FUNDED_WAITING_FOR_MATURITY",
+    "status": "PERIOD_2_FUNDED_VERSION_2_WAITING_FOR_MATURITY",
     "pactId": "PULSE-WALLET-LIVE-20261017-01",
     "customer": "0x39680bd423437C0Eaa18493629652821Ec672C61",
     "provider": "0xA49c51d759790116D451f256654dD9F0549D341F",
@@ -193,13 +193,17 @@
     "periodSeconds": 900,
     "period1": {
       "index": 1,
-      "status": "FUNDED",
+      "status": "SETTLED",
+      "classification": "NO_BREACH",
       "slaVersion": 1,
       "termsDigest": "8048ea823e74560005980b882455744ee31a16e9d00cd6c38bc638564884af23",
       "fundedAtUnix": 1792239348,
       "endsAtUnix": 1792240248,
       "assessmentOpensAtUnix": 1792240548,
-      "evidenceDeadlineUnix": 1792845048
+      "evidenceDeadlineUnix": 1792845048,
+      "settledAtUnix": 1792240569,
+      "customerCreditWei": "0",
+      "providerCreditWei": "1000000000000000"
     },
     "transactions": {
       "proposePact": {
@@ -215,9 +219,72 @@
         "finality": "FINALIZED",
         "valueWei": "1000000000000000"
       },
-      "assessment": null,
-      "withdrawals": []
+      "assessment": {
+        "hash": "0x7df53329d3027e9cc570f7f10d4bcb26b0d23d5e3193e097d3e37116fff966ea",
+        "finality": "FINALIZED",
+        "executionResult": "SUCCESS",
+        "consensus": "MAJORITY_AGREE",
+        "rounds": 6,
+        "consensusMaxRotations": 10,
+        "classification": "NO_BREACH",
+        "leaderClassification": "NO_BREACH",
+        "sourceEvidence": [
+          {"id": "provider-v1", "httpStatus": 200, "sha256": "897f309ab2445fe370a578675eebc41e7663caad13f3885895e6bd886f9c63cb"},
+          {"id": "monitor-v1", "httpStatus": 200, "sha256": "fd67c76cedde845f91297c25d082adf0c663a59454bcf775c1dbe8a4c562038d"}
+        ],
+        "validatorVotesLastRound": ["AGREE", "DISAGREE", "AGREE", "IDLE", "AGREE"]
+      },
+      "withdrawals": [
+        {
+          "hash": "0x91d2f0c8e3fc9999e22b9f5b44a31dfddb3b8d9ef7ae032f66b8edd7fcf27f19",
+          "finality": "FINALIZED",
+          "executionResult": "SUCCESS",
+          "consensus": "MAJORITY_AGREE",
+          "recipient": "0xA49c51d759790116D451f256654dD9F0549D341F",
+          "amountWei": "1000000000000000",
+          "triggeredTransferHash": "0x2fc418ec226e550c079375704e12624fe958c535bef33968eec5b417a280dea7",
+          "triggeredTransferFinality": "recorded as on-finalized outbound send in the withdrawal receipt",
+          "providerBalanceBeforeWei": "978978199999999999375",
+          "providerBalanceAfterWithdrawalWei": "978979199999999999375",
+          "providerBalanceAfterPeriod2FundingWei": "978978199999999999375"
+        }
+      ],
+      "proposeRevisionV2": {
+        "hash": "0x000104c2165ec8dcb34ac7f30e4a7fedf6dc5c5d93df06b6ec8b6e83bd4b6992",
+        "finality": "FINALIZED",
+        "executionResult": "SUCCESS",
+        "consensus": "MAJORITY_AGREE",
+        "proposalId": "b571738a479ba5c47d2a91f6afd1d247262bb2fd8462f4570cb940fa768fd84f",
+        "digest": "4e3e08b786c7c121aadccf619b898db9ee196c775bcc715764fbf4966163139b"
+      },
+      "approveRevisionV2": {
+        "hash": "0x10c15527aa36a69d057360ca7f0d41cbfaabb9fd18366a7e2e7f68c31ceb3b5a",
+        "finality": "FINALIZED",
+        "executionResult": "SUCCESS",
+        "consensus": "MAJORITY_AGREE"
+      },
+      "fundPeriod2": {
+        "hash": "0xcd1eae0cf924d42fa9672287732e307ace954cb6158a5403d20be5d2863326eb",
+        "finality": "FINALIZED",
+        "executionResult": "SUCCESS",
+        "consensus": "MAJORITY_AGREE",
+        "valueWei": "1000000000000000"
+      }
     },
+    "period2": {
+      "index": 2,
+      "status": "FUNDED",
+      "slaVersion": 2,
+      "termsDigest": "4e3e08b786c7c121aadccf619b898db9ee196c775bcc715764fbf4966163139b",
+      "fundedAtUnix": 1792241065,
+      "endsAtUnix": 1792241965,
+      "assessmentOpensAtUnix": 1792242265,
+      "evidenceDeadlineUnix": 1792846765
+    },
+    "versionHistory": [
+      {"version": 1, "digest": "8048ea823e74560005980b882455744ee31a16e9d00cd6c38bc638564884af23", "activatedAtUnix": 1792239348},
+      {"version": 2, "digest": "4e3e08b786c7c121aadccf619b898db9ee196c775bcc715764fbf4966163139b", "proposalId": "b571738a479ba5c47d2a91f6afd1d247262bb2fd8462f4570cb940fa768fd84f", "activatedAtUnix": 1792241065}
+    ],
     "accountingAfterFunding": {
       "protocolTotalDepositedWei": "2000000000000000",
       "protocolTotalLockedWei": "2000000000000000",
@@ -228,6 +295,20 @@
       "contractBalanceWei": "2000000000000000",
       "source": "get_accounting(customer/provider) and eth_getBalance; totals include both the unresolved original pact and this new wallet test pact"
     },
+    "accountingAfterPeriod1WithdrawalAndPeriod2Funding": {
+      "protocolTotalDepositedWei": "3000000000000000",
+      "protocolTotalLockedWei": "2000000000000000",
+      "protocolTotalCreditedWei": "0",
+      "protocolTotalWithdrawnWei": "1000000000000000",
+      "customerClaimableWei": "0",
+      "providerClaimableWei": "0",
+      "contractBalanceWei": "2000000000000000",
+      "source": "get_accounting(customer/provider), eth_getBalance; totals include the original unresolved pact plus wallet-test periods 1 and 2"
+    },
+    "syntheticSourcesV2": [
+      {"role":"PROVIDER","url":"https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-provider.json","sha256":"fdf147ee2e9c0d502c6284c0c452d0cdd773e9806e45b54abbe0c79865193a1e"},
+      {"role":"INDEPENDENT","url":"https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v2-independent.json","sha256":"082170251a40bd9b69c04b1fc3061969cb0c51fba0be6fdf03d95384cf55abd5"}
+    ],
     "syntheticSources": [
       {
         "role": "PROVIDER",
@@ -318,8 +399,8 @@
   },
   "githubActions": {
     "status": "PASS",
-    "url": "https://github.com/BeatyXO/Pulsep/actions/runs/39024729259",
-    "commit": "f711dd7"
+    "url": "https://github.com/BeatyXO/Pulsep/actions/runs/39031938758",
+    "commit": "6652424"
   },
   "comparison": {
     "status": "PROVISIONAL_BASELINE_ONLY",
@@ -328,8 +409,8 @@
     "to": null
   },
   "limitations": [
-    "Period 1 reached assessment eligibility, but three finalized validator MAJORITY_DISAGREE outcomes left it FUNDED; no classification or settlement is claimed. The supplied test signer was used for the third attempt. The validator disagreement still requires resolution.",
-    "No period-2 funding, assessment, settlement or withdrawal is claimed yet.",
+    "The earlier preexisting pact PULSE-V04-RENEWAL-20261017-01 period 1 remains FUNDED after three finalized MAJORITY_DISAGREE outcomes, with its 0.001 GEN bond locked and no credits. That separate pact remains unresolved.",
+    "The wallet-test pact period 2 is funded under activated SLA version 2 and has not yet reached its assessment-open timestamp; no period-2 classification, settlement or withdrawal is claimed yet.",
     "Browser wallet execution and visual viewport testing are not verified; the browser blocked the site while anonymous HTTP route checks succeeded.",
     "No independent source-mutation framework or independent audit is claimed; four actual-contract weakened-source mutants were killed by Direct Mode tests.",
     "The officially accepted submission baseline remains unverified.",
