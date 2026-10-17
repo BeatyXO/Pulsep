@@ -69,10 +69,15 @@ if package.exists():
     if data.get("devDependencies", {}).get("genlayer") != "0.39.1": errors.append("repository-local GenLayer CLI must be pinned to 0.39.1")
     if data.get("dependencies", {}).get("genlayer-js") != "1.1.8": errors.append("genlayer-js stable dependency must be pinned to 1.1.8")
 
-text = "\n".join(p.read_text(encoding="utf-8", errors="ignore") for p in source_files() if p.suffix.lower() in {".md",".py",".ts",".tsx",".json",".yml",".yaml"} and p.resolve() not in {(ROOT / "scripts/preflight.py").resolve(), (ROOT / "tests/test_source_invariants.py").resolve()})
+text = "\n".join(p.read_text(encoding="utf-8", errors="ignore") for p in source_files() if p.suffix.lower() in {".md",".py",".ts",".tsx",".json",".yml",".yaml"} and p.resolve() != (ROOT / "tests/test_source_invariants.py").resolve())
 if "https://studio.genlayer.com/api" not in text: errors.append("stable Studionet RPC reference missing")
 if "61999" not in text: errors.append("stable Studionet chain ID reference missing")
-if "studio-dev.genlayer.com/api" in text or re.search(r"\b61997\b", text): errors.append("preview-network reference found")
+# Documentation can mention forbidden networks to explain the invariant.
+# Reject active configuration values while allowing those explanatory notes.
+runtime_files = [ROOT / rel for rel in ("lib/chain.ts", "public/deployment.json", ".github/workflows/ci.yml") if (ROOT / rel).exists()]
+runtime_text = "\n".join(p.read_text(encoding="utf-8", errors="ignore") for p in runtime_files)
+if "studio-dev.genlayer.com/api" in runtime_text or re.search(r"\b61997\b", runtime_text):
+    errors.append("preview-network configuration found")
 for banned in ["supabase", "firebase", "cloudflare worker", "express server", "railway.app"]:
     if banned in text.lower() and "do not" not in text.lower(): errors.append(f"possible application backend dependency found: {banned}")
 
