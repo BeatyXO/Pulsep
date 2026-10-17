@@ -132,7 +132,7 @@ describe('injected wallet and release guards', () => {
 
   it('blocks a mismatched deployment before prompting the wallet', async () => {
     const provider = makeProvider(vi.fn());
-    await expect(writeContract({ ...DEPLOYMENT, chainId: 61997 }, session(provider), 'propose_pact', ['{}'])).rejects.toThrow('verified');
+    await expect(writeContract({ ...DEPLOYMENT, chainId: 1 }, session(provider), 'propose_pact', ['{}'])).rejects.toThrow('verified');
     expect(provider.request).not.toHaveBeenCalled();
   });
 
