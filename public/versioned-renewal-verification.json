@@ -1,6 +1,6 @@
 {
   "schemaVersion": "pulsep.versioned-renewals.v1",
-  "status": "additional-assessments-decided-with-validator-disagreement; expiry-recovery-not-yet-eligible",
+  "status": "new-criteria-proof-cycle-complete-no-breach; two-older-periods-unresolved",
   "network": "studionet",
   "chainId": 61999,
   "rpc": "https://studio.genlayer.com/api",
@@ -549,8 +549,8 @@
   },
   "githubActions": {
     "status": "PASS",
-    "url": "https://github.com/BeatyXO/Pulsep/actions/runs/39061708882",
-    "commit": "1863b4a",
+    "url": "https://github.com/BeatyXO/Pulsep/actions/runs/39061927383",
+    "commit": "395b1c5",
     "note": "Both frontend and contract jobs passed."
   },
   "comparison": {
@@ -566,11 +566,10 @@
     "Studionet GEN is simulated; these are not real-money settlements.",
     "The original pact PULSE-V04-RENEWAL-20261017-01 period 1 remains FUNDED after three prior finalized disagreements and a new UNDETERMINED / MAJORITY_DISAGREE receipt (0x6028606862a2f7ba8d6f786d1f48af2de814fdbb993ceb16acbc47f7ba127e88). No assessment was recorded and no credit was created.",
     "Wallet-test pact PULSE-WALLET-LIVE-20261017-01 period 2 is funded under SLA version 2. A fourth assessment finalized MAJORITY_DISAGREE (0x68ac2cba23484f595d0e8d2eac90f463856f4b20d87c7ff35d26faaaab8b2dcd); no assessment was recorded and no credit was created.",
-    "At Studionet timestamp 1792261758, both periods’ evidence deadlines remained in the future (1792835608 and 1792846765). expire_unresolved is not yet eligible. Each unresolved bond remains locked under the contract rule until a conclusive assessment or deadline recovery."
+    "The separate original pact period 1 and wallet-test pact period 2 remain FUNDED after validator disagreement. Their evidence deadlines are still in the future at the latest read; no recovery, credit, or withdrawal is claimed for those two periods."
   ],
   "latestLiveReadback": {
-    "studionetBlockTimestamp": 1792261758,
-    "readAtBlockTimestamp": 1792261758,
+    "studionetTimestamp": 1792266502,
     "periods": [
       {
         "pactId": "PULSE-V04-RENEWAL-20261017-01",
@@ -591,17 +590,183 @@
         "classification": null,
         "customerCreditWei": "0",
         "providerCreditWei": "0"
+      },
+      {
+        "pactId": "PULSE-CRITERIA-LIVE-20261017-01",
+        "index": 1,
+        "status": "SETTLED",
+        "evidenceDeadlineUnix": 1792870774,
+        "assessmentAttemptsRecorded": 1,
+        "classification": "NO_BREACH",
+        "customerCreditWei": "0",
+        "providerCreditWei": "1000000000000000"
       }
     ],
     "accounting": {
-      "totalDepositedWei": "3000000000000000",
+      "totalDepositedWei": "4000000000000000",
       "totalLockedWei": "2000000000000000",
       "totalCreditedWei": "0",
-      "totalWithdrawnWei": "1000000000000000",
-      "claimableWei": "0",
+      "totalWithdrawnWei": "2000000000000000",
+      "customerClaimableWei": "0",
+      "providerClaimableWei": "0",
       "contractBalanceWei": "2000000000000000",
-      "readFrom": "get_accounting for both test wallets and eth_getBalance(contract)"
+      "customerBalanceWei": "954119309999999999789",
+      "providerBalanceWei": "978978199999999999375",
+      "source": "get_accounting for customer and provider, eth_getBalance for both parties and the contract after the finalized withdrawal"
     },
-    "note": "Both evidence windows remain open at this read. Deterministic expiry recovery is not yet eligible."
+    "note": "The new criteria-proof pact completed its full NO_BREACH settlement and provider withdrawal. The two earlier unresolved periods are still FUNDED, with deadlines in the future and bonds locked."
+  },
+  "criteriaProofPact": {
+    "status": "PERIOD_1_SETTLED_NO_BREACH_PROVIDER_WITHDREW",
+    "pactId": "PULSE-CRITERIA-LIVE-20261017-01",
+    "title": "Pulsep synthetic criteria proof",
+    "customer": "0x39680bd423437C0Eaa18493629652821Ec672C61",
+    "provider": "0xA49c51d759790116D451f256654dD9F0549D341F",
+    "bondWei": "1000000000000000",
+    "periodSeconds": 900,
+    "termsHash": "964b164538dcdbb49f96c4af309de278872e96a6021701ff3baec24fe0cc86ac",
+    "period": {
+      "index": 1,
+      "status": "SETTLED",
+      "slaVersion": 1,
+      "termsDigest": "8048ea823e74560005980b882455744ee31a16e9d00cd6c38bc638564884af23",
+      "fundedAtUnix": 1792265074,
+      "endsAtUnix": 1792265974,
+      "assessmentOpensAtUnix": 1792266274,
+      "evidenceDeadlineUnix": 1792870774,
+      "settledAtUnix": 1792266286,
+      "assessmentAttemptsRecorded": 1,
+      "classification": "NO_BREACH",
+      "customerCreditWei": "0",
+      "providerCreditWei": "1000000000000000",
+      "findingSummary": [
+        {
+          "id": "provider-v1",
+          "role": "PROVIDER",
+          "state": "NO_BREACH",
+          "coverage": "COVERS_PERIOD",
+          "coverageQuote": "2026-10-17T00:00:00Z through 2026-10-18T00:00:00Z",
+          "findingQuote": "The synthetic provider status record shows no outage or material degradation during the stated coverage interval.",
+          "httpStatus": 200,
+          "bytes": 450,
+          "sha256": "897f309ab2445fe370a578675eebc41e7663caad13f3885895e6bd886f9c63cb"
+        },
+        {
+          "id": "monitor-v1",
+          "role": "INDEPENDENT",
+          "state": "NO_BREACH",
+          "coverage": "COVERS_PERIOD",
+          "coverageQuote": "Independent monitor coverage: 2026-10-17T00:00:00Z through 2026-10-18T00:00:00Z",
+          "findingQuote": "No outage or material degradation was recorded for the synthetic service throughout the stated coverage interval.",
+          "httpStatus": 200,
+          "bytes": 480,
+          "sha256": "fd67c76cedde845f91297c25d082adf0c663a59454bcf775c1dbe8a4c562038d"
+        }
+      ]
+    },
+    "transactions": {
+      "proposePact": {
+        "hash": "0x2c1b39bbfb8063afcf6cf6eb856db13d4dff2cf5864b8933914a9181f2006cf2",
+        "finality": "FINALIZED",
+        "executionResult": "SUCCESS",
+        "consensus": "MAJORITY_AGREE",
+        "rounds": 1,
+        "lastRoundVotes": [
+          "AGREE",
+          "IDLE",
+          "AGREE",
+          "IDLE",
+          "AGREE"
+        ]
+      },
+      "acceptAndFund": {
+        "hash": "0xb10f414dc7558f1aed55a112112811880fc412dfdd4c88ca5bfa51a021ff4d0e",
+        "finality": "FINALIZED",
+        "executionResult": "SUCCESS",
+        "consensus": "MAJORITY_AGREE",
+        "rounds": 1,
+        "lastRoundVotes": [
+          "AGREE",
+          "AGREE",
+          "AGREE",
+          "AGREE",
+          "AGREE"
+        ],
+        "valueWei": "1000000000000000"
+      },
+      "assessment": {
+        "hash": "0x3d81715c46bea22ad928ceeee0925aaf83d1c81e91dd2d22ece4a7b8ef0068d9",
+        "finality": "FINALIZED",
+        "executionResult": "SUCCESS",
+        "consensus": "MAJORITY_AGREE",
+        "rounds": 2,
+        "consensusMaxRotations": 10,
+        "classification": "NO_BREACH",
+        "leaderClassification": "NO_BREACH",
+        "lastRoundVotes": [
+          "AGREE",
+          "DISAGREE",
+          "AGREE",
+          "AGREE",
+          "DISAGREE"
+        ],
+        "deterministicSettlement": {
+          "customerCreditWei": "0",
+          "providerCreditWei": "1000000000000000"
+        }
+      },
+      "withdrawal": {
+        "hash": "0xf17eec05ba24aa25b535bee5120f705d9d5b9b12953da905d5128ac41f47d316",
+        "finality": "FINALIZED",
+        "executionResult": "SUCCESS",
+        "consensus": "MAJORITY_AGREE",
+        "rounds": 1,
+        "lastRoundVotes": [
+          "AGREE",
+          "AGREE",
+          "IDLE",
+          "IDLE",
+          "AGREE"
+        ],
+        "recipient": "0xA49c51d759790116D451f256654dD9F0549D341F",
+        "amountWei": "1000000000000000",
+        "claimableAfterWei": "0",
+        "providerBalanceBeforeWei": "978977199999999999375",
+        "providerBalanceAfterWei": "978978199999999999375",
+        "triggeredTransfer": {
+          "hash": "0xd7b8fd10b5ea93f9b04a826b21f91aa876e4a5268744826358e5da5e7c6bdb83",
+          "finality": "FINALIZED",
+          "resultName": "NO_MAJORITY",
+          "from": "0x5B5dDeeaDBfCc2075A7E75401202E259a076f9Cf",
+          "to": "0xA49c51d759790116D451f256654dD9F0549D341F",
+          "amountWei": "1000000000000000",
+          "triggeredByWithdrawal": "0xf17eec05ba24aa25b535bee5120f705d9d5b9b12953da905d5128ac41f47d316"
+        }
+      }
+    },
+    "syntheticSources": [
+      {
+        "role": "PROVIDER",
+        "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-provider.json",
+        "sha256": "897f309ab2445fe370a578675eebc41e7663caad13f3885895e6bd886f9c63cb"
+      },
+      {
+        "role": "INDEPENDENT",
+        "url": "https://raw.githubusercontent.com/BeatyXO/Pulsep/db1217201bc57b72e8a0d28d4d22fcce1dbdaa78/public/evidence/versioned-renewals/v1-independent.json",
+        "sha256": "fd67c76cedde845f91297c25d082adf0c663a59454bcf775c1dbe8a4c562038d"
+      }
+    ],
+    "accountingAfterWithdrawalObserved": {
+      "totalDepositedWei": "4000000000000000",
+      "totalLockedWei": "2000000000000000",
+      "totalCreditedWei": "0",
+      "totalWithdrawnWei": "2000000000000000",
+      "customerClaimableWei": "0",
+      "providerClaimableWei": "0",
+      "contractBalanceWei": "2000000000000000",
+      "customerBalanceWei": "954119309999999999789",
+      "providerBalanceWei": "978978199999999999375",
+      "source": "get_accounting for customer and provider, eth_getBalance for both parties and the contract after the finalized withdrawal"
+    }
   }
 }
