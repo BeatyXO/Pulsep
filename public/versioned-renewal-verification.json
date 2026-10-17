@@ -109,9 +109,18 @@
         "validatorExecution": "ERROR: idle / Validator execution cancelled after quorum",
         "transactions": [
           "0x5e6482a285413cbeef3c5e901c91081756795b878748091e79b2c9a834048593",
-          "0xa044ee60d0d832f1c6b33d28ef74699e71a51cdd2271828b32145544bcae6411"
+          "0xa044ee60d0d832f1c6b33d28ef74699e71a51cdd2271828b32145544bcae6411",
+          "0x27258dbda018ec17b3736553ca350d069b178ca1eaac223397c7096f047ce0f2"
         ],
-        "note": "Both assessment attempts finalized with MAJORITY_DISAGREE; neither changed the funded period or accounting. No classification or settlement is claimed."
+        "latestFinalizedReceipt": {
+          "transaction": "0x27258dbda018ec17b3736553ca350d069b178ca1eaac223397c7096f047ce0f2",
+          "status": "FINALIZED",
+          "consensus": "MAJORITY_DISAGREE",
+          "rounds": 4,
+          "lastRoundVotes": ["AGREE", "DISAGREE", "DISAGREE", "DISAGREE", "IDLE"],
+          "leaderClassification": "NO_BREACH"
+        },
+        "note": "Three assessment transactions finalized with MAJORITY_DISAGREE; none changed the funded period or accounting. No classification or settlement is claimed."
       },
       "fundPeriod2": null,
       "period2Assessment": null,
@@ -150,7 +159,7 @@
     },
     "accountingSnapshots": [
       {
-        "when": "after two finalized period-1 assessment disagreements; read-back showed the funded bond remained locked and no credits were created",
+        "when": "after three finalized period-1 assessment disagreements; read-back showed the funded bond remained locked and no credits were created",
         "totalDepositedWei": "1000000000000000",
         "totalLockedWei": "1000000000000000",
         "totalCreditedWei": "0",
@@ -262,7 +271,7 @@
     "to": null
   },
   "limitations": [
-    "Period 1 reached assessment eligibility, but two finalized validator MAJORITY_DISAGREE outcomes left it FUNDED; no classification or settlement is claimed. A further assessment needs the configured signer unlocked, and the source/validator disagreement still requires resolution.",
+    "Period 1 reached assessment eligibility, but three finalized validator MAJORITY_DISAGREE outcomes left it FUNDED; no classification or settlement is claimed. The supplied test signer was used for the third attempt. The validator disagreement still requires resolution.",
     "No period-2 funding, assessment, settlement or withdrawal is claimed yet.",
     "Browser wallet execution and visual viewport testing are not verified; the browser blocked the site while anonymous HTTP route checks succeeded.",
     "No independent source-mutation framework or independent audit is claimed; four actual-contract weakened-source mutants were killed by Direct Mode tests.",
