@@ -18,7 +18,7 @@ import hashlib
 import json
 import re
 
-VERSION = "pulsep.v0.4"
+VERSION = "pulsep.v0.5"
 MAX_PACTS = 4096
 MAX_SOURCES = 4
 MAX_SOURCE_BYTES = 20_000
@@ -243,6 +243,11 @@ def normalize_assessment(value, policy: dict, period: dict, sources: list) -> di
         if not isinstance(at, str) or len(at) > 80 or source_id not in source_by_id or not isinstance(text, str) or not 1 <= len(text) <= 300:
             invalid("Invalid timeline event")
         normalized_timeline.append({"at": at, "source_id": source_id, "event": text})
+    if classification == "NO_BREACH":
+        # Full-period coverage is already represented in the source findings.
+        # Coverage start/end markers are not incident events and otherwise
+        # create consensus disagreement based only on optional presentation.
+        normalized_timeline = []
 
     independent_ids = [s["id"] for s in sources if s["role"] == "INDEPENDENT"]
     independent_findings = [finding_by_id[source_id] for source_id in independent_ids]
@@ -282,31 +287,46 @@ def normalize_assessment(value, policy: dict, period: dict, sources: list) -> di
 
 def assessment_key(result: dict) -> str:
     # Validators independently produce natural-language explanations, so
-    # compare only the normalized material that affects the decision. Keep
-    # classification, every finding state and exact quote, coverage, exclusion
-    # evidence, event source/timing, complete fetched-source provenance, and the
-    # frozen period boundaries consensus-bound.
+    # compare only the normalized material that affects the decision. Exact
+    # finding and exclusion quotes are still checked against each validator's
+    # independently fetched bytes by normalize_assessment; the selected exact
+    # substring is provenance, not a separate judgment. Coverage state,
+    # classification, source states, exclusion effect, breach event timing,
+    # complete fetched-source provenance, and frozen period boundaries remain
+    # consensus-bound.
     findings = [
         {
             "id": item["id"],
             "state": item["state"],
             "quote": item["quote"],
             "coverage": item["coverage"],
-            "coverage_quote": item["coverage_quote"],
         }
         for item in result["source_findings"]
     ]
-    timeline = sorted(
+    # A NO_BREACH timeline sometimes repeats coverage boundaries as if they
+    # were service events. Coverage is independently represented by each
+    # finding's validated coverage state and exact source quote; it is not an
+    # incident timeline. Preserve source/timing comparisons for every result
+    # that could describe an actual breach or unresolved event.
+    timeline = [] if result["classification"] == "NO_BREACH" else sorted(
         ({"at": item["at"], "source_id": item["source_id"]} for item in result["timeline"]),
         key=lambda item: (item["at"], item["source_id"]),
     )
+    exclusion_status = result["exclusion"]["status"]
+    if exclusion_status in ("NOT_RELEVANT", "DOES_NOT_APPLY"):
+        exclusion_status = "NO_APPLIED_EXCLUSION"
+        exclusion_source = ""
+        exclusion_quote = ""
+    else:
+        exclusion_source = result["exclusion"]["source_id"]
+        exclusion_quote = result["exclusion"]["quote"]
     material = {
         "classification": result["classification"],
         "source_findings": findings,
         "exclusion": {
-            "status": result["exclusion"]["status"],
-            "source_id": result["exclusion"]["source_id"],
-            "quote": result["exclusion"]["quote"],
+            "status": exclusion_status,
+            "source_id": exclusion_source,
+            "quote": exclusion_quote,
         },
         "timeline": timeline,
         "evidence": result["evidence"],
@@ -345,7 +365,7 @@ Classify exactly one of: NO_BREACH, MINOR, MAJOR, SEVERE, INCONCLUSIVE.
 - Conflicting evidence may still be resolved if timestamps and the frozen terms clearly resolve the conflict; otherwise choose INCONCLUSIVE.
 - Do not decide recipients, payout percentages, amounts, deadlines, or whether the pact should continue.
 - Every consequential source finding BREACH/NO_BREACH/MIXED must include an exact substring copied from that source's fetched content.
-Return JSON only with this schema:
+Return JSON only with this schema. Timeline entries are actual outage, degradation, maintenance, or restoration events that affect classification; never repeat coverage-window boundaries as events. For NO_BREACH, return an empty timeline.
 {"classification":"NO_BREACH|MINOR|MAJOR|SEVERE|INCONCLUSIVE","source_findings":[{"id":"source id","state":"BREACH|NO_BREACH|MIXED|NEUTRAL|UNAVAILABLE","reason":"brief evidence-grounded reason","quote":"exact source substring or empty only when neutral/unavailable","coverage":"COVERS_PERIOD|STALE|PARTIAL|UNKNOWN|UNAVAILABLE","coverage_quote":"exact quote establishing coverage or empty"}],"exclusion":{"status":"APPLIES|DOES_NOT_APPLY|UNCLEAR|NOT_RELEVANT","reason":"brief reason","source_id":"provider or maintenance source id when applicable","quote":"exact quote supporting an applied or non-neutral exclusion"},"timeline":[{"at":"timestamp or textual time as shown","source_id":"source id","event":"brief normalized event"}],"reason":"brief overall reason"}
 INPUT:""" + compact(
         {

@@ -47,7 +47,7 @@ def result(classification="MAJOR"):
             {"id": "independent_monitor", "state": "BREACH" if classification != "NO_BREACH" else "NO_BREACH", "reason": "Independent monitor confirms the same service impact.", "quote": "Production API unavailable", "coverage":"COVERS_PERIOD", "coverage_quote":"Coverage 2033-05-18T03:00:00Z to 2033-05-18T05:00:00Z"}
         ],
         "exclusion": {"status": "NOT_RELEVANT", "reason": "No qualifying maintenance exclusion is evidenced."},
-        "timeline": [
+        "timeline": [] if classification == "NO_BREACH" else [
             {"at": "2033-05-18T03:33:00Z", "source_id": "independent_monitor", "event": "Independent monitor detects the outage."},
             {"at": "2033-05-18T04:22:00Z", "source_id": "provider_status", "event": "Provider reports restoration."}
         ],
@@ -248,6 +248,62 @@ def test_validator_comparison_ignores_narrative_but_binds_exact_source_quotes(di
     assert direct_vm.run_validator() is True
     changed = result("MAJOR"); changed["source_findings"][1]["quote"] = "A different quote present in the source"
     mock_evidence(direct_vm, llm=changed)
+    assert direct_vm.run_validator() is False
+
+
+def test_validator_comparison_accepts_grounded_coverage_and_no_exclusion_variants(direct_vm, direct_deploy, direct_alice, direct_bob):
+    c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
+    direct_vm.warp(iso(NOW + 1201))
+    provider_page = PROVIDER_PAGE + " No maintenance exclusion was invoked."
+    leader = result("NO_BREACH")
+    leader["timeline"] = [
+        {"at": "2033-05-18T03:00:00Z", "source_id": "provider_status", "event": "Provider coverage begins."},
+        {"at": "2033-05-18T05:00:00Z", "source_id": "independent_monitor", "event": "Monitor coverage ends."},
+    ]
+    mock_evidence(direct_vm, provider_body=provider_page, llm=leader)
+    c.assess_period(PACT, 1)
+    assert c.get_period(PACT, 1)["assessment"]["timeline"] == []
+
+    validator = result("NO_BREACH")
+    validator["source_findings"][0]["coverage_quote"] = "2033-05-18T03:00:00Z to 2033-05-18T05:00:00Z"
+    validator["exclusion"] = {
+        "status": "DOES_NOT_APPLY",
+        "reason": "The provider explicitly says no maintenance exclusion was invoked.",
+        "source_id": "provider_status",
+        "quote": "No maintenance exclusion was invoked.",
+    }
+    validator["timeline"] = [
+        {"at": "2033-05-18T03:00:00Z", "source_id": "provider_status", "event": "Provider coverage begins."},
+        {"at": "2033-05-18T05:00:00Z", "source_id": "independent_monitor", "event": "Monitor coverage ends."},
+    ]
+    mock_evidence(direct_vm, provider_body=provider_page, llm=validator)
+    assert direct_vm.run_validator() is True
+
+
+def test_validator_comparison_binds_applied_exclusion(direct_vm, direct_deploy, direct_alice, direct_bob):
+    c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
+    direct_vm.warp(iso(NOW + 1201))
+    provider_page = PROVIDER_PAGE + " No maintenance exclusion was invoked."
+    mock_evidence(direct_vm, provider_body=provider_page, llm=result("MAJOR"))
+    c.assess_period(PACT, 1)
+    validator = result("MAJOR")
+    validator["exclusion"] = {
+        "status": "APPLIES",
+        "reason": "The provider source supports a maintenance exclusion.",
+        "source_id": "provider_status",
+        "quote": "No maintenance exclusion was invoked.",
+    }
+    mock_evidence(direct_vm, provider_body=provider_page, llm=validator)
+    assert direct_vm.run_validator() is False
+
+
+def test_validator_comparison_binds_breach_event_source_and_time(direct_vm, direct_deploy, direct_alice, direct_bob):
+    c = create(direct_vm, direct_deploy, direct_alice, direct_bob); activate(direct_vm, c, direct_bob)
+    direct_vm.warp(iso(NOW + 1201)); mock_evidence(direct_vm, llm=result("MAJOR"))
+    c.assess_period(PACT, 1)
+    validator = result("MAJOR")
+    validator["timeline"][0]["at"] = "2033-05-18T03:40:00Z"
+    mock_evidence(direct_vm, llm=validator)
     assert direct_vm.run_validator() is False
 
 

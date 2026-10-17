@@ -44,12 +44,12 @@ const DEPLOYMENT: Deployment = {
   address: '0x5B5dDeeaDBfCc2075A7E75401202E259a076f9Cf',
   chainId: 61999,
   network: 'studionet',
-  version: 'pulsep.v0.4',
+  version: 'pulsep.v0.5',
   sourceSha256: '',
   deploymentTransaction: `0x${'b'.repeat(64)}`,
 };
 const CONFIG = {
-  version: 'pulsep.v0.4', network_scope: 'studionet-only', admin: null,
+  version: 'pulsep.v0.5', network_scope: 'studionet-only', admin: null,
   assessment_cooldown_seconds: 300, evidence_maturity_seconds: 300,
   max_sla_versions: 8, revision_expiry_seconds: 86400,
 };

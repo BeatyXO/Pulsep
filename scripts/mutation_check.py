@@ -35,6 +35,42 @@ MUTANTS = [
         'provider_amount = bond - customer_amount',
         'provider_amount = bond',
     ),
+    (
+        "coverage quote equivalence",
+        "test_validator_comparison_accepts_grounded_coverage_and_no_exclusion_variants",
+        '"coverage": item["coverage"],',
+        '"coverage": item["coverage"],\n            "coverage_quote": item["coverage_quote"],',
+    ),
+    (
+        "no-breach coverage timeline normalization",
+        "test_validator_comparison_accepts_grounded_coverage_and_no_exclusion_variants",
+        'if classification == "NO_BREACH":\n        # Full-period coverage is already represented in the source findings.',
+        'if False:\n        # Full-period coverage is already represented in the source findings.',
+    ),
+    (
+        "no-applied-exclusion alias equivalence",
+        "test_validator_comparison_accepts_grounded_coverage_and_no_exclusion_variants",
+        'if exclusion_status in ("NOT_RELEVANT", "DOES_NOT_APPLY"):',
+        'if exclusion_status == "NOT_RELEVANT":',
+    ),
+    (
+        "classification remains consensus-bound",
+        "test_validator_re_evaluation_rejects_a_different_classification",
+        '"classification": result["classification"],',
+        '"classification": "NO_BREACH",',
+    ),
+    (
+        "exact quote grounding remains enforced",
+        "test_malformed_assessment_fails_closed",
+        'if quote and quote not in source["text"]:',
+        'if False and quote not in source["text"]:',
+    ),
+    (
+        "breach event source and timing remain consensus-bound",
+        "test_validator_comparison_binds_breach_event_source_and_time",
+        '({"at": item["at"], "source_id": item["source_id"]} for item in result["timeline"])',
+        '({"at": "", "source_id": ""} for item in result["timeline"])',
+    ),
 ]
 
 
