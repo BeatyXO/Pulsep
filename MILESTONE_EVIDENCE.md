@@ -24,7 +24,7 @@ Pulsep remains one Intelligent Contract plus a direct-wallet Next.js App Router 
 
 ## Local verification
 
-Current milestone checks have passed: Python compile, Direct Mode/source invariants 34/34, GenVM lint 0.11.0 on runner v0.2.16, TypeScript typecheck, Vitest 8/8, and Next.js static production build. These must be rerun on the final commit. Contract negative-transition coverage is present; a source-mutation harness has not been run and is not claimed.
+Current milestone checks have passed locally: Python compile, Direct Mode/source invariants 34/34, GenVM lint 0.11.0 on runner v0.2.16, TypeScript typecheck, Vitest 19/19, Next.js static production build, and actual-contract mutation checks 4/4 killed. The mutation variants weaken counterparty authorization, period version binding, atomic revision activation and settlement conservation; each corresponding Direct Mode lifecycle test detects the defect. Final CI for the release commit is pending.
 
 ## Deployment and live evidence
 
@@ -41,7 +41,7 @@ The two-period proof is still in progress; no assessment, settlement, withdrawal
 
 ## Frontend and CI
 
-The milestone frontend has passed local build/test checks. Its v0.4 deployment manifest is set to the source-verified address. The production URL `https://pulsep.vercel.app/` still needs a post-release check to verify it serves that manifest and build. Browser wallet actions are not claimed. The initial milestone GitHub Actions run is green; final-release CI remains pending.
+The milestone frontend has passed local build/test checks. Anonymous HTTPS requests to `https://pulsep.vercel.app/`, `/pacts/new/`, `/pacts/view/`, and `/activity/` returned HTTP 200. The production `/deployment.json` reports v0.4, chain 61999, the new address and verified source hash. The in-app and Chrome browser surfaces returned `ERR_BLOCKED_BY_CLIENT`; visual responsive checks and browser-wallet actions are not claimed. CSS includes 980px and 680px responsive breakpoints. The initial milestone GitHub Actions run is green; final-release CI remains pending.
 
 ## Limitations
 

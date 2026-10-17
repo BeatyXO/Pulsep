@@ -23,13 +23,15 @@ Direct Mode currently covers:
 - malformed classification, unknown finding state, fake quote, omitted finding and duplicate finding rejection;
 - validator disagreement across classification and displayed reasoning, payout-field injection, recurring period gate, close gate and withdrawal accounting.
 
-Latest local run before final commit: `gltest -q` passed 28 behavior/source-invariant tests. It is local simulation evidence only, not Studionet evidence or outbound-transfer proof.
+Latest local run before final commit: `gltest -q` passed 34 behavior/source-invariant tests. This is local simulation evidence only, not Studionet evidence or outbound-transfer proof.
 
 Codex must run these against the pinned environment, fix only real compatibility defects, and add cases where evidence/model output is malformed, duplicated, omitted or adversarial.
 
 Versioned renewal coverage additionally exercises both proposer roles, exact counterparty authorization, wrong pact/base/digest, stale/replayed IDs, replacement/cancellation/expiry, unapproved renewal under the current version, the 8-version cap, atomic activation, immutable period snapshots, version-specific source URLs, v2 assessment and inconclusive retry under the original period version, and unchanged economic terms. The contract exposes full version records in bounded pages and up to 64 append-only revision events per pact.
 
-Security mutation focus: remove or alter the counterparty check, proposal/digest/base binding, pending-status/expiry check, version snapshot selection, or frozen settlement bps. Each corresponding Direct Mode assertion must fail against such a mutation. The current suite directly exercises malicious actor/argument/state transitions; any mutation harness or results must be reported separately from ordinary test counts.
+`python scripts/mutation_check.py` deploys four intentionally weakened copies of the actual contract through Direct Mode. The authorization, period-version, atomic-activation and settlement-conservation mutants were all killed (4/4); mutation checks are reported separately from the 34 ordinary Direct Mode/source-invariant tests.
+
+Frontend unit coverage is 19 tests across amount/receipt handling, injected wallet discovery, network switch/add/rejection, account changes, deployment/config/source guards, anonymous reads, duplicate-send prevention, ambiguous sends and hash recovery. Browser wallet and visual viewport testing remain separate and are not inferred from these tests.
 
 ## 3. Frontend
 

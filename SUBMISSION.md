@@ -36,6 +36,6 @@ Studionet GEN is simulated. Pulsep is not described as audited, production-safe,
 
 **Deployment receipt:** https://explorer-studio.genlayer.com/tx/0xe6ac4004f06780953c9edcdaca61e7b90bc407c9bd0d5614bfe6a8abe23f4ef8 (FINALIZED, SUCCESS; source read-back matches).
 
-**Live URL:** https://pulsep.vercel.app/ (v0.4 production binding pending verification).
+**Live URL:** https://pulsep.vercel.app/ (verified serving the v0.4 Studionet manifest; browser wallet flow not verified).
 
 **Evidence:** `MILESTONE_EVIDENCE.md`, `public/versioned-renewal-verification.json`; deployment is proven and the v0.4 manifest is being prepared. Period-1 settlement, period-2 activation, final CI for the release commit, and production frontend verification remain in progress.

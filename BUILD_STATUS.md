@@ -22,9 +22,11 @@
 - Direct Mode plus source invariants: PASS, 34 cases.
 - GenVM lint 0.11.0 with stable runner v0.2.16: PASS; 21 contract methods (9 views, 12 writes).
 - TypeScript typecheck: PASS.
-- Vitest: 8/8 PASS.
+- Vitest: 19/19 PASS, including injected wallet, network, deployment/source guard, pending hash recovery and ambiguous send cases.
 - Next.js production build: PASS for routes `/`, `/activity`, `/pacts/new`, and `/pacts/view`.
+- Actual-contract mutation check: PASS, 4/4 weakened source variants killed (counterparty authorization, period version binding, atomic activation, settlement conservation).
 - GitHub Actions for `db1217201bc57b72e8a0d28d4d22fcce1dbdaa78` is green: [run 39021211509](https://github.com/BeatyXO/Pulsep/actions/runs/39021211509).
-- The v0.4 manifest and frontend integration are present locally; Vercel production binding is not yet verified.
+- Production Vercel serves a v0.4 manifest for the verified Studionet contract; homepage and `/pacts/new/`, `/pacts/view/`, `/activity/` return HTTP 200 to anonymous requests.
+- Browser-wallet execution and visual desktop/tablet/mobile QA remain unverified; responsive breakpoints are present in the stylesheet.
 
 Studionet GEN is simulated. This prototype is not independently audited, bug-free, production-safe, real-money settlement, or legal arbitration.

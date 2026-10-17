@@ -43,12 +43,12 @@
     "directMode": "PASS; 34 cases",
     "pythonCompile": "PASS",
     "typecheck": "PASS",
-    "vitest": "PASS; 8 tests",
+    "vitest": "PASS; 19 tests",
     "productionBuild": "PASS",
-    "mutationTesting": "NOT_RUN_AS_SOURCE_MUTATION_HARNESS"
+    "mutationTesting": "PASS; 4/4 actual-contract mutants killed"
   },
   "twoPeriodLifecycle": {
-    "status": "PERIOD_1_FUNDED_VERSION_1_REVISION_2_APPROVED_WAITING_PERIOD_END",
+    "status": "PERIOD_1_FUNDED_VERSION_1_REVISION_2_APPROVED_WAITING_ASSESSMENT_WINDOW",
     "pactId": "PULSE-V04-RENEWAL-20261017-01",
     "customer": "0x7876e9f76f32925c212528d57bc9dfe5e34bcc07",
     "provider": "0x5bf2926e49d5896c975b03fee2fda5e96cb4dd04",
@@ -66,13 +66,15 @@
     },
     "revision": {
       "status": "APPROVED",
-      "proposalId": "a2c4205e096394ce2384c4aaa84a8bf2c935b4c2d038fc61bbd0f4e48ffa9a51",
+      "proposalId": "4361cbb661c6cf7af9e3cdf2410f211db31cb07340a5fbeef786464246ecbff7",
       "baseVersion": 1,
       "nextVersion": 2,
       "digest": "11f3cb9770c106e0651c528a42d031d2ccb53c4b8426916baa39d2cba436e24c",
       "proposer": "0x7876e9f76f32925c212528d57bc9dfe5e34bcc07",
       "approvedBy": "0x5bf2926e49d5896c975b03fee2fda5e96cb4dd04",
-      "expiresAtUnix": 1792316370
+      "expiresAtUnix": 1792316370,
+      "supersededProposalId": "a2c4205e096394ce2384c4aaa84a8bf2c935b4c2d038fc61bbd0f4e48ffa9a51",
+      "approvedAtUnix": 1792230865
     },
     "transactions": {
       "proposePact": {
@@ -86,26 +88,108 @@
         "finality": "FINALIZED"
       },
       "proposeRevision": {
-        "hash": "0xd20c6d07e68e3f13c88f3d040080c32f1d4c15960686e70a428a7570b653cf3a",
+        "hash": "0x0b5270bb0c1694ccb4293bbb5668fc3792e49385e3cc23a09d9f812070a1c9af",
         "executionResult": "SUCCESS",
-        "finality": "FINALIZED"
+        "finality": "FINALIZED",
+        "supersedes": "a2c4205e096394ce2384c4aaa84a8bf2c935b4c2d038fc61bbd0f4e48ffa9a51"
       },
       "approveRevision": {
-        "hash": "0x5ecf663cc173b00931c1caa9cd0ddc2693afffc49da4825f8ad420515afa65ab",
+        "hash": "0x2a49cfa7e3c720cd0996c7bba59da6f31a77c89b1a92b93094c9e145a001ccef",
         "executionResult": "SUCCESS",
         "finality": "FINALIZED"
       },
       "period1Assessment": null,
       "fundPeriod2": null,
-      "period2Assessment": null
+      "period2Assessment": null,
+      "revisionHistory": [
+        {
+          "sequence": 1,
+          "event": "PROPOSED",
+          "proposalId": "a2c4205e096394ce2384c4aaa84a8bf2c935b4c2d038fc61bbd0f4e48ffa9a51",
+          "transaction": "0xd20c6d07e68e3f13c88f3d040080c32f1d4c15960686e70a428a7570b653cf3a"
+        },
+        {
+          "sequence": 2,
+          "event": "APPROVED",
+          "proposalId": "a2c4205e096394ce2384c4aaa84a8bf2c935b4c2d038fc61bbd0f4e48ffa9a51",
+          "transaction": "0x5ecf663cc173b00931c1caa9cd0ddc2693afffc49da4825f8ad420515afa65ab"
+        },
+        {
+          "sequence": 3,
+          "event": "SUPERSEDED",
+          "proposalId": "a2c4205e096394ce2384c4aaa84a8bf2c935b4c2d038fc61bbd0f4e48ffa9a51",
+          "transaction": "0x0b5270bb0c1694ccb4293bbb5668fc3792e49385e3cc23a09d9f812070a1c9af"
+        },
+        {
+          "sequence": 4,
+          "event": "PROPOSED",
+          "proposalId": "4361cbb661c6cf7af9e3cdf2410f211db31cb07340a5fbeef786464246ecbff7",
+          "transaction": "0x0b5270bb0c1694ccb4293bbb5668fc3792e49385e3cc23a09d9f812070a1c9af"
+        },
+        {
+          "sequence": 5,
+          "event": "APPROVED",
+          "proposalId": "4361cbb661c6cf7af9e3cdf2410f211db31cb07340a5fbeef786464246ecbff7",
+          "transaction": "0x2a49cfa7e3c720cd0996c7bba59da6f31a77c89b1a92b93094c9e145a001ccef"
+        }
+      ]
     },
-    "accountingSnapshots": [],
+    "accountingSnapshots": [
+      {
+        "when": "after period-1 funding, valid revision approval, and three rejected approvals; before period-1 assessment",
+        "totalDepositedWei": "1000000000000000",
+        "totalLockedWei": "1000000000000000",
+        "totalCreditedWei": "0",
+        "totalWithdrawnWei": "0",
+        "customerClaimableWei": "0",
+        "providerClaimableWei": "0",
+        "contractBalanceWei": "1000000000000000",
+        "periodBondWei": "1000000000000000",
+        "source": "get_accounting(customer/provider), get_current_period, eth_getBalance"
+      }
+    ],
     "versionHistoryReadback": {
-      "version1": "verified in get_pact and get_current_period read-back",
-      "version2": "approved revision read back; activation pending period-2 funding"
+      "period1Version": 1,
+      "period1Digest": "1c75399054ae91ac17985ba602234de668337379d807a2259db840d5a80da956",
+      "approvedRevisionVersion": 2,
+      "approvedRevisionDigest": "11f3cb9770c106e0651c528a42d031d2ccb53c4b8426916baa39d2cba436e24c",
+      "period2Activation": "pending period-1 terminal state and exact payable renewal",
+      "revisionEvents": "initial proposal/approval, supersession, replacement proposal/approval read from pact state",
+      "eventsReadBack": 5,
+      "versionIndexEntriesReadBack": 1,
+      "period1PolicyImmutable": true,
+      "approvedVersion2NotYetActivated": true
     }
   },
-  "negativeCases": [],
+  "negativeCases": [
+    {
+      "case": "stale superseded proposal approval",
+      "transaction": "0x8cb1875099774d209d9d8c16cc8699875893d2b4349580217e905be4be8ef8fa",
+      "finality": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "executionResult": "ERROR",
+      "expectedError": "[EXPECTED] Revision proposal ID mismatch",
+      "effect": "No policy or accounting change"
+    },
+    {
+      "case": "proposer/customer attempts own revision approval",
+      "transaction": "0xa4bc1c68b3e7f19b22963877d5d13a694fb16cbf7fbfe7a24fc471d792a8f6e9",
+      "finality": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "executionResult": "ERROR",
+      "expectedError": "[EXPECTED] Only the designated counterparty may approve",
+      "effect": "No policy or accounting change"
+    },
+    {
+      "case": "counterparty approval with mismatched digest",
+      "transaction": "0x1b3c51c3114eff620cf45cbb73a6c9f884eabb276ce3c7bbfd07d6cb982e5527",
+      "finality": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "executionResult": "ERROR",
+      "expectedError": "[EXPECTED] Revision digest mismatch",
+      "effect": "No policy or accounting change"
+    }
+  ],
   "sourceFixtures": [
     {
       "version": 1,
@@ -138,9 +222,19 @@
   ],
   "frontend": {
     "url": "https://pulsep.vercel.app/",
-    "servesV04Manifest": false,
-    "readOnlyRoutes": "NOT_REVERIFIED",
-    "walletBrowser": "NOT_VERIFIED"
+    "servesV04Manifest": true,
+    "readOnlyRoutes": {
+      "anonymousHttpStatus": 200,
+      "routes": [
+        "/",
+        "/pacts/new/",
+        "/pacts/view/",
+        "/activity/"
+      ],
+      "deploymentManifest": "v0.4, chainId 61999, source SHA-256 matches verified deployment"
+    },
+    "walletBrowser": "NOT_VERIFIED; browser returned ERR_BLOCKED_BY_CLIENT, no injected wallet transaction performed",
+    "responsiveVisualQa": "NOT_VERIFIED; CSS 980px and 680px breakpoints present"
   },
   "githubActions": {
     "status": "PASS",
@@ -154,10 +248,11 @@
     "to": null
   },
   "limitations": [
-    "The two-period lifecycle is in progress; no settlement, withdrawal, or second-period activation is claimed yet.",
-    "Production Vercel v0.4 binding and browser-wallet interaction are not yet verified.",
-    "No independent source-mutation harness or independent audit is claimed.",
-    "The officially accepted submission baseline is unverified.",
+    "Period 1 has not yet reached its assessment-open timestamp; no period-1 classification or settlement is claimed.",
+    "No period-2 funding, assessment, settlement or withdrawal is claimed yet.",
+    "Browser wallet execution and visual viewport testing are not verified; the browser blocked the site while anonymous HTTP route checks succeeded.",
+    "No independent source-mutation framework or independent audit is claimed; four actual-contract weakened-source mutants were killed by Direct Mode tests.",
+    "The officially accepted submission baseline remains unverified.",
     "Studionet GEN is simulated; these are not real-money settlements."
   ]
 }

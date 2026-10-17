@@ -1,10 +1,11 @@
 """Behavioral Direct Mode tests for Pulsep."""
 import json
+import os
 import pytest
 pytest.importorskip("gltest", reason="genlayer-test is required for Direct Mode")
 from conftest import NOW, addr, iso
 
-CONTRACT = "contracts/pulsep.py"
+CONTRACT = os.environ.get("PULSEP_CONTRACT_PATH", "contracts/pulsep.py")
 PACT = "PULSE-TEST-001"
 PROVIDER_URL = "https://status.example.com/incidents"
 INDEPENDENT_URL = "https://monitor.example.com/history"

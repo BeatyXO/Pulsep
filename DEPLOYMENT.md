@@ -34,4 +34,4 @@ The app reads `public/deployment.json`; no Vercel address environment variable i
 - Deployed schema: 21 methods (9 views, 12 writes), including all four revision writes.
 - Two-period live proof is in progress. Pact `PULSE-V04-RENEWAL-20261017-01` period 1 was funded exactly `0.001 GEN`; period 1 snapshots version 1. A version 2 proposal was approved by the counterparty; it will activate only when period 2 is funded after period 1 is terminal. Current transaction hashes and timestamps are recorded in `public/versioned-renewal-verification.json`.
 
-The contract does not claim a completed settlement or Vercel v0.4 production binding until those are separately verified. Studionet GEN is simulated.
+The public frontend [https://pulsep.vercel.app/](https://pulsep.vercel.app/) serves `public/deployment.json` with this v0.4 address, chain ID 61999 and matching source hash. Anonymous HTTP requests to `/`, `/pacts/new/`, `/pacts/view/`, and `/activity/` returned 200. Browser-driven chain reads, wallet transactions and responsive visual QA have not been verified. The two-period contract lifecycle remains in progress. Studionet GEN is simulated.
